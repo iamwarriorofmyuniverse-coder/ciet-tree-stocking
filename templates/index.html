@@ -145,11 +145,14 @@
                     <button onclick="flyToSector('Sector-II: Botanical Reserve')" class="text-[11px] font-semibold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1.5 rounded-lg border border-emerald-200 transition">
                         Sector-II (Botanical)
                     </button>
+                    <button onclick="flyToSector('Sector-III: Sports Complex Buffer')" class="text-[11px] font-semibold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1.5 rounded-lg border border-emerald-200 transition">
+                        Sector-III (Sports & Buffer)
+                    </button>
                     <button onclick="flyToSector('Sector-IV: Western Ghats Eco-Corridor')" class="text-[11px] font-semibold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1.5 rounded-lg border border-emerald-200 transition">
                         Sector-IV (Eco-Corridor)
                     </button>
                     <button onclick="resetMapView()" class="text-[11px] font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1.5 rounded-lg border border-slate-300 transition flex items-center gap-1">
-                        <i data-lucide="crosshair" class="w-3.5 h-3.5"></i> Reset Center
+                        <i data-lucide="crosshair" class="w-3.5 h-3.5"></i> Reset Campus Center
                     </button>
                 </div>
             </div>
@@ -168,10 +171,216 @@
                         <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-500 border border-white shadow-sm"></span> Vulnerable</span>
                         <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-red-500 border border-white shadow-sm"></span> Endangered</span>
                     </div>
-                    <label class="flex items-center gap-2 mt-1 cursor-pointer select-none border-t border-slate-200 pt-1.5 text-slate-700 font-medium">
-                        <input type="checkbox" id="toggle-canopy-circles" onchange="toggleCanopySpreadCircles(this.checked)" checked class="rounded text-emerald-600 focus:ring-emerald-500" />
-                        <span>Show Crown Spread Footprints (m²)</span>
-                    </label>
+                    <div class="flex flex-col gap-1.5 border-t border-slate-200 pt-1.5 text-slate-700 font-medium">
+                        <label class="flex items-center gap-2 cursor-pointer select-none">
+                            <input type="checkbox" id="toggle-canopy-circles" onchange="toggleCanopySpreadCircles(this.checked)" checked class="rounded text-emerald-600 focus:ring-emerald-500" />
+                            <span>Show Crown Spread Footprints (m²)</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer select-none">
+                            <input type="checkbox" id="toggle-campus-landmarks" onchange="toggleCampusLandmarks(this.checked)" checked class="rounded text-blue-600 focus:ring-blue-500" />
+                            <span>Show Campus Facilities & Buildings</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inside CIET College Campus: Interactive Facility & Forestry Directory -->
+            <div class="mt-8 bg-white p-6 rounded-2xl border border-slate-200/90 shadow-sm">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="p-1.5 bg-blue-100 text-blue-700 rounded-lg"><i data-lucide="building" class="w-4 h-4"></i></span>
+                            <h3 class="text-base font-bold text-slate-900">Inside CIET College Campus — Facilities & Forestry Zoning</h3>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1">
+                            Coimbatore Institute of Engineering and Technology (Narasipuram, Thondamuthur). Click "Locate on Map" to fly directly to any building.
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg border border-slate-200 flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-blue-500"></span> 12 Campus Landmarks
+                        </span>
+                        <span class="text-xs font-semibold px-2.5 py-1 bg-emerald-50 text-emerald-800 rounded-lg border border-emerald-200 flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span> 16 Georeferenced Trees
+                        </span>
+                    </div>
+                </div>
+
+                <!-- 3 Categorized Columns -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Column 1: Academic & Engineering Labs -->
+                    <div class="space-y-3.5">
+                        <div class="flex items-center gap-2 text-xs font-bold text-slate-800 uppercase tracking-wider pb-1 border-b border-slate-200">
+                            <i data-lucide="graduation-cap" class="w-4 h-4 text-indigo-600"></i> Academic & Research Hubs
+                        </div>
+                        
+                        <!-- Landmark Card 1 -->
+                        <div class="p-3.5 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-white hover:border-indigo-200 hover:shadow-sm transition">
+                            <div class="flex items-start justify-between gap-2">
+                                <h4 class="text-xs font-bold text-slate-900">Main Administrative Block (A-Block)</h4>
+                                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 uppercase">Admin</span>
+                            </div>
+                            <p class="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                                Principal's Office, Academic Deanery, Admissions, Examinations & Central Boardroom.
+                            </p>
+                            <div class="mt-2 text-[10px] text-emerald-700 font-semibold flex items-center gap-1">
+                                <i data-lucide="tree-pine" class="w-3 h-3"></i> Trees: CIET-TREE-001 (Neem)
+                            </div>
+                            <button onclick="flyToLandmark('Main Administrative Block (A-Block)')" class="mt-2.5 w-full text-center text-[10px] font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 py-1.5 rounded-md border border-indigo-200/80 transition flex items-center justify-center gap-1">
+                                <i data-lucide="crosshair" class="w-3 h-3"></i> Locate on Satellite Map
+                            </button>
+                        </div>
+
+                        <!-- Landmark Card 2 -->
+                        <div class="p-3.5 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-white hover:border-indigo-200 hover:shadow-sm transition">
+                            <div class="flex items-start justify-between gap-2">
+                                <h4 class="text-xs font-bold text-slate-900">Dept. of AI & Data Science (CoE)</h4>
+                                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-700 uppercase">Research</span>
+                            </div>
+                            <p class="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                                High-Performance GPU Cluster, Forestry Computer Vision Engine & Advanced AI Labs.
+                            </p>
+                            <div class="mt-2 text-[10px] text-emerald-700 font-semibold flex items-center gap-1">
+                                <i data-lucide="tree-pine" class="w-3 h-3"></i> Trees: CIET-TREE-009 (Pongamia), CIET-TREE-014 (Gulmohar)
+                            </div>
+                            <button onclick="flyToLandmark('Dept. of AI & Data Science (Centre of Excellence)')" class="mt-2.5 w-full text-center text-[10px] font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 py-1.5 rounded-md border border-indigo-200/80 transition flex items-center justify-center gap-1">
+                                <i data-lucide="crosshair" class="w-3 h-3"></i> Locate on Satellite Map
+                            </button>
+                        </div>
+
+                        <!-- Landmark Card 3 -->
+                        <div class="p-3.5 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-white hover:border-indigo-200 hover:shadow-sm transition">
+                            <div class="flex items-start justify-between gap-2">
+                                <h4 class="text-xs font-bold text-slate-900">Central Library & Knowledge Hub</h4>
+                                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-violet-100 text-violet-700 uppercase">Library</span>
+                            </div>
+                            <p class="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                                55,000+ volumes, IEEE/Springer digital access, quiet study suites & meditation quad.
+                            </p>
+                            <div class="mt-2 text-[10px] text-emerald-700 font-semibold flex items-center gap-1">
+                                <i data-lucide="tree-pine" class="w-3 h-3"></i> Trees: CIET-TREE-003 (Sacred Fig / Peepal)
+                            </div>
+                            <button onclick="flyToLandmark('Central Library & Digital Knowledge Hub')" class="mt-2.5 w-full text-center text-[10px] font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 py-1.5 rounded-md border border-indigo-200/80 transition flex items-center justify-center gap-1">
+                                <i data-lucide="crosshair" class="w-3 h-3"></i> Locate on Satellite Map
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Student Life, Sports & Amenities -->
+                    <div class="space-y-3.5">
+                        <div class="flex items-center gap-2 text-xs font-bold text-slate-800 uppercase tracking-wider pb-1 border-b border-slate-200">
+                            <i data-lucide="trophy" class="w-4 h-4 text-emerald-600"></i> Sports, Culture & Amenities
+                        </div>
+
+                        <!-- Landmark Card 4 -->
+                        <div class="p-3.5 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-white hover:border-emerald-200 hover:shadow-sm transition">
+                            <div class="flex items-start justify-between gap-2">
+                                <h4 class="text-xs font-bold text-slate-900">CIET Athletics Stadium & Sports Arena</h4>
+                                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 uppercase">Sports</span>
+                            </div>
+                            <p class="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                                400m running track, soccer stadium, cricket turf wickets, basketball & volleyball courts.
+                            </p>
+                            <div class="mt-2 text-[10px] text-emerald-700 font-semibold flex items-center gap-1">
+                                <i data-lucide="tree-pine" class="w-3 h-3"></i> Trees: CIET-TREE-012 (Giant Rain Tree - 290m²)
+                            </div>
+                            <button onclick="flyToLandmark('CIET Athletics Stadium & Sports Complex')" class="mt-2.5 w-full text-center text-[10px] font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 py-1.5 rounded-md border border-emerald-200/80 transition flex items-center justify-center gap-1">
+                                <i data-lucide="crosshair" class="w-3 h-3"></i> Locate on Satellite Map
+                            </button>
+                        </div>
+
+                        <!-- Landmark Card 5 -->
+                        <div class="p-3.5 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-white hover:border-emerald-200 hover:shadow-sm transition">
+                            <div class="flex items-start justify-between gap-2">
+                                <h4 class="text-xs font-bold text-slate-900">Central Auditorium & Quadrangle</h4>
+                                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-rose-100 text-rose-700 uppercase">Convention</span>
+                            </div>
+                            <p class="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                                1,500-seat multi-tier acoustic convention auditorium and open-air cultural amphitheater.
+                            </p>
+                            <div class="mt-2 text-[10px] text-emerald-700 font-semibold flex items-center gap-1">
+                                <i data-lucide="tree-pine" class="w-3 h-3"></i> Trees: CIET-TREE-002 (Heritage Banyan - 75 Yrs)
+                            </div>
+                            <button onclick="flyToLandmark('CIET Central Auditorium & Cultural Quadrangle')" class="mt-2.5 w-full text-center text-[10px] font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 py-1.5 rounded-md border border-emerald-200/80 transition flex items-center justify-center gap-1">
+                                <i data-lucide="crosshair" class="w-3 h-3"></i> Locate on Satellite Map
+                            </button>
+                        </div>
+
+                        <!-- Landmark Card 6 -->
+                        <div class="p-3.5 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-white hover:border-emerald-200 hover:shadow-sm transition">
+                            <div class="flex items-start justify-between gap-2">
+                                <h4 class="text-xs font-bold text-slate-900">Student Amenities & Food Court</h4>
+                                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-orange-100 text-orange-700 uppercase">Dining</span>
+                            </div>
+                            <p class="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                                Multi-cuisine dining hall, cooperative store, refreshments, cafeteria green lawn.
+                            </p>
+                            <div class="mt-2 text-[10px] text-emerald-700 font-semibold flex items-center gap-1">
+                                <i data-lucide="tree-pine" class="w-3 h-3"></i> Trees: CIET-TREE-011 (Tamarind Tree)
+                            </div>
+                            <button onclick="flyToLandmark('Student Amenities & Food Court')" class="mt-2.5 w-full text-center text-[10px] font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 py-1.5 rounded-md border border-emerald-200/80 transition flex items-center justify-center gap-1">
+                                <i data-lucide="crosshair" class="w-3 h-3"></i> Locate on Satellite Map
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Column 3: Ecological Conservation & Forestry -->
+                    <div class="space-y-3.5">
+                        <div class="flex items-center gap-2 text-xs font-bold text-slate-800 uppercase tracking-wider pb-1 border-b border-slate-200">
+                            <i data-lucide="leaf" class="w-4 h-4 text-teal-600"></i> Conservation & Water Sanctuaries
+                        </div>
+
+                        <!-- Landmark Card 7 -->
+                        <div class="p-3.5 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-white hover:border-teal-200 hover:shadow-sm transition">
+                            <div class="flex items-start justify-between gap-2">
+                                <h4 class="text-xs font-bold text-slate-900">Ayush Herbal Garden & Bio-Vault</h4>
+                                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-teal-100 text-teal-800 uppercase">Herbal</span>
+                            </div>
+                            <p class="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                                Curated medicinal flora, rare Western Ghats endemic species, nursery and seed preservation.
+                            </p>
+                            <div class="mt-2 text-[10px] text-red-600 font-semibold flex items-center gap-1">
+                                <i data-lucide="shield-alert" class="w-3 h-3"></i> Endangered: CIET-TREE-005 (Red Sandalwood)
+                            </div>
+                            <button onclick="flyToLandmark('CIET Ayush Herbal Garden & Botanical Reserve')" class="mt-2.5 w-full text-center text-[10px] font-bold text-teal-800 bg-teal-50 hover:bg-teal-100 py-1.5 rounded-md border border-teal-200/80 transition flex items-center justify-center gap-1">
+                                <i data-lucide="crosshair" class="w-3 h-3"></i> Locate on Satellite Map
+                            </button>
+                        </div>
+
+                        <!-- Landmark Card 8 -->
+                        <div class="p-3.5 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-white hover:border-teal-200 hover:shadow-sm transition">
+                            <div class="flex items-start justify-between gap-2">
+                                <h4 class="text-xs font-bold text-slate-900">Rainwater Eco-Pond & Swales</h4>
+                                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-cyan-100 text-cyan-800 uppercase">Hydrology</span>
+                            </div>
+                            <p class="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                                Natural wetland catchment recharging local aquifers; surrounded by riparian Arjun trees.
+                            </p>
+                            <div class="mt-2 text-[10px] text-emerald-700 font-semibold flex items-center gap-1">
+                                <i data-lucide="tree-pine" class="w-3 h-3"></i> Trees: CIET-TREE-008 (Arjun), CIET-TREE-007 (Jamun)
+                            </div>
+                            <button onclick="flyToLandmark('Rainwater Eco-Pond & Swale Basin')" class="mt-2.5 w-full text-center text-[10px] font-bold text-teal-800 bg-teal-50 hover:bg-teal-100 py-1.5 rounded-md border border-teal-200/80 transition flex items-center justify-center gap-1">
+                                <i data-lucide="crosshair" class="w-3 h-3"></i> Locate on Satellite Map
+                            </button>
+                        </div>
+
+                        <!-- Landmark Card 9 -->
+                        <div class="p-3.5 rounded-xl border border-slate-100 bg-slate-50/70 hover:bg-white hover:border-teal-200 hover:shadow-sm transition">
+                            <div class="flex items-start justify-between gap-2">
+                                <h4 class="text-xs font-bold text-slate-900">Western Ghats Eco-Corridor</h4>
+                                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 uppercase">Biodiversity</span>
+                            </div>
+                            <p class="text-[11px] text-slate-600 mt-1 leading-relaxed">
+                                Northern ridge buffer leading into the Velliangiri foothills; habitat for native timber and pollinators.
+                            </p>
+                            <div class="mt-2 text-[10px] text-amber-600 font-semibold flex items-center gap-1">
+                                <i data-lucide="tree-pine" class="w-3 h-3"></i> Trees: CIET-TREE-004 (Rosewood), CIET-TREE-006 (Teak)
+                            </div>
+                            <button onclick="flyToLandmark('Western Ghats Eco-Corridor & Hillside Reserve')" class="mt-2.5 w-full text-center text-[10px] font-bold text-teal-800 bg-teal-50 hover:bg-teal-100 py-1.5 rounded-md border border-teal-200/80 transition flex items-center justify-center gap-1">
+                                <i data-lucide="crosshair" class="w-3 h-3"></i> Locate on Satellite Map
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -533,9 +742,133 @@
         let mapInstance = null;
         let markersLayer = null;
         let circlesLayer = null;
+        let landmarksLayer = null;
         let treesData = [];
         let html5QrScanner = null;
         let audioCtx = null;
+
+        const cietCampusLandmarks = [
+            {
+                name: "Main Administrative Block (A-Block)",
+                category: "Administration",
+                lat: 10.99935,
+                lon: 76.90425,
+                iconText: "A",
+                color: "#2563eb",
+                desc: "Principal Office, Academic Deanery, Admissions, Examinations & Central Boardroom.",
+                trees: "CIET-TREE-001 (Neem)"
+            },
+            {
+                name: "Dept. of AI & Data Science (Centre of Excellence)",
+                category: "Research",
+                lat: 10.99980,
+                lon: 76.90420,
+                iconText: "AI",
+                color: "#4f46e5",
+                desc: "High-Performance GPU Computing Cluster, Forestry Computer Vision Engine & Labs.",
+                trees: "CIET-TREE-009 (Pongamia), CIET-TREE-014 (Gulmohar)"
+            },
+            {
+                name: "Central Library & Digital Knowledge Hub",
+                category: "Academic",
+                lat: 10.99960,
+                lon: 76.90390,
+                iconText: "LIB",
+                color: "#7c3aed",
+                desc: "55,000+ volumes, IEEE/Springer digital access & quiet reading suites.",
+                trees: "CIET-TREE-003 (Sacred Fig)"
+            },
+            {
+                name: "Mechanical & Civil Engineering Innovation Hub",
+                category: "Laboratories",
+                lat: 10.99990,
+                lon: 76.90365,
+                iconText: "M&C",
+                color: "#d97706",
+                desc: "Heavy Machinery, CNC/CAD/CAM, Material Testing, Surveying & Environmental Labs.",
+                trees: "CIET-TREE-009 (Pongamia)"
+            },
+            {
+                name: "CIET Central Auditorium & Cultural Quadrangle",
+                category: "Auditorium",
+                lat: 10.99890,
+                lon: 76.90475,
+                iconText: "AUD",
+                color: "#e11d48",
+                desc: "1,500-seat multi-tier acoustic convention hall & open-air amphitheater.",
+                trees: "CIET-TREE-002 (Heritage Banyan - 75 Yrs)"
+            },
+            {
+                name: "Student Amenities & Food Court",
+                category: "Dining",
+                lat: 10.99915,
+                lon: 76.90375,
+                iconText: "FC",
+                color: "#ea580c",
+                desc: "Multi-cuisine dining hall, cooperative store, refreshments & cafeteria lawn.",
+                trees: "CIET-TREE-011 (Tamarind Tree)"
+            },
+            {
+                name: "CIET Athletics Stadium & Sports Complex",
+                category: "Sports",
+                lat: 10.99975,
+                lon: 76.90590,
+                iconText: "SPT",
+                color: "#059669",
+                desc: "400m running track, soccer stadium, cricket turf wickets & basketball courts.",
+                trees: "CIET-TREE-012 (Giant Rain Tree - 290m²)"
+            },
+            {
+                name: "CIET Ayush Herbal Garden & Botanical Reserve",
+                category: "Botanical",
+                lat: 10.99860,
+                lon: 76.90410,
+                iconText: "BOT",
+                color: "#0d9488",
+                desc: "Medicinal plants cultivation & Western Ghats endangered taxa nursery.",
+                trees: "CIET-TREE-005 (Red Sandalwood), CIET-TREE-013 (Amla), CIET-TREE-016 (Sandalwood)"
+            },
+            {
+                name: "Campus Temple & Meditation Grove",
+                category: "Heritage",
+                lat: 10.99885,
+                lon: 76.90462,
+                iconText: "TMP",
+                color: "#ca8a04",
+                desc: "Peaceful grove with sacred Nagalingam and courtyard flora.",
+                trees: "CIET-TREE-015 (Nagalingam / Cannonball)"
+            },
+            {
+                name: "Rainwater Eco-Pond & Swale Basin",
+                category: "Hydrology",
+                lat: 10.99835,
+                lon: 76.90450,
+                iconText: "H2O",
+                color: "#0891b2",
+                desc: "Natural aquifer recharge catchment and riparian bird wetland.",
+                trees: "CIET-TREE-008 (Arjun), CIET-TREE-007 (Jamun)"
+            },
+            {
+                name: "Western Ghats Eco-Corridor & Hillside Reserve",
+                category: "Conservation",
+                lat: 11.00055,
+                lon: 76.90510,
+                iconText: "ECO",
+                color: "#15803d",
+                desc: "Native timber buffer connecting campus to Velliangiri foothills.",
+                trees: "CIET-TREE-004 (Rosewood), CIET-TREE-006 (Teak), CIET-TREE-010 (Mahua)"
+            },
+            {
+                name: "Student Residential Hostels Complex",
+                category: "Residential",
+                lat: 10.99860,
+                lon: 76.90560,
+                iconText: "HST",
+                color: "#334155",
+                desc: "Eco-friendly hostel blocks with solar heating & green lawns.",
+                trees: "CIET-TREE-007 (Jamun), CIET-TREE-012 (Rain Tree)"
+            }
+        ];
 
         document.addEventListener('DOMContentLoaded', async () => {
             lucide.createIcons();
@@ -579,7 +912,10 @@
             }).addTo(mapInstance);
 
             circlesLayer = L.layerGroup().addTo(mapInstance);
+            landmarksLayer = L.layerGroup().addTo(mapInstance);
             markersLayer = L.layerGroup().addTo(mapInstance);
+
+            renderCampusLandmarks();
         }
 
         function resetMapView() {
@@ -650,6 +986,62 @@
                 mapInstance.addLayer(circlesLayer);
             } else {
                 mapInstance.removeLayer(circlesLayer);
+            }
+        }
+
+        function renderCampusLandmarks() {
+            if (!landmarksLayer) return;
+            landmarksLayer.clearLayers();
+
+            cietCampusLandmarks.forEach(item => {
+                const iconHtml = `<div style="background-color: ${item.color}; color: white; width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.35); cursor: pointer;" title="${item.name}">${item.iconText}</div>`;
+                const customIcon = L.divIcon({
+                    html: iconHtml,
+                    className: 'custom-landmark-icon',
+                    iconSize: [28, 28],
+                    iconAnchor: [14, 14],
+                    popupAnchor: [0, -14]
+                });
+
+                const marker = L.marker([item.lat, item.lon], { icon: customIcon });
+                const popupContent = `
+                    <div style="font-family: sans-serif; min-width: 220px; padding: 2px;">
+                        <strong style="font-size: 13px; color: #0f172a; display: block; line-height: 1.3;">${item.name}</strong>
+                        <span style="display: inline-block; margin-top: 4px; font-size: 9px; font-weight: 700; color: ${item.color}; background-color: #f1f5f9; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">${item.category}</span>
+                        <p style="font-size: 11px; color: #475569; margin: 6px 0 8px 0; line-height: 1.4;">${item.desc}</p>
+                        <div style="font-size: 10px; color: #047857; font-weight: 600; background: #ecfdf5; padding: 4px 6px; border-radius: 4px; border: 1px solid #a7f3d0;">
+                            🌿 <strong>Trees:</strong> ${item.trees}
+                        </div>
+                    </div>
+                `;
+                marker.bindPopup(popupContent);
+                landmarksLayer.addLayer(marker);
+            });
+        }
+
+        function toggleCampusLandmarks(show) {
+            if (!mapInstance || !landmarksLayer) return;
+            if (show) {
+                mapInstance.addLayer(landmarksLayer);
+            } else {
+                mapInstance.removeLayer(landmarksLayer);
+            }
+        }
+
+        function flyToLandmark(landmarkName) {
+            const landmark = cietCampusLandmarks.find(l => l.name === landmarkName);
+            if (landmark && mapInstance) {
+                switchTab('map-tab');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                mapInstance.flyTo([landmark.lat, landmark.lon], 18, { duration: 1.2 });
+                setTimeout(() => {
+                    landmarksLayer.eachLayer(layer => {
+                        const latLng = layer.getLatLng();
+                        if (Math.abs(latLng.lat - landmark.lat) < 0.0001 && Math.abs(latLng.lng - landmark.lon) < 0.0001) {
+                            layer.openPopup();
+                        }
+                    });
+                }, 1300);
             }
         }
 
