@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIET Coimbatore — Forest Conservation & Tree Stocking Platform</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Leaflet CSS & JS for GPS Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- HTML5 QR Code Scanner Library -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        #map { height: 600px; border-radius: 14px; z-index: 10; }
+        .glass-panel { background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(10px); }
+        .drawer-transition { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col font-sans selection:bg-emerald-200">
+
+    <!-- CIET Enterprise Header -->
+    <header class="bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-900 text-white shadow-xl border-b border-emerald-950 relative overflow-hidden">
+        <div class="absolute -right-16 -top-16 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 relative z-10">
+            <div>
+                <div class="flex items-center space-x-3.5">
+                    <span class="p-2.5 bg-emerald-700/60 rounded-xl border border-emerald-500/40 text-emerald-300 shadow-inner">
+                        <i data-lucide="trees" class="w-8 h-8"></i>
+                    </span>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 class="text-2xl font-black tracking-tight text-white">CIET Coimbatore</h1>
+                            <span class="text-[10px] uppercase font-bold tracking-wider bg-emerald-700/80 text-emerald-200 px-2 py-0.5 rounded-full border border-emerald-500/40">v2.2 Enterprise Cockpit</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-emerald-200/90 font-medium">
+                            Computer Vision Tree Stocking, Precision GPS Geolocation & Digital QR Passports
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-950/80 text-emerald-300 border border-emerald-600/40 shadow-sm">
+                    <span class="w-2 h-2 mr-2 bg-emerald-400 rounded-full animate-ping"></span>
+                    Protected by CIET WAF Shield
+                </span>
+                <a href="/docs" target="_blank" class="text-xs bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg border border-white/20 transition flex items-center gap-1.5 text-white font-medium shadow-sm">
+                    <i data-lucide="terminal" class="w-3.5 h-3.5"></i> Swagger API
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm backdrop-blur-md bg-white/95">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-2 sm:space-x-8 overflow-x-auto">
+            <button onclick="switchTab('map-tab')" id="nav-map-tab" class="tab-btn border-b-2 border-emerald-600 text-emerald-700 font-bold py-3.5 px-2 flex items-center gap-2 text-sm whitespace-nowrap">
+                <i data-lucide="map-pin" class="w-4 h-4"></i> Campus GPS Map
+            </button>
+            <button onclick="switchTab('scanner-tab')" id="nav-scanner-tab" class="tab-btn border-b-2 border-transparent text-slate-500 hover:text-slate-800 py-3.5 px-2 flex items-center gap-2 text-sm whitespace-nowrap">
+                <i data-lucide="qr-code" class="w-4 h-4"></i> In-Field QR Scanner
+            </button>
+            <button onclick="switchTab('inventory-tab')" id="nav-inventory-tab" class="tab-btn border-b-2 border-transparent text-slate-500 hover:text-slate-800 py-3.5 px-2 flex items-center gap-2 text-sm whitespace-nowrap">
+                <i data-lucide="table" class="w-4 h-4"></i> Tree Inventory (<span id="total-badge">10</span>)
+            </button>
+            <button onclick="switchTab('cv-tab')" id="nav-cv-tab" class="tab-btn border-b-2 border-transparent text-slate-500 hover:text-slate-800 py-3.5 px-2 flex items-center gap-2 text-sm whitespace-nowrap">
+                <i data-lucide="camera" class="w-4 h-4"></i> Aerial Drone CV Analysis
+            </button>
+            <button onclick="switchTab('export-tab')" id="nav-export-tab" class="tab-btn border-b-2 border-transparent text-slate-500 hover:text-slate-800 py-3.5 px-2 flex items-center gap-2 text-sm whitespace-nowrap">
+                <i data-lucide="download" class="w-4 h-4"></i> GIS & Batch Tag Printing
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full relative">
+
+        <!-- Top Telemetry Row -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div class="bg-white p-4 rounded-xl border border-slate-200/90 shadow-sm hover:shadow-md transition">
+                <div class="flex items-center justify-between text-slate-500 text-[11px] font-bold uppercase tracking-wider">
+                    Total Cataloged Trees
+                    <i data-lucide="trees" class="w-4 h-4 text-emerald-600"></i>
+                </div>
+                <div class="text-2xl font-black text-slate-900 mt-2" id="metric-total-trees">10</div>
+                <div class="text-xs text-emerald-600 mt-1 font-semibold flex items-center gap-1">
+                    <i data-lucide="check" class="w-3.5 h-3.5"></i> 100% Georeferenced
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl border border-slate-200/90 shadow-sm hover:shadow-md transition">
+                <div class="flex items-center justify-between text-slate-500 text-[11px] font-bold uppercase tracking-wider">
+                    Total CO₂ Sequestered
+                    <i data-lucide="leaf" class="w-4 h-4 text-emerald-600"></i>
+                </div>
+                <div class="text-2xl font-black text-slate-900 mt-2" id="metric-total-co2">75.2 tonnes</div>
+                <div class="text-xs text-slate-500 mt-1" id="metric-car-offset">≈ 308,000 km car offset</div>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl border border-slate-200/90 shadow-sm hover:shadow-md transition">
+                <div class="flex items-center justify-between text-slate-500 text-[11px] font-bold uppercase tracking-wider">
+                    Canopy Spread Area
+                    <i data-lucide="maximize-2" class="w-4 h-4 text-emerald-600"></i>
+                </div>
+                <div class="text-2xl font-black text-slate-900 mt-2" id="metric-total-canopy">1,195 m²</div>
+                <div class="text-xs text-emerald-600 mt-1 font-medium">Western Ghats Eco-Canopy</div>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl border border-slate-200/90 shadow-sm hover:shadow-md transition">
+                <div class="flex items-center justify-between text-slate-500 text-[11px] font-bold uppercase tracking-wider">
+                    IUCN Conservation Red List
+                    <i data-lucide="shield-alert" class="w-4 h-4 text-amber-600"></i>
+                </div>
+                <div class="text-2xl font-black text-amber-600 mt-2" id="metric-rare-trees">3 Species</div>
+                <div class="text-xs text-amber-600 mt-1 font-semibold">Protected Biodiversity Vault</div>
+            </div>
+        </div>
+
+        <!-- TAB 1: CAMPUS GPS MAP -->
+        <section id="map-tab" class="tab-content block">
+            <!-- Map Controls Toolbar -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="globe-2" class="w-5 h-5 text-emerald-600"></i>
+                        Interactive CIET Campus Satellite Map
+                    </h2>
+                    <p class="text-xs text-slate-500">
+                        GPS Anchor: CIET Coimbatore (10.9992° N, 76.9045° E). Click any crown marker to inspect live biometrics in the slide drawer.
+                    </p>
+                </div>
+                
+                <!-- Quick Navigation Pills & Layer Toggles -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="flyToSector('Sector-I: Academic Quadrant')" class="text-[11px] font-semibold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1.5 rounded-lg border border-emerald-200 transition">
+                        Sector-I (Academic)
+                    </button>
+                    <button onclick="flyToSector('Sector-II: Botanical Reserve')" class="text-[11px] font-semibold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1.5 rounded-lg border border-emerald-200 transition">
+                        Sector-II (Botanical)
+                    </button>
+                    <button onclick="flyToSector('Sector-IV: Western Ghats Eco-Corridor')" class="text-[11px] font-semibold bg-emerald-50 hover:bg-emerald-100 text-emerald-800 px-2.5 py-1.5 rounded-lg border border-emerald-200 transition">
+                        Sector-IV (Eco-Corridor)
+                    </button>
+                    <button onclick="resetMapView()" class="text-[11px] font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 px-2.5 py-1.5 rounded-lg border border-slate-300 transition flex items-center gap-1">
+                        <i data-lucide="crosshair" class="w-3.5 h-3.5"></i> Reset Center
+                    </button>
+                </div>
+            </div>
+
+            <!-- Map View Container with Floating Legend -->
+            <div class="relative shadow-lg rounded-xl overflow-hidden border border-slate-300">
+                <div id="map"></div>
+
+                <!-- Floating Map Controls / Legend Overlay -->
+                <div class="absolute bottom-4 left-4 z-[500] glass-panel p-3 rounded-xl border border-slate-300 shadow-md flex flex-col gap-2 text-xs">
+                    <div class="font-bold text-slate-800 flex items-center justify-between">
+                        <span>IUCN Conservation Status</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-500 border border-white shadow-sm"></span> Least Concern</span>
+                        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-500 border border-white shadow-sm"></span> Vulnerable</span>
+                        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-red-500 border border-white shadow-sm"></span> Endangered</span>
+                    </div>
+                    <label class="flex items-center gap-2 mt-1 cursor-pointer select-none border-t border-slate-200 pt-1.5 text-slate-700 font-medium">
+                        <input type="checkbox" id="toggle-canopy-circles" onchange="toggleCanopySpreadCircles(this.checked)" checked class="rounded text-emerald-600 focus:ring-emerald-500" />
+                        <span>Show Crown Spread Footprints (m²)</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: IN-FIELD QR SCANNER -->
+        <section id="scanner-tab" class="tab-content hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Camera Live Scanner -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center">
+                    <div class="w-full flex items-center justify-between mb-4">
+                        <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                            <i data-lucide="scan" class="w-5 h-5 text-emerald-600"></i>
+                            Live Camera QR Tag Scanner
+                        </h2>
+                        <span class="text-xs text-slate-500 font-medium">Field Ranger Smartphone Mode</span>
+                    </div>
+
+                    <div id="qr-reader" class="w-full max-w-sm rounded-xl overflow-hidden border-2 border-dashed border-emerald-400 bg-slate-50 p-2 relative"></div>
+
+                    <div class="mt-4 flex gap-3">
+                        <button onclick="startCameraScanner()" id="btn-start-scan" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2.5 rounded-lg flex items-center gap-2 transition shadow">
+                            <i data-lucide="video" class="w-4 h-4"></i> Start Camera Scan
+                        </button>
+                        <button onclick="stopCameraScanner()" id="btn-stop-scan" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold px-4 py-2.5 rounded-lg flex items-center gap-2 transition disabled:opacity-50" disabled>
+                            <i data-lucide="video-off" class="w-4 h-4"></i> Stop Camera
+                        </button>
+                    </div>
+
+                    <p class="text-xs text-slate-400 mt-3 text-center">
+                        Audio and haptic chime triggers automatically on positive QR code detection.
+                    </p>
+                </div>
+
+                <!-- Image File QR Scanner & Scan Result -->
+                <div class="flex flex-col gap-6">
+                    <!-- File Drag and Drop Scanner -->
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                        <h2 class="text-base font-bold text-slate-900 flex items-center gap-2 mb-2">
+                            <i data-lucide="upload-cloud" class="w-5 h-5 text-emerald-600"></i>
+                            Upload Field Tag Photograph
+                        </h2>
+                        <p class="text-xs text-slate-500 mb-4">
+                            Upload any photo of a CIET tree QR tag to decode via OpenCV backend.
+                        </p>
+
+                        <input type="file" id="qr-file-input" accept="image/*" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer border border-slate-200 rounded-lg p-2" onchange="uploadAndDecodeQR(this)" />
+                    </div>
+
+                    <!-- Scanned Result Card -->
+                    <div id="scanned-result-box" class="bg-emerald-50 border border-emerald-300 rounded-xl p-5 hidden shadow-sm">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
+                                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+                                QR Tag Decoded Successfully
+                            </span>
+                            <span id="scanned-tree-badge" class="bg-emerald-700 text-white text-xs px-2.5 py-0.5 rounded-full font-mono font-bold"></span>
+                        </div>
+                        <div id="scanned-tree-content" class="text-sm text-slate-800 space-y-2">
+                            <!-- Populated dynamically -->
+                        </div>
+                        <div class="mt-4 flex gap-3">
+                            <a id="scanned-passport-link" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-lg flex items-center gap-1.5 transition shadow">
+                                Open Full Digital Passport <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                            </a>
+                            <a id="scanned-gmaps-link" href="#" target="_blank" class="bg-white hover:bg-slate-100 text-slate-700 text-xs font-semibold px-4 py-2 rounded-lg border border-slate-300 flex items-center gap-1.5 transition">
+                                Satellite GPS Navigation <i data-lucide="navigation" class="w-3.5 h-3.5 text-blue-600"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: TREE INVENTORY TABLE -->
+        <section id="inventory-tab" class="tab-content hidden">
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm mb-4 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-3 w-full md:w-auto">
+                    <div class="relative flex-1 md:w-72">
+                        <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3 text-slate-400"></i>
+                        <input type="text" id="inventory-search" oninput="filterInventoryTable()" placeholder="Search species, ID, or family..." class="pl-9 pr-4 py-2 text-xs border border-slate-300 rounded-lg w-full focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+                    </div>
+                    <select id="inventory-status-filter" onchange="filterInventoryTable()" class="text-xs border border-slate-300 rounded-lg px-3 py-2 text-slate-700">
+                        <option value="">All IUCN Status</option>
+                        <option value="Least Concern">Least Concern</option>
+                        <option value="Near Threatened">Near Threatened</option>
+                        <option value="Vulnerable">Vulnerable</option>
+                        <option value="Endangered">Endangered</option>
+                    </select>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a href="/api/export/csv" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3.5 py-2 rounded-lg border border-slate-300 transition flex items-center gap-1.5 font-semibold">
+                        <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-emerald-700"></i> Export CSV
+                    </a>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-x-auto">
+                <table class="min-w-full divide-y divide-slate-200 text-left text-xs">
+                    <thead class="bg-slate-50 text-slate-600 font-semibold uppercase tracking-wider">
+                        <tr>
+                            <th class="py-3.5 px-4">Tree ID & Tag</th>
+                            <th class="py-3.5 px-4">Taxonomy & Species</th>
+                            <th class="py-3.5 px-4">Sector & Coordinates</th>
+                            <th class="py-3.5 px-4">Biometrics (DBH / H)</th>
+                            <th class="py-3.5 px-4">CO₂ Sequestered</th>
+                            <th class="py-3.5 px-4">IUCN Status</th>
+                            <th class="py-3.5 px-4 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventory-table-body" class="divide-y divide-slate-200 text-slate-700">
+                        <!-- Rendered dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- TAB 4: AERIAL DRONE CV ANALYSIS -->
+        <section id="cv-tab" class="tab-content hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Upload & Parameter Controls -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm lg:col-span-1 space-y-4">
+                    <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="drone" class="w-5 h-5 text-emerald-600"></i>
+                        Overhead Ortho-Mosaic Analysis
+                    </h2>
+                    <p class="text-xs text-slate-500">
+                        Upload multi-spectral drone imagery (TIFF or JPG) to execute the YOLOv8 crown detection and overlapping canopy suppression engine.
+                    </p>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Overhead Payload (TIFF / JPG)</label>
+                        <input type="file" id="cv-file-input" accept=".tif,.tiff,.jpg,.jpeg,.png" class="block w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer border border-slate-200 rounded-lg p-2" />
+                    </div>
+
+                    <!-- Sensitivity Controls -->
+                    <div class="bg-slate-50 p-3.5 rounded-lg border border-slate-200 space-y-3">
+                        <div class="text-[11px] font-bold text-slate-700 uppercase tracking-wide">Detection Sensitivity</div>
+                        <div>
+                            <div class="flex justify-between text-xs text-slate-600 mb-1">
+                                <span>Confidence Floor:</span>
+                                <span id="conf-val" class="font-bold text-emerald-700">0.45</span>
+                            </div>
+                            <input type="range" id="cv-conf-slider" min="0.10" max="0.90" step="0.05" value="0.45" oninput="document.getElementById('conf-val').innerText=this.value" class="w-full accent-emerald-600 cursor-pointer" />
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button onclick="runAerialCV(false)" id="btn-run-cv" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 rounded-lg flex items-center justify-center gap-2 transition shadow">
+                            <i data-lucide="play" class="w-4 h-4"></i> Run Tree Stocking Inference
+                        </button>
+                    </div>
+
+                    <div class="relative flex py-1 items-center">
+                        <div class="flex-grow border-t border-slate-200"></div>
+                        <span class="flex-shrink mx-2 text-slate-400 text-xs">or benchmark</span>
+                        <div class="flex-grow border-t border-slate-200"></div>
+                    </div>
+
+                    <button onclick="runAerialCV(true)" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold py-2 rounded-lg border border-slate-300 flex items-center justify-center gap-2 transition">
+                        <i data-lucide="trees" class="w-4 h-4 text-emerald-600"></i> Load CIET Sector-IV Aerial Benchmark
+                    </button>
+
+                    <!-- Real-time Metrics Card -->
+                    <div id="cv-results-card" class="bg-slate-50 border border-slate-200 rounded-lg p-4 space-y-2 hidden">
+                        <div class="text-xs font-bold text-slate-700 uppercase tracking-wide">Inference Telemetry</div>
+                        <div class="flex justify-between text-xs">
+                            <span class="text-slate-500">Crowns Detected:</span>
+                            <span class="font-bold text-emerald-700" id="cv-res-count">0</span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span class="text-slate-500">Canopy Density:</span>
+                            <span class="font-bold text-emerald-700" id="cv-res-density">0.0%</span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span class="text-slate-500">Runtime Latency:</span>
+                            <span class="font-bold text-slate-700" id="cv-res-latency">0 ms</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Overlaid Visual Output -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm lg:col-span-2 flex flex-col items-center justify-center min-h-[440px]">
+                    <div id="cv-image-placeholder" class="text-center text-slate-400 p-8">
+                        <i data-lucide="image" class="w-16 h-16 mx-auto mb-3 stroke-1 text-slate-300"></i>
+                        <p class="text-sm font-medium">No aerial imagery analyzed yet.</p>
+                        <p class="text-xs text-slate-400 mt-1">Upload an ortho-mosaic or click "Load CIET Aerial Benchmark".</p>
+                    </div>
+                    <img id="cv-output-image" src="" alt="Overlaid Canopy Crowns" class="max-h-[520px] w-auto rounded-lg shadow-md hidden border border-slate-300" />
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: GIS & BATCH TAG PRINTING -->
+        <section id="export-tab" class="tab-content hidden">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- GeoJSON Card -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="p-3 bg-blue-50 text-blue-600 rounded-xl w-fit mb-4">
+                            <i data-lucide="map" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-base font-bold text-slate-900">RFC 7946 GeoJSON</h3>
+                        <p class="text-xs text-slate-500 mt-2">
+                            Export standard GeoJSON FeatureCollection with precision 3D coordinates (Lat, Lon, Altitude) and carbon telemetry for QGIS, ArcGIS, or Google Earth.
+                        </p>
+                    </div>
+                    <div class="mt-6">
+                        <a href="/api/export/geojson" target="_blank" class="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2.5 rounded-lg flex items-center justify-center gap-2 transition shadow">
+                            <i data-lucide="download" class="w-4 h-4"></i> Download GeoJSON
+                        </a>
+                    </div>
+                </div>
+
+                <!-- CSV Card -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl w-fit mb-4">
+                            <i data-lucide="file-spreadsheet" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-base font-bold text-slate-900">Tabular CSV Inventory</h3>
+                        <p class="text-xs text-slate-500 mt-2">
+                            Download comprehensive forestry inventory spreadsheet containing scientific classification, DBH, height, carbon sequestered, and physical tag URLs.
+                        </p>
+                    </div>
+                    <div class="mt-6">
+                        <a href="/api/export/csv" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold py-2.5 rounded-lg flex items-center justify-center gap-2 transition shadow">
+                            <i data-lucide="download" class="w-4 h-4"></i> Download CSV Spreadsheet
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Batch Tags Printable Sheet -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+                    <div>
+                        <div class="p-3 bg-purple-50 text-purple-600 rounded-xl w-fit mb-4">
+                            <i data-lucide="printer" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-base font-bold text-slate-900">Print All Campus Tags</h3>
+                        <p class="text-xs text-slate-500 mt-2">
+                            Batch generate printable physical bark badges for all 10 registered trees in a ready-to-laminate field sheet.
+                        </p>
+                    </div>
+                    <div class="mt-6 space-y-2">
+                        <button onclick="printAllTreeTags()" class="w-full bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold py-2.5 rounded-lg flex items-center justify-center gap-2 transition shadow">
+                            <i data-lucide="printer" class="w-4 h-4"></i> Print Tag Sheets
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Interactive Tree Detail Slide-Over Drawer -->
+    <div id="tree-drawer-backdrop" onclick="closeTreeDrawer()" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[998] hidden opacity-0 transition-opacity duration-300"></div>
+    <aside id="tree-drawer" class="fixed right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl z-[999] transform translate-x-full drawer-transition flex flex-col border-l border-slate-200">
+        <!-- Drawer Header -->
+        <div class="bg-gradient-to-r from-emerald-950 to-teal-900 text-white p-5 flex justify-between items-start">
+            <div>
+                <span id="drawer-tag" class="text-[10px] font-mono font-bold bg-emerald-800/90 text-emerald-200 px-2 py-0.5 rounded border border-emerald-600/40">CIET-TREE-001</span>
+                <h3 id="drawer-common-name" class="text-lg font-extrabold text-white mt-1">Common Name</h3>
+                <p id="drawer-scientific-name" class="text-xs italic text-emerald-200">Scientific Name</p>
+            </div>
+            <button onclick="closeTreeDrawer()" class="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white transition">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- Drawer Content -->
+        <div class="p-5 overflow-y-auto flex-1 space-y-5 text-xs">
+            <!-- QR Tag Preview -->
+            <div class="flex items-center gap-4 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                <img id="drawer-qr-img" src="" class="w-20 h-20 bg-white p-1 rounded-lg border shadow-sm" alt="QR" />
+                <div class="space-y-1">
+                    <div class="font-bold text-slate-800 text-sm">Physical QR Tag</div>
+                    <div class="text-[11px] text-slate-500">Scan via smartphone to open live digital passport.</div>
+                    <a id="drawer-tag-download" href="#" target="_blank" class="inline-block text-[11px] font-bold text-emerald-700 hover:text-emerald-800 underline">
+                        Download Laminated Badge →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dendrological Measurements -->
+            <div>
+                <div class="font-bold uppercase tracking-wider text-[10px] text-slate-400 mb-2">Biometrics & Dimensions</div>
+                <div class="grid grid-cols-2 gap-2 text-slate-700">
+                    <div class="bg-slate-50 p-2.5 rounded-lg border">
+                        <span class="text-slate-400 text-[10px]">Trunk DBH</span>
+                        <div class="text-sm font-bold text-slate-800" id="drawer-dbh">-- cm</div>
+                    </div>
+                    <div class="bg-slate-50 p-2.5 rounded-lg border">
+                        <span class="text-slate-400 text-[10px]">Height</span>
+                        <div class="text-sm font-bold text-slate-800" id="drawer-height">-- m</div>
+                    </div>
+                    <div class="bg-slate-50 p-2.5 rounded-lg border">
+                        <span class="text-slate-400 text-[10px]">Canopy Spread</span>
+                        <div class="text-sm font-bold text-slate-800" id="drawer-canopy">-- m²</div>
+                    </div>
+                    <div class="bg-slate-50 p-2.5 rounded-lg border">
+                        <span class="text-slate-400 text-[10px]">Estimated Age</span>
+                        <div class="text-sm font-bold text-slate-800" id="drawer-age">-- Years</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carbon Storage Card -->
+            <div class="bg-gradient-to-br from-emerald-50 to-teal-50 p-4 rounded-xl border border-emerald-200">
+                <div class="text-[10px] font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1">
+                    <i data-lucide="leaf" class="w-3.5 h-3.5 text-emerald-600"></i> Lifetime Biomass Carbon
+                </div>
+                <div class="text-xl font-black text-emerald-950 mt-1" id="drawer-carbon">-- kg CO₂e</div>
+                <div class="text-[11px] text-emerald-700 mt-1" id="drawer-offset-text">Offsets ~ 5,800 km passenger driving</div>
+            </div>
+
+            <!-- Ethnobotanical Significance -->
+            <div>
+                <div class="font-bold uppercase tracking-wider text-[10px] text-slate-400 mb-1">Ethnobotanical Notes</div>
+                <p id="drawer-notes" class="bg-slate-50 p-3 rounded-lg border text-slate-600 leading-relaxed text-[11px]">
+                    --
+                </p>
+            </div>
+
+            <!-- Location Coordinates -->
+            <div>
+                <div class="font-bold uppercase tracking-wider text-[10px] text-slate-400 mb-1">GPS Coordinates</div>
+                <div class="bg-slate-50 p-3 rounded-lg border text-[11px] text-slate-600 space-y-1">
+                    <div class="font-mono font-bold text-slate-800" id="drawer-coords">--</div>
+                    <div id="drawer-sector" class="text-slate-500">--</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Drawer Footer Action -->
+        <div class="p-4 border-t border-slate-200 bg-slate-50 flex gap-2">
+            <a id="drawer-passport-btn" href="#" target="_blank" class="w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 rounded-lg transition shadow">
+                Open Full Passport Certificate →
+            </a>
+            <a id="drawer-gmaps-btn" href="#" target="_blank" class="p-2.5 bg-white hover:bg-slate-100 text-slate-700 rounded-lg border transition">
+                <i data-lucide="navigation" class="w-4 h-4 text-blue-600"></i>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-12 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div>
+                © 2026 <strong>Coimbatore Institute of Engineering and Technology (CIET)</strong>. Center for Forestry Informatics.
+            </div>
+            <div class="text-slate-400">
+                Narasipuram Post, Thondamuthur Via, Coimbatore - 641109, Tamil Nadu, India.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Frontend Script Logic -->
+    <script>
+        let mapInstance = null;
+        let markersLayer = null;
+        let circlesLayer = null;
+        let treesData = [];
+        let html5QrScanner = null;
+        let audioCtx = null;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            lucide.createIcons();
+            initMap();
+            await loadTreesData();
+            await loadMetricsSummary();
+        });
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('border-emerald-600', 'text-emerald-700', 'font-bold');
+                el.classList.add('border-transparent', 'text-slate-500');
+            });
+
+            document.getElementById(tabId).classList.remove('hidden');
+            const navBtn = document.getElementById(`nav-${tabId}`);
+            if (navBtn) {
+                navBtn.classList.remove('border-transparent', 'text-slate-500');
+                navBtn.classList.add('border-emerald-600', 'text-emerald-700', 'font-bold');
+            }
+
+            if (tabId === 'map-tab' && mapInstance) {
+                setTimeout(() => mapInstance.invalidateSize(), 200);
+            }
+        }
+
+        function initMap() {
+            // CIET Coimbatore Coordinates: 10.9993, 76.9046
+            mapInstance = L.map('map').setView([10.9993, 76.9046], 17);
+
+            // High-resolution ESRI World Imagery (Satellite)
+            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Tiles &copy; Esri, CIET Airborne Survey',
+                maxZoom: 19
+            }).addTo(mapInstance);
+
+            // Labels overlay
+            L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+                maxZoom: 19
+            }).addTo(mapInstance);
+
+            circlesLayer = L.layerGroup().addTo(mapInstance);
+            markersLayer = L.layerGroup().addTo(mapInstance);
+        }
+
+        function resetMapView() {
+            if (mapInstance) {
+                mapInstance.flyTo([10.9993, 76.9046], 17, { duration: 1.2 });
+            }
+        }
+
+        function flyToSector(sectorName) {
+            const sectorTrees = treesData.filter(t => t.location.campus_sector === sectorName);
+            if (sectorTrees.length > 0 && mapInstance) {
+                const avgLat = sectorTrees.reduce((a, b) => a + b.location.latitude, 0) / sectorTrees.length;
+                const avgLon = sectorTrees.reduce((a, b) => a + b.location.longitude, 0) / sectorTrees.length;
+                mapInstance.flyTo([avgLat, avgLon], 18, { duration: 1.2 });
+            }
+        }
+
+        async function loadTreesData() {
+            try {
+                const res = await fetch('/api/trees');
+                treesData = await res.json();
+                renderMapLayers(treesData);
+                renderInventoryTable(treesData);
+                document.getElementById('total-badge').innerText = treesData.length;
+            } catch (err) {
+                console.error("Error loading trees:", err);
+            }
+        }
+
+        function renderMapLayers(trees) {
+            if (!markersLayer || !circlesLayer) return;
+            markersLayer.clearLayers();
+            circlesLayer.clearLayers();
+
+            trees.forEach(tree => {
+                const color = tree.iucn_status === 'Endangered' ? '#ef4444' :
+                              tree.iucn_status === 'Vulnerable' ? '#f59e0b' : '#10b981';
+
+                // 1. Crown spread radius circle (meters)
+                const radiusMeters = Math.sqrt(tree.biometrics.crown_spread_m2 / Math.PI);
+                const circle = L.circle([tree.location.latitude, tree.location.longitude], {
+                    radius: radiusMeters,
+                    color: color,
+                    weight: 1,
+                    fillColor: color,
+                    fillOpacity: 0.18
+                });
+                circlesLayer.addLayer(circle);
+
+                // 2. High-precision center marker
+                const marker = L.circleMarker([tree.location.latitude, tree.location.longitude], {
+                    radius: 7,
+                    fillColor: color,
+                    color: '#ffffff',
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.95
+                });
+
+                marker.on('click', () => openTreeDrawer(tree.tree_id));
+                markersLayer.addLayer(marker);
+            });
+        }
+
+        function toggleCanopySpreadCircles(show) {
+            if (!mapInstance || !circlesLayer) return;
+            if (show) {
+                mapInstance.addLayer(circlesLayer);
+            } else {
+                mapInstance.removeLayer(circlesLayer);
+            }
+        }
+
+        // Slide-Over Drawer
+        function openTreeDrawer(treeId) {
+            const tree = treesData.find(t => t.tree_id === treeId);
+            if (!tree) return;
+
+            document.getElementById('drawer-tag').innerText = tree.tree_id;
+            document.getElementById('drawer-common-name').innerText = tree.common_name;
+            document.getElementById('drawer-scientific-name').innerText = `${tree.scientific_name} (${tree.family})`;
+            document.getElementById('drawer-qr-img').src = `data:image/png;base64,${tree.qr_code_base64}`;
+            document.getElementById('drawer-tag-download').href = `/api/trees/${tree.tree_id}/tag`;
+            document.getElementById('drawer-dbh').innerText = `${tree.biometrics.dbh_cm} cm`;
+            document.getElementById('drawer-height').innerText = `${tree.biometrics.height_m} m`;
+            document.getElementById('drawer-canopy').innerText = `${tree.biometrics.crown_spread_m2} m²`;
+            document.getElementById('drawer-age').innerText = `${tree.biometrics.estimated_age_years} yrs`;
+            document.getElementById('drawer-carbon').innerText = `${tree.biometrics.carbon_sequestered_kg.toLocaleString()} kg CO₂e`;
+            document.getElementById('drawer-offset-text').innerText = `Offsets ~ ${(tree.biometrics.carbon_sequestered_kg * 4.1).toLocaleString(undefined, {maximumFractionDigits:0})} km passenger driving.`;
+            document.getElementById('drawer-notes').innerText = tree.medicinal_uses;
+            document.getElementById('drawer-coords').innerText = `${tree.location.latitude.toFixed(6)}° N, ${tree.location.longitude.toFixed(6)}° E`;
+            document.getElementById('drawer-sector').innerText = `${tree.location.campus_sector} (${tree.location.landmarks})`;
+            document.getElementById('drawer-passport-btn').href = `/tree/${tree.tree_id}`;
+            document.getElementById('drawer-gmaps-btn').href = `https://www.google.com/maps/search/?api=1&query=${tree.location.latitude},${tree.location.longitude}`;
+
+            const drawer = document.getElementById('tree-drawer');
+            const backdrop = document.getElementById('tree-drawer-backdrop');
+            backdrop.classList.remove('hidden');
+            setTimeout(() => {
+                backdrop.classList.remove('opacity-0');
+                drawer.classList.remove('translate-x-full');
+            }, 10);
+            lucide.createIcons();
+        }
+
+        function closeTreeDrawer() {
+            const drawer = document.getElementById('tree-drawer');
+            const backdrop = document.getElementById('tree-drawer-backdrop');
+            drawer.classList.add('translate-x-full');
+            backdrop.classList.add('opacity-0');
+            setTimeout(() => backdrop.classList.add('hidden'), 300);
+        }
+
+        function renderInventoryTable(trees) {
+            const tbody = document.getElementById('inventory-table-body');
+            tbody.innerHTML = '';
+
+            trees.forEach(t => {
+                const badgeClass = t.iucn_status === 'Endangered' ? 'bg-red-100 text-red-800 border-red-300' :
+                                   t.iucn_status === 'Vulnerable' ? 'bg-amber-100 text-amber-800 border-amber-300' :
+                                   'bg-emerald-100 text-emerald-800 border-emerald-300';
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition cursor-pointer';
+                tr.onclick = (e) => {
+                    if (e.target.tagName !== 'A' && e.target.tagName !== 'BUTTON') {
+                        openTreeDrawer(t.tree_id);
+                    }
+                };
+                tr.innerHTML = `
+                    <td class="py-3 px-4">
+                        <div class="flex items-center gap-2">
+                            <img src="data:image/png;base64,${t.qr_code_base64}" class="w-9 h-9 border rounded p-0.5 bg-white shadow-sm" alt="QR" />
+                            <div>
+                                <div class="font-mono font-bold text-slate-900">${t.tree_id}</div>
+                                <div class="text-[10px] text-slate-400">Planted: ${t.planted_date}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-3 px-4">
+                        <div class="font-bold text-slate-900">${t.common_name}</div>
+                        <div class="italic text-emerald-700 text-[11px]">${t.scientific_name} (${t.family})</div>
+                    </td>
+                    <td class="py-3 px-4">
+                        <div class="text-slate-800 font-medium">${t.location.campus_sector}</div>
+                        <div class="text-[11px] text-slate-400 font-mono">${t.location.latitude.toFixed(5)}°N, ${t.location.longitude.toFixed(5)}°E</div>
+                    </td>
+                    <td class="py-3 px-4">
+                        <div>DBH: <span class="font-bold">${t.biometrics.dbh_cm} cm</span></div>
+                        <div class="text-slate-500">Height: ${t.biometrics.height_m} m | Age: ${t.biometrics.estimated_age_years}y</div>
+                    </td>
+                    <td class="py-3 px-4">
+                        <div class="font-bold text-emerald-700">${t.biometrics.carbon_sequestered_kg.toLocaleString()} kg</div>
+                        <div class="text-[10px] text-slate-400">${t.biometrics.health_status}</div>
+                    </td>
+                    <td class="py-3 px-4">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold border ${badgeClass}">${t.iucn_status}</span>
+                    </td>
+                    <td class="py-3 px-4 text-right space-x-1.5 whitespace-nowrap">
+                        <button onclick="openTreeDrawer('${t.tree_id}')" class="inline-flex items-center px-2 py-1 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 rounded font-bold text-[11px] transition">
+                            Inspect
+                        </button>
+                        <a href="/tree/${t.tree_id}" target="_blank" class="inline-flex items-center px-2 py-1 bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300 rounded font-semibold text-[11px] transition">
+                            Passport
+                        </a>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterInventoryTable() {
+            const query = document.getElementById('inventory-search').value.toLowerCase();
+            const status = document.getElementById('inventory-status-filter').value;
+
+            const filtered = treesData.filter(t => {
+                const matchQ = !query || t.tree_id.toLowerCase().includes(query) ||
+                               t.common_name.toLowerCase().includes(query) ||
+                               t.scientific_name.toLowerCase().includes(query) ||
+                               t.family.toLowerCase().includes(query);
+                const matchS = !status || t.iucn_status === status;
+                return matchQ && matchS;
+            });
+            renderInventoryTable(filtered);
+        }
+
+        async function loadMetricsSummary() {
+            try {
+                const res = await fetch('/api/metrics/summary');
+                const data = await res.json();
+                document.getElementById('metric-total-trees').innerText = `${data.total_trees} specimens`;
+                document.getElementById('metric-total-co2').innerText = `${data.total_carbon_sequestered_tonnes} tonnes`;
+                document.getElementById('metric-total-canopy').innerText = `${data.total_canopy_coverage_m2.toLocaleString()} m²`;
+                document.getElementById('metric-rare-trees').innerText = `${data.high_conservation_species_count} Species`;
+                
+                const kmOffset = Math.round(data.total_carbon_sequestered_kg * 4.1);
+                document.getElementById('metric-car-offset').innerText = `≈ ${kmOffset.toLocaleString()} km passenger car offset`;
+            } catch (err) {
+                console.error("Metrics summary error:", err);
+            }
+        }
+
+        // Web Audio Positive Chime on QR Scan
+        function playScanChime() {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = "sine";
+                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+                osc.frequency.setValueAtTime(880.00, audioCtx.currentTime + 0.08); // A5
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.36);
+                if (navigator.vibrate) {
+                    navigator.vibrate([100, 50, 100]);
+                }
+            } catch (e) {
+                // AudioContext not allowed or muted
+            }
+        }
+
+        function startCameraScanner() {
+            if (html5QrScanner) html5QrScanner.clear();
+            html5QrScanner = new Html5Qrcode("qr-reader");
+            const config = { fps: 10, qrbox: { width: 220, height: 220 } };
+
+            html5QrScanner.start(
+                { facingMode: "environment" },
+                config,
+                (decodedText) => {
+                    playScanChime();
+                    handleDecodedQR(decodedText);
+                    stopCameraScanner();
+                },
+                (errorMessage) => { }
+            ).then(() => {
+                document.getElementById('btn-start-scan').disabled = true;
+                document.getElementById('btn-stop-scan').disabled = false;
+            }).catch(err => alert("Camera access error: " + err));
+        }
+
+        function stopCameraScanner() {
+            if (html5QrScanner) {
+                html5QrScanner.stop().then(() => {
+                    html5QrScanner.clear();
+                    document.getElementById('btn-start-scan').disabled = false;
+                    document.getElementById('btn-stop-scan').disabled = true;
+                });
+            }
+        }
+
+        async function uploadAndDecodeQR(input) {
+            if (!input.files || input.files.length === 0) return;
+            const file = input.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const res = await fetch('/api/scan-qr', { method: 'POST', body: formData });
+                const data = await res.json();
+                if (data.status === 'SUCCESS') {
+                    playScanChime();
+                    handleDecodedQR(data.decoded_content);
+                } else {
+                    alert("Could not detect a clear QR tag in the uploaded image. Please ensure tag is well-lit.");
+                }
+            } catch (err) {
+                alert("Server decoding error: " + err);
+            }
+        }
+
+        async function handleDecodedQR(decodedText) {
+            let treeId = decodedText;
+            if (decodedText.includes('/tree/')) {
+                treeId = decodedText.split('/tree/').pop().trim();
+            }
+
+            try {
+                const res = await fetch(`/api/trees/${treeId}`);
+                if (!res.ok) {
+                    alert(`Tree ID '${treeId}' not found in CIET registry.`);
+                    return;
+                }
+                const tree = await res.json();
+
+                const box = document.getElementById('scanned-result-box');
+                document.getElementById('scanned-tree-badge').innerText = tree.tree_id;
+                document.getElementById('scanned-tree-content').innerHTML = `
+                    <div class="text-base font-bold text-slate-900">${tree.common_name} <span class="text-xs font-normal italic text-emerald-700">(${tree.scientific_name})</span></div>
+                    <div class="text-xs text-slate-600"><strong>Sector:</strong> ${tree.location.campus_sector} (${tree.location.landmarks})</div>
+                    <div class="text-xs text-slate-600"><strong>GPS:</strong> ${tree.location.latitude.toFixed(6)}° N, ${tree.location.longitude.toFixed(6)}° E</div>
+                    <div class="text-xs text-slate-600"><strong>Biometrics:</strong> Height: ${tree.biometrics.height_m}m | DBH: ${tree.biometrics.dbh_cm}cm | Age: ${tree.biometrics.estimated_age_years} yrs</div>
+                    <div class="text-xs text-emerald-700 font-semibold"><strong>CO₂ Sequestered:</strong> ${tree.biometrics.carbon_sequestered_kg.toLocaleString()} kg (${tree.biometrics.health_status})</div>
+                `;
+                document.getElementById('scanned-passport-link').href = `/tree/${tree.tree_id}`;
+                document.getElementById('scanned-gmaps-link').href = `https://www.google.com/maps/search/?api=1&query=${tree.location.latitude},${tree.location.longitude}`;
+                box.classList.remove('hidden');
+            } catch (err) {
+                alert("Error fetching tree profile: " + err);
+            }
+        }
+
+        async function runAerialCV(useBenchmark) {
+            const formData = new FormData();
+            if (useBenchmark) {
+                formData.append('use_benchmark', 'true');
+            } else {
+                const fileInput = document.getElementById('cv-file-input');
+                if (!fileInput.files || fileInput.files.length === 0) {
+                    alert("Please select an aerial image file or click 'Load CIET Sector-IV Aerial Benchmark'.");
+                    return;
+                }
+                formData.append('file', fileInput.files[0]);
+            }
+
+            const btn = document.getElementById('btn-run-cv');
+            btn.innerHTML = `<span class="animate-spin mr-2">⏳</span> Running Neural Inference...`;
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/api/detect', { method: 'POST', body: formData });
+                const data = await res.json();
+
+                if (data.status === 'SUCCESS') {
+                    document.getElementById('cv-results-card').classList.remove('hidden');
+                    document.getElementById('cv-res-count').innerText = `${data.total_crowns_detected} crowns`;
+                    document.getElementById('cv-res-density').innerText = `${data.canopy_density_pct.toFixed(1)}%`;
+                    document.getElementById('cv-res-latency').innerText = `${data.inference_latency_ms.toFixed(1)} ms`;
+
+                    const outImg = document.getElementById('cv-output-image');
+                    outImg.src = `data:image/jpeg;base64,${data.annotated_image_base64}`;
+                    outImg.classList.remove('hidden');
+                    document.getElementById('cv-image-placeholder').classList.add('hidden');
+                } else {
+                    alert("CV analysis failed: " + data.message);
+                }
+            } catch (err) {
+                alert("Inference execution error: " + err);
+            } finally {
+                btn.innerHTML = `<i data-lucide="play" class="w-4 h-4"></i> Run Tree Stocking Inference`;
+                btn.disabled = false;
+                lucide.createIcons();
+            }
+        }
+
+        function printAllTreeTags() {
+            const w = window.open('', '_blank');
+            let tagsHtml = `
+                <html>
+                <head>
+                    <title>CIET Coimbatore — Physical Tree Tag Sheet (A4)</title>
+                    <style>
+                        @page { size: A4; margin: 10mm; }
+                        body { font-family: sans-serif; display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 0; padding: 10px; }
+                        .tag { border: 2px solid #064e3b; padding: 12px; border-radius: 8px; display: flex; gap: 12px; align-items: center; page-break-inside: avoid; }
+                        img { width: 120px; height: 120px; }
+                        .details { font-size: 11px; }
+                        .title { font-size: 13px; font-weight: bold; color: #064e3b; margin-bottom: 4px; }
+                        .sub { font-style: italic; color: #475569; margin-bottom: 4px; }
+                    </style>
+                </head>
+                <body>
+            `;
+            treesData.forEach(t => {
+                tagsHtml += `
+                    <div class="tag">
+                        <img src="data:image/png;base64,${t.qr_code_base64}" />
+                        <div class="details">
+                            <div class="title">${t.tree_id}</div>
+                            <div style="font-weight: bold;">${t.common_name}</div>
+                            <div class="sub">${t.scientific_name}</div>
+                            <div>GPS: ${t.location.latitude.toFixed(5)}°N, ${t.location.longitude.toFixed(5)}°E</div>
+                            <div style="color: #059669; font-weight: bold; margin-top: 4px;">CO₂e: ${t.biometrics.carbon_sequestered_kg.toLocaleString()} kg</div>
+                        </div>
+                    </div>
+                `;
+            });
+            tagsHtml += `
+                <script>window.onload = function() { window.print(); }<\/script>
+                </body></html>
+            `;
+            w.document.write(tagsHtml);
+            w.document.close();
+        }
+    </script>
+</body>
+</html>

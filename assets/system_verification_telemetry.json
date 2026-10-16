@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "institutional_metadata": {
+    "institution": "Coimbatore Institute of Engineering and Technology (CIET)",
+    "system": "Computer Vision-Based Tree Stocking for Forest Conservation",
+    "version": "1.0.0"
+  },
+  "model_verification": {
+    "active_weights": "models\\yolov8n.pt",
+    "architecture": "YOLOv8",
+    "conf_threshold": 0.45,
+    "iou_threshold": 0.5
+  },
+  "payload_verification": {
+    "dimensions": "1024x1024",
+    "tiff_verified": true,
+    "jpg_verified": true
+  },
+  "stocking_metrics": {
+    "total_detected_canopies": 0,
+    "canopy_coverage_density_pct": 0.0,
+    "crown_footprint_density_pct": 0.0,
+    "average_crown_diameter_px": 0.0,
+    "mean_confidence": 0.0,
+    "inference_latency_ms": 1746.16,
+    "anomalies_detected": 0
+  }
+}

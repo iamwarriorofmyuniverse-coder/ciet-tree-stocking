@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ tree.tree_id }} — Digital Tree Passport | CIET Coimbatore</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; }
+        }
+        #mini-map { height: 260px; border-radius: 12px; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-900 min-h-screen py-8 px-4 sm:px-6">
+
+    <div class="max-w-4xl mx-auto space-y-6">
+
+        <!-- Back to Dashboard Bar -->
+        <div class="flex justify-between items-center no-print">
+            <a href="/" class="inline-flex items-center gap-2 text-xs font-semibold text-emerald-800 hover:text-emerald-950 bg-white px-3.5 py-2 rounded-lg border border-slate-200 shadow-sm transition">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Campus Platform
+            </a>
+            <button onclick="window.print()" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-white px-3.5 py-2 rounded-lg border border-slate-200 shadow-sm transition">
+                <i data-lucide="printer" class="w-4 h-4"></i> Print Passport Certificate
+            </button>
+        </div>
+
+        <!-- Digital Passport Container -->
+        <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+
+            <!-- Institutional Passport Header -->
+            <div class="bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-900 text-white p-6 sm:p-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <div class="flex items-center gap-2 text-emerald-300 text-xs font-bold uppercase tracking-widest mb-1">
+                        <i data-lucide="award" class="w-4 h-4"></i> Official Digital Tree Passport & Conservation Registry
+                    </div>
+                    <h1 class="text-3xl font-extrabold text-white tracking-tight">{{ tree.common_name }}</h1>
+                    <p class="text-sm italic text-emerald-200 mt-0.5">{{ tree.scientific_name }} • Family: {{ tree.family }}</p>
+                </div>
+                <div class="text-right flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto">
+                    <span class="font-mono text-sm font-bold bg-emerald-800/80 border border-emerald-600/50 text-emerald-200 px-3 py-1 rounded-lg">
+                        {{ tree.tree_id }}
+                    </span>
+                    <span class="text-xs text-emerald-300/80 mt-1.5 hidden sm:block">CIET Specimen Token</span>
+                </div>
+            </div>
+
+            <!-- Body Grid -->
+            <div class="p-6 sm:p-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                <!-- Left Column: Biometrics & Botanical Profile -->
+                <div class="md:col-span-2 space-y-6">
+
+                    <!-- Status & Key Indicators -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">IUCN Status</span>
+                            <div class="text-xs font-bold mt-1 text-slate-800">{{ tree.iucn_status }}</div>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Health Rating</span>
+                            <div class="text-xs font-bold mt-1 text-emerald-700">{{ tree.biometrics.health_status }}</div>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Estimated Age</span>
+                            <div class="text-xs font-bold mt-1 text-slate-800">{{ tree.biometrics.estimated_age_years }} Years</div>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Canopy State</span>
+                            <div class="text-xs font-bold mt-1 text-slate-800">{{ tree.biometrics.canopy_condition }}</div>
+                        </div>
+                    </div>
+
+                    <!-- Dendrological Measurements Table -->
+                    <div>
+                        <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide flex items-center gap-1.5 mb-3">
+                            <i data-lucide="ruler" class="w-4 h-4 text-emerald-700"></i>
+                            Dendrological & Allometric Measurements
+                        </h2>
+                        <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs">
+                            <div>
+                                <span class="text-slate-400">Trunk DBH:</span>
+                                <div class="text-base font-bold text-slate-800">{{ tree.biometrics.dbh_cm }} cm</div>
+                                <div class="text-[10px] text-slate-400">1.37m breast height</div>
+                            </div>
+                            <div>
+                                <span class="text-slate-400">Vertical Height:</span>
+                                <div class="text-base font-bold text-slate-800">{{ tree.biometrics.height_m }} m</div>
+                                <div class="text-[10px] text-slate-400">Crown crest apex</div>
+                            </div>
+                            <div>
+                                <span class="text-slate-400">Canopy Spread:</span>
+                                <div class="text-base font-bold text-slate-800">{{ tree.biometrics.crown_spread_m2 }} m²</div>
+                                <div class="text-[10px] text-slate-400">Planar projection area</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Carbon Sequestration Vault -->
+                    <div class="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl p-5">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
+                                    <i data-lucide="leaf" class="w-4 h-4 text-emerald-600"></i> Lifetime CO₂ Biomass Sequestration
+                                </span>
+                                <div class="text-3xl font-extrabold text-emerald-950 mt-1">
+                                    {{ "{:,.1f}".format(tree.biometrics.carbon_sequestered_kg) }} <span class="text-base font-medium">kg CO₂e</span>
+                                </div>
+                                <div class="text-xs text-emerald-700 mt-1">
+                                    Equivalent to offsetting approximately {{ "{:,.0f}".format(tree.biometrics.carbon_sequestered_kg * 4.1) }} km driven by a standard passenger vehicle.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ecological & Ethnobotanical Significance -->
+                    <div>
+                        <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide flex items-center gap-1.5 mb-2">
+                            <i data-lucide="book-open" class="w-4 h-4 text-emerald-700"></i> Ethnobotanical Significance
+                        </h2>
+                        <p class="text-xs text-slate-600 leading-relaxed bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                            {{ tree.medicinal_uses }}
+                        </p>
+                    </div>
+
+                    <!-- Geolocation & Mini Map -->
+                    <div>
+                        <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide flex items-center gap-1.5 mb-2">
+                            <i data-lucide="map-pin" class="w-4 h-4 text-emerald-700"></i> Precision GPS Geolocation
+                        </h2>
+                        <div class="space-y-3">
+                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex justify-between items-center text-xs">
+                                <div>
+                                    <span class="text-slate-400">WGS84 Coordinates:</span>
+                                    <div class="font-mono font-bold text-slate-800">
+                                        {{ "{:.6f}".format(tree.location.latitude) }}° N, {{ "{:.6f}".format(tree.location.longitude) }}° E
+                                    </div>
+                                    <div class="text-slate-500 mt-0.5">{{ tree.location.campus_sector }} ({{ tree.location.landmarks }})</div>
+                                </div>
+                                <a href="{{ tree.location.google_maps_url() }}" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition shadow">
+                                    <i data-lucide="navigation" class="w-3.5 h-3.5"></i> Google Maps
+                                </a>
+                            </div>
+                            <div id="mini-map"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Column: Physical Tag & Printable QR Code -->
+                <div class="space-y-6 flex flex-col items-center text-center">
+
+                    <div class="bg-slate-50 p-6 rounded-2xl border-2 border-emerald-600/30 w-full flex flex-col items-center">
+                        <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 mb-2">Physical Laminated Tree Tag</span>
+                        
+                        <div class="p-3 bg-white rounded-xl shadow-md border border-slate-200 mb-3">
+                            <img src="data:image/png;base64,{{ tree.qr_code_base64 }}" alt="QR Code Tag" class="w-48 h-48" />
+                        </div>
+
+                        <div class="font-mono text-xs font-bold text-slate-700">{{ tree.tree_id }}</div>
+                        <div class="text-[11px] text-slate-400 mt-1">Scan via any smartphone camera</div>
+
+                        <div class="mt-4 w-full space-y-2 no-print">
+                            <a href="/api/trees/{{ tree.tree_id }}/tag" target="_blank" class="w-full block bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold py-2 rounded-lg transition shadow">
+                                Download Printable Tag Badge
+                            </a>
+                            <a href="/api/trees/{{ tree.tree_id }}/qr" target="_blank" class="w-full block bg-white hover:bg-slate-100 text-slate-700 text-xs font-semibold py-2 rounded-lg border border-slate-300 transition">
+                                Download Pure PNG QR Code
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Inspection Metadata -->
+                    <div class="w-full bg-slate-50 p-4 rounded-xl border border-slate-200 text-left text-xs space-y-2">
+                        <div class="text-slate-400 uppercase font-bold text-[10px]">Certification Metadata</div>
+                        <div><strong class="text-slate-600">Planted:</strong> {{ tree.planted_date }}</div>
+                        <div><strong class="text-slate-600">Last Inspected:</strong> {{ tree.last_inspected }}</div>
+                        <div><strong class="text-slate-600">Surveyor:</strong> {{ tree.inspector }}</div>
+                        <div><strong class="text-slate-600">Elevation:</strong> {{ tree.location.altitude_m }} m MSL</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Footer Badge -->
+            <div class="bg-slate-50 border-t border-slate-200 px-8 py-4 text-xs text-slate-500 flex justify-between items-center">
+                <span>Coimbatore Institute of Engineering and Technology (CIET)</span>
+                <span class="font-mono text-slate-400">SHA-256 Tokenized Passport</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Mini Map
+        document.addEventListener('DOMContentLoaded', () => {
+            const lat = {{ tree.location.latitude }};
+            const lon = {{ tree.location.longitude }};
+            const map = L.map('mini-map').setView([lat, lon], 18);
+
+            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Esri, CIET'
+            }).addTo(map);
+
+            L.circleMarker([lat, lon], {
+                radius: 10,
+                fillColor: '#10b981',
+                color: '#ffffff',
+                weight: 3,
+                opacity: 1,
+                fillOpacity: 0.9
+            }).addTo(map).bindPopup("<strong>{{ tree.tree_id }}</strong><br>{{ tree.common_name }}").openPopup();
+        });
+    </script>
+</body>
+</html>
