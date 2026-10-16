@@ -1,0 +1,43 @@
+name: ciet_tree_stocking_mobile
+description: "Enterprise Mobile Application for CIET Coimbatore Forest Conservation & Tree Stocking"
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Networking & HTTP REST API
+  http: ^1.2.0
+
+  # High-Precision GPS Geolocation
+  geolocator: ^10.1.0
+
+  # High-Performance In-Field Camera QR Code Scanner
+  mobile_scanner: ^5.0.0
+
+  # Interactive Offline-Capable Map Engine
+  flutter_map: ^6.1.0
+  latlong2: ^0.9.0
+
+  # Local Device Offline Caching & Preferences
+  shared_preferences: ^2.2.2
+
+  # Date, Time & Number Formatting
+  intl: ^0.19.0
+
+  # Cupertino & Material Icons
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/

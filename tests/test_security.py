@@ -157,3 +157,22 @@ def test_malicious_tree_id_endpoint_handling(client: TestClient) -> None:
     response = client.get("/tree/INVALID%20TREE%20ID%3Cscript%3E")
     # Blocked by WAF or rejected by sanitizer
     assert response.status_code in (400, 403)
+
+
+def test_pwa_manifest_valid(client: TestClient) -> None:
+    """Verifies Progressive Web App manifest returns 200 with valid metadata."""
+    response = client.get("/manifest.json")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["short_name"] == "CIET Trees"
+    assert data["display"] == "standalone"
+    assert len(data["icons"]) >= 2
+
+
+def test_pwa_service_worker_headers(client: TestClient) -> None:
+    """Verifies root Service Worker is served with appropriate permissive headers."""
+    response = client.get("/sw.js")
+    assert response.status_code == 200
+    assert "javascript" in response.headers.get("content-type", "")
+    assert response.headers.get("service-worker-allowed") == "/"
+

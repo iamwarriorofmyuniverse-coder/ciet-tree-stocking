@@ -21,7 +21,8 @@ from PIL import Image
 import tifffile
 from fastapi import FastAPI, File, Form, HTTPException, Request, Response, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, PlainTextResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from src.inventory.database import TreeInventoryDatabase, get_inventory_db
@@ -50,6 +51,8 @@ logger = logging.getLogger("ciet.server")
 BASE_DIR = Path(__file__).resolve().parent
 TEMPLATES_DIR = BASE_DIR / "templates"
 TEMPLATES_DIR.mkdir(exist_ok=True)
+STATIC_DIR = BASE_DIR / "static"
+STATIC_DIR.mkdir(exist_ok=True)
 
 # Active public tunnel domain
 PUBLIC_ONLINE_URL = os.environ.get(
@@ -77,6 +80,28 @@ app.add_middleware(
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
 )
+
+# 3. Mount Static Assets Directory (Icons, PWA Manifest, Service Worker)
+app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+
+
+@app.api_route("/manifest.json", methods=["GET", "HEAD"], include_in_schema=False)
+async def get_pwa_manifest() -> FileResponse:
+    """Serves W3C Progressive Web App manifest."""
+    manifest_path = STATIC_DIR / "manifest.json"
+    return FileResponse(manifest_path, media_type="application/manifest+json")
+
+
+@app.api_route("/sw.js", methods=["GET", "HEAD"], include_in_schema=False)
+async def get_service_worker() -> FileResponse:
+    """Serves root-scoped Service Worker with permissive header."""
+    sw_path = STATIC_DIR / "sw.js"
+    return FileResponse(
+        sw_path,
+        media_type="application/javascript",
+        headers={"Service-Worker-Allowed": "/"},
+    )
+
 
 # Concurrency throttle: limits concurrent YOLO inference executions on CPU
 INFERENCE_SEMAPHORE = asyncio.Semaphore(2)

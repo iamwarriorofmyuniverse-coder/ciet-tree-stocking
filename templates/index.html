@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CIET Coimbatore — Forest Conservation & Tree Stocking Platform</title>
+    <!-- Progressive Web App Meta -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#064e3b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="CIET Trees">
+    <link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+    <link rel="icon" type="image/png" href="/static/icons/icon-192.png">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Leaflet CSS & JS for GPS Map -->
@@ -47,6 +55,9 @@
                 </div>
             </div>
             <div class="flex items-center gap-3">
+                <button id="pwa-install-btn" class="hidden text-xs bg-emerald-400 hover:bg-emerald-300 text-emerald-950 font-black px-3.5 py-1.5 rounded-lg border border-emerald-300 shadow-md transition flex items-center gap-1.5">
+                    <i data-lucide="smartphone" class="w-3.5 h-3.5"></i> Install App
+                </button>
                 <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-950/80 text-emerald-300 border border-emerald-600/40 shadow-sm">
                     <span class="w-2 h-2 mr-2 bg-emerald-400 rounded-full animate-ping"></span>
                     Protected by CIET WAF Shield
@@ -875,7 +886,41 @@
             initMap();
             await loadTreesData();
             await loadMetricsSummary();
+            initPwaSupport();
         });
+
+        function initPwaSupport() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('[PWA] CIET ServiceWorker registered:', reg.scope))
+                    .catch(err => console.warn('[PWA] SW register error:', err));
+            }
+
+            let deferredPrompt = null;
+            const installBtn = document.getElementById('pwa-install-btn');
+
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                if (installBtn) {
+                    installBtn.classList.remove('hidden');
+                    installBtn.onclick = async () => {
+                        if (deferredPrompt) {
+                            deferredPrompt.prompt();
+                            const choice = await deferredPrompt.userChoice;
+                            console.log('[PWA] User choice:', choice.outcome);
+                            deferredPrompt = null;
+                            installBtn.classList.add('hidden');
+                        }
+                    };
+                }
+            });
+
+            window.addEventListener('appinstalled', () => {
+                console.log('[PWA] CIET Forestry App installed successfully.');
+                if (installBtn) installBtn.classList.add('hidden');
+            });
+        }
 
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));

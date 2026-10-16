@@ -1,0 +1,56 @@
+{
+  "name": "CIET Coimbatore — Forestry & Tree Stocking",
+  "short_name": "CIET Trees",
+  "description": "Computer Vision Tree Stocking, Precision GPS Geolocation & Digital QR Passports for Coimbatore Institute of Engineering and Technology (CIET).",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#022c22",
+  "theme_color": "#064e3b",
+  "lang": "en-IN",
+  "categories": ["utilities", "education", "productivity"],
+  "icons": [
+    {
+      "src": "/static/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/icons/icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "QR Tag Scanner",
+      "short_name": "Scan Tag",
+      "description": "Open live smartphone camera to scan tree bark QR tags",
+      "url": "/?tab=scanner-tab",
+      "icons": [{ "src": "/static/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Campus GPS Map",
+      "short_name": "Campus Map",
+      "description": "Inspect satellite map of trees and CIET campus buildings",
+      "url": "/?tab=map-tab",
+      "icons": [{ "src": "/static/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Tree Inventory",
+      "short_name": "Inventory",
+      "description": "Search botanical taxa, biometrics and carbon sequestration",
+      "url": "/?tab=inventory-tab",
+      "icons": [{ "src": "/static/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

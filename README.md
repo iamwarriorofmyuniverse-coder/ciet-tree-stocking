@@ -5,7 +5,9 @@
 [![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-00599C.svg?logo=yolo&logoColor=white)](https://ultralytics.com)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg?logo=python&logoColor=white)](https://python.org)
 [![Security Hardened](https://img.shields.io/badge/Security-Hardened%20WAF-success.svg)](#-enterprise-security-firewall--hardening)
-[![Tests Passing](https://img.shields.io/badge/Tests-36%20Passing%20(100%25)-brightgreen.svg)](#-continuous-integration--test-verification)
+[![PWA Ready](https://img.shields.io/badge/PWA-Installable%20Offline-emerald.svg)](#-mobile-applications-progressive-web-app--native-flutter-app)
+[![Flutter Mobile](https://img.shields.io/badge/Flutter-Android%20%26%20iOS-02569B.svg?logo=flutter&logoColor=white)](mobile_app/)
+[![Tests Passing](https://img.shields.io/badge/Tests-38%20Passing%20(100%25)-brightgreen.svg)](#-continuous-integration--test-verification)
 
 **An In-House Asset Engineered for Coimbatore Institute of Engineering and Technology (CIET), Coimbatore**  
 *Department of Artificial Intelligence & Data Science | Center for Forestry Informatics & Conservation*
@@ -15,7 +17,7 @@
 ## 🌐 Live Deployment & Online Access
 
 - **Official GitHub Repository:** [https://github.com/iamwarriorofmyuniverse-coder/ciet-tree-stocking](https://github.com/iamwarriorofmyuniverse-coder/ciet-tree-stocking)
-- **Live Public Cloudflare Tunnel:** [https://qualifications-asylum-workers-counter.trycloudflare.com](https://qualifications-asylum-workers-counter.trycloudflare.com)
+- **Live Public Online PWA:** [https://qualifications-asylum-workers-counter.trycloudflare.com](https://qualifications-asylum-workers-counter.trycloudflare.com)
 - **Local Application Endpoint:** `http://localhost:8000`
 - **Interactive OpenAPI / Swagger Documentation:** `http://localhost:8000/docs`
 
@@ -96,6 +98,16 @@ The **CIET Forest Conservation Platform** is an enterprise-grade full-stack comp
 - **OWASP Security Headers:** Enforces `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, and a hardened `Content-Security-Policy`.
 - **Async Concurrency Throttling:** Internal `asyncio.Semaphore(2)` prevents GPU/CPU memory exhaustion during concurrent drone orthomosaic inference.
 
+### 6. 📱 Mobile Applications: Progressive Web App & Dedicated Flutter App
+- **Installable Progressive Web App (PWA):**
+  - Instant 1-click installation on Android (Chrome) and iOS (Safari) with standalone display mode.
+  - Offline-first Service Worker (`static/sw.js`) caching all 16 tree profiles and maps for off-grid surveys in Sector-IV (hillside).
+  - W3C Web App Manifest (`static/manifest.json`) with custom CIET Forestry icons (192px, 512px, maskable).
+- **Dedicated Flutter Native Mobile App (`mobile_app/`):**
+  - Complete cross-platform codebase supporting Android APK and iOS.
+  - Native 60fps hardware camera scanner (`mobile_scanner`) with flashlight toggle.
+  - Offline caching via `shared_preferences` and interactive GIS map via `flutter_map`.
+
 ---
 
 ## 📂 Repository File Structure
@@ -105,6 +117,19 @@ ciet_tree_stocking/
 ├── .github/
 │   └── workflows/
 │       └── ci.yml                  # Automated GitHub Actions CI pipeline
+├── mobile_app/                     # Flutter Native Mobile Application
+│   ├── pubspec.yaml                # Mobile dependencies (http, flutter_map, mobile_scanner)
+│   ├── android/                    # Android Manifest with Camera & GPS permissions
+│   └── lib/
+│       ├── main.dart               # Mobile app entry point & emerald theme
+│       ├── models/                 # Dart TreeProfile, GeoLocation, Landmarks models
+│       ├── services/               # ApiService with offline caching
+│       └── screens/                # Map, QR Scanner, Tree List, & Campus Guide screens
+├── static/
+│   ├── manifest.json               # W3C Web App Manifest for PWA
+│   ├── sw.js                       # Offline-first Service Worker
+│   ├── offline.html                # Off-grid fallback screen
+│   └── icons/                      # 192px, 512px, maskable PWA app icons
 ├── server.py                       # FastAPI Production Server with Security Firewall (Port 8000)
 ├── app.py                          # Streamlit Enterprise Reference Dashboard
 ├── requirements.txt                # Pinned dependency matrix
@@ -113,34 +138,21 @@ ciet_tree_stocking/
 │   ├── index.html                  # Responsive SPA (Leaflet GPS Map, QR Scanner, CV Dashboard)
 │   └── tree_passport.html          # Individual Digital Tree Passport & Certificate
 ├── src/
-│   ├── inventory/
-│   │   ├── __init__.py             # Inventory module exports
-│   │   ├── models.py               # TreeProfile, GeoLocation, BiometricTelemetry
-│   │   ├── qr_engine.py            # QR code generation, OpenCV decode, printable field tag
-│   │   └── database.py             # In-memory database, CIET seed data, GeoJSON/CSV export
-│   ├── ml/
-│   │   ├── __init__.py             # ML module exports
-│   │   └── engine.py               # TreeDetector, BoundingBox, DetectionResult, NMS
-│   ├── security/
-│   │   ├── __init__.py             # Security module exports
-│   │   └── firewall.py             # WAF Middleware, Rate Limiter, File Validator, Sanitizer
-│   └── utils/
-│       ├── __init__.py             # Utils exports
-│       ├── analytics.py            # Exact canopy density, anomaly scanner, telemetry logger
-│       ├── sample_generator.py     # Synthetic aerial forest ortho-mosaic generator
-│       └── visualization.py        # Custom-colored crown overlays, masks, badges
+│   ├── inventory/                  # TreeProfile, Biometrics, GeoLocation, Level-H QR Engine, CIET DB
+│   ├── ml/                         # TreeDetector (YOLOv8), Pydantic tensors, Overlapping Canopy NMS
+│   ├── security/                   # WAF Middleware, Sliding-Window Rate Limiting, Decompression Bomb & Magic Bytes
+│   └── utils/                      # Planar binary raster density grid, Anomaly checks, OpenCV overlays
 └── tests/
-    ├── __init__.py                 # Test module init
-    ├── test_core.py                # ML pipeline, models, NMS, canopy density unit tests
+    ├── test_core.py                # ML pipeline, structural models, NMS, canopy density unit tests
     ├── test_inventory_qr.py        # Geolocation, biometrics, QR generation/decode tests
-    └── test_security.py            # WAF, rate limiting, magic bytes, XSS/SQLi injection tests
+    └── test_security.py            # WAF, rate limiting, magic bytes, PWA manifest & SW tests
 ```
 
 ---
 
 ## 🛠️ Execution & Operating Guide
 
-### Launching the Production Web Application
+### Launching the Production Web Application & PWA
 ```powershell
 cd ciet_tree_stocking
 python -m uvicorn server:app --host 0.0.0.0 --port 8000
@@ -148,7 +160,7 @@ python -m uvicorn server:app --host 0.0.0.0 --port 8000
 - Open browser at: **`http://localhost:8000`**
 - Interactive OpenAPI Swagger UI: **`http://localhost:8000/docs`**
 
-### Running the Test Suite (36 Tests)
+### Running the Test Suite (38 Tests)
 ```powershell
 pytest tests/ -v --tb=short
 ```
