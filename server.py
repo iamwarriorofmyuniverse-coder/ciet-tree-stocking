@@ -81,8 +81,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 3. Mount Static Assets Directory (Icons, PWA Manifest, Service Worker)
+# 3. Mount Static Assets Directory (Icons, PWA Manifest, Service Worker, Species Cards)
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+
+# 4. Mount Visual Assets Directory (Orthomosaics, Benchmark Images)
+ASSETS_DIR = BASE_DIR / "assets"
+ASSETS_DIR.mkdir(exist_ok=True)
+app.mount("/assets", StaticFiles(directory=str(ASSETS_DIR)), name="assets")
 
 
 @app.api_route("/manifest.json", methods=["GET", "HEAD"], include_in_schema=False)
