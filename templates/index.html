@@ -207,30 +207,50 @@
 
     <!-- Navigation Bar: High-Tech Tabs -->
     <nav class="bg-obsidian-900/60 border-b border-slate-800 sticky top-[68px] z-30 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-1 sm:space-x-3 overflow-x-auto py-2">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-1 sm:space-x-2 overflow-x-auto py-2">
             
-            <button onclick="switchTab('map-tab')" id="nav-map-tab" class="tab-btn bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 font-bold py-2 px-3.5 rounded-xl flex items-center gap-2 text-xs whitespace-nowrap shadow-sm transition">
-                <i data-lucide="satellite" class="w-4 h-4"></i> Campus GIS Satellite
+            <button onclick="switchTab('map-tab')" id="nav-map-tab" class="tab-btn bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 font-bold py-2 px-3 rounded-xl flex items-center gap-1.5 text-xs whitespace-nowrap shadow-sm transition">
+                <i data-lucide="satellite" class="w-3.5 h-3.5"></i> GIS Satellite
             </button>
 
-            <button onclick="switchTab('herbarium-tab')" id="nav-herbarium-tab" class="tab-btn border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 py-2 px-3.5 rounded-xl flex items-center gap-2 text-xs whitespace-nowrap transition">
-                <i data-lucide="book-open" class="w-4 h-4"></i> Species Herbarium (<span id="herbarium-badge">16</span>)
+            <button onclick="switchTab('digital-twin-tab')" id="nav-digital-twin-tab" class="tab-btn border border-transparent text-slate-400 hover:text-cyan-300 hover:bg-slate-800/50 py-2 px-3 rounded-xl flex items-center gap-1.5 text-xs whitespace-nowrap transition">
+                <i data-lucide="cpu" class="w-3.5 h-3.5 text-cyan-400"></i> 4D Digital Twin
             </button>
 
-            <button onclick="switchTab('cv-tab')" id="nav-cv-tab" class="tab-btn border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 py-2 px-3.5 rounded-xl flex items-center gap-2 text-xs whitespace-nowrap transition">
-                <i data-lucide="crosshair" class="w-4 h-4"></i> Drone AI CV Cockpit
+            <button onclick="switchTab('tomography-tab')" id="nav-tomography-tab" class="tab-btn border border-transparent text-slate-400 hover:text-amber-300 hover:bg-slate-800/50 py-2 px-3 rounded-xl flex items-center gap-1.5 text-xs whitespace-nowrap transition">
+                <i data-lucide="activity" class="w-3.5 h-3.5 text-amber-400"></i> Sonic Tomography
             </button>
 
-            <button onclick="switchTab('scanner-tab')" id="nav-scanner-tab" class="tab-btn border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 py-2 px-3.5 rounded-xl flex items-center gap-2 text-xs whitespace-nowrap transition">
-                <i data-lucide="qr-code" class="w-4 h-4"></i> Field QR Telemetry
+            <button onclick="switchTab('drone-planner-tab')" id="nav-drone-planner-tab" class="tab-btn border border-transparent text-slate-400 hover:text-teal-300 hover:bg-slate-800/50 py-2 px-3 rounded-xl flex items-center gap-1.5 text-xs whitespace-nowrap transition">
+                <i data-lucide="navigation" class="w-3.5 h-3.5 text-teal-400"></i> Autonomous Drone
             </button>
 
-            <button onclick="switchTab('guide-tab')" id="nav-guide-tab" class="tab-btn border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 py-2 px-3.5 rounded-xl flex items-center gap-2 text-xs whitespace-nowrap transition">
-                <i data-lucide="landmark" class="w-4 h-4"></i> Inside CIET Campus
+            <button onclick="switchTab('esg-tab')" id="nav-esg-tab" class="tab-btn border border-transparent text-slate-400 hover:text-emerald-300 hover:bg-slate-800/50 py-2 px-3 rounded-xl flex items-center gap-1.5 text-xs whitespace-nowrap transition">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i> ESG Carbon Ledger
             </button>
 
-            <button onclick="switchTab('export-tab')" id="nav-export-tab" class="tab-btn border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 py-2 px-3.5 rounded-xl flex items-center gap-2 text-xs whitespace-nowrap transition">
-                <i data-lucide="download" class="w-4 h-4"></i> Batch Export & Tags
+            <button onclick="switchTab('biodiversity-tab')" id="nav-biodiversity-tab" class="tab-btn border border-transparent text-slate-400 hover:text-rose-300 hover:bg-slate-800/50 py-2 px-3 rounded-xl flex items-center gap-1.5 text-xs whitespace-nowrap transition">
+                <i data-lucide="feather" class="w-3.5 h-3.5 text-rose-400"></i> Biodiversity
+            </button>
+
+            <button onclick="switchTab('herbarium-tab')" id="nav-herbarium-tab" class="tab-btn border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 py-2 px-3 rounded-xl flex items-center gap-1.5 text-xs whitespace-nowrap transition">
+                <i data-lucide="book-open" class="w-3.5 h-3.5"></i> Herbarium (<span id="herbarium-badge">16</span>)
+            </button>
+
+            <button onclick="switchTab('cv-tab')" id="nav-cv-tab" class="tab-btn border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 py-2 px-3 rounded-xl flex items-center gap-1.5 text-xs whitespace-nowrap transition">
+                <i data-lucide="crosshair" class="w-3.5 h-3.5"></i> CV Split-Slider
+            </button>
+
+            <button onclick="switchTab('scanner-tab')" id="nav-scanner-tab" class="tab-btn border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 py-2 px-3 rounded-xl flex items-center gap-1.5 text-xs whitespace-nowrap transition">
+                <i data-lucide="qr-code" class="w-3.5 h-3.5"></i> Field QR
+            </button>
+
+            <button onclick="switchTab('guide-tab')" id="nav-guide-tab" class="tab-btn border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 py-2 px-3 rounded-xl flex items-center gap-1.5 text-xs whitespace-nowrap transition">
+                <i data-lucide="landmark" class="w-3.5 h-3.5"></i> Campus Guide
+            </button>
+
+            <button onclick="switchTab('export-tab')" id="nav-export-tab" class="tab-btn border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 py-2 px-3 rounded-xl flex items-center gap-1.5 text-xs whitespace-nowrap transition">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i> Export
             </button>
         </div>
     </nav>
@@ -888,7 +908,749 @@
             </div>
         </section>
 
+        <!-- ========================================================================= -->
+        <!-- TAB 7: 4D SPATIOTEMPORAL DIGITAL TWIN & BIOMECHANICAL GROWTH SIMULATOR   -->
+        <!-- ========================================================================= -->
+        <section id="digital-twin-tab" class="tab-content hidden space-y-6">
+            
+            <!-- Header Bar with Live Specimen & Year Controls -->
+            <div class="glass-card p-5 rounded-2xl flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 border border-cyan-500/30">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="p-2 bg-cyan-500/20 text-cyan-400 rounded-xl"><i data-lucide="cpu" class="w-5 h-5"></i></span>
+                        <h2 class="text-base sm:text-lg font-black text-white">4D Spatiotemporal Digital Twin Simulator</h2>
+                        <span class="text-[10px] font-mono font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-2 py-0.5 rounded-full">Chapman-Richards Allometrics</span>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-1 max-w-2xl">
+                        Simulates non-linear multi-decadal growth trajectories, subterranean root infrastructure encroachment risks, and dynamic solar raycast cooling offsets.
+                    </p>
+                </div>
+
+                <!-- Controls: Specimen Select & Year Slider -->
+                <div class="flex flex-wrap items-center gap-4 bg-obsidian-950/70 p-3 rounded-xl border border-slate-800 w-full lg:w-auto">
+                    <div>
+                        <label class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Target Specimen</label>
+                        <select id="dt-tree-select" onchange="runDigitalTwinSimulation()" class="bg-slate-900 border border-slate-700 text-xs text-slate-200 rounded-lg px-2.5 py-1.5 focus:border-cyan-400 focus:outline-none">
+                            <option value="CIET-TREE-001">CIET-TREE-001 (Neem)</option>
+                            <option value="CIET-TREE-002">CIET-TREE-002 (Peepal)</option>
+                            <option value="CIET-TREE-003">CIET-TREE-003 (Banyan)</option>
+                            <option value="CIET-TREE-006">CIET-TREE-006 (Teak)</option>
+                            <option value="CIET-TREE-007">CIET-TREE-007 (Jamun)</option>
+                            <option value="CIET-TREE-009">CIET-TREE-009 (Pongamia)</option>
+                            <option value="CIET-TREE-014">CIET-TREE-014 (Gulmohar)</option>
+                        </select>
+                    </div>
+
+                    <div class="flex-1 min-w-[200px]">
+                        <div class="flex justify-between items-center text-[10px] mb-1">
+                            <span class="text-slate-400 uppercase font-bold">Projection Horizon</span>
+                            <span id="dt-year-label" class="font-mono text-cyan-400 font-bold">Year 2040 (+14 yrs)</span>
+                        </div>
+                        <input type="range" id="dt-year-slider" min="2027" max="2056" value="2040" oninput="updateYearLabel(this.value); runDigitalTwinSimulation()" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400" />
+                        <div class="flex justify-between text-[9px] font-mono text-slate-500 mt-0.5">
+                            <span>2027</span>
+                            <span>2035</span>
+                            <span>2045</span>
+                            <span>2056</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4 Metric Cards for Selected Horizon -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="glass-card p-4 rounded-xl border border-cyan-500/20">
+                    <div class="text-[10px] uppercase font-bold text-slate-400 flex items-center justify-between">
+                        <span>Projected Height</span>
+                        <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-cyan-400"></i>
+                    </div>
+                    <div class="text-2xl font-black text-white font-mono mt-1" id="dt-metric-height">-- m</div>
+                    <div class="text-[10px] text-cyan-400 mt-1" id="dt-metric-height-diff">+-- m from baseline</div>
+                </div>
+
+                <div class="glass-card p-4 rounded-xl border border-teal-500/20">
+                    <div class="text-[10px] uppercase font-bold text-slate-400 flex items-center justify-between">
+                        <span>Projected DBH</span>
+                        <i data-lucide="circle-dot" class="w-3.5 h-3.5 text-teal-400"></i>
+                    </div>
+                    <div class="text-2xl font-black text-white font-mono mt-1" id="dt-metric-dbh">-- cm</div>
+                    <div class="text-[10px] text-teal-400 mt-1" id="dt-metric-dbh-diff">+-- cm trunk growth</div>
+                </div>
+
+                <div class="glass-card p-4 rounded-xl border border-emerald-500/20">
+                    <div class="text-[10px] uppercase font-bold text-slate-400 flex items-center justify-between">
+                        <span>Canopy & Root Radius</span>
+                        <i data-lucide="maximize-2" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    </div>
+                    <div class="text-2xl font-black text-white font-mono mt-1" id="dt-metric-root">-- m (Root)</div>
+                    <div class="text-[10px] text-emerald-400 mt-1" id="dt-metric-crown">Crown: -- m²</div>
+                </div>
+
+                <div class="glass-card p-4 rounded-xl border border-purple-500/20">
+                    <div class="text-[10px] uppercase font-bold text-slate-400 flex items-center justify-between">
+                        <span>Carbon Sequestration</span>
+                        <i data-lucide="leaf" class="w-3.5 h-3.5 text-purple-400"></i>
+                    </div>
+                    <div class="text-2xl font-black text-white font-mono mt-1" id="dt-metric-carbon">-- kg CO₂</div>
+                    <div class="text-[10px] text-purple-400 mt-1" id="dt-metric-carbon-rate">-- kg CO₂ / year</div>
+                </div>
+            </div>
+
+            <!-- 2-Column Split: Growth Trajectory Table + Infrastructure Risk & Solar Raycast -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <!-- Left: Growth Projection Table (7 cols) -->
+                <div class="lg:col-span-7 glass-card p-5 rounded-2xl border border-slate-800 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i data-lucide="trending-up" class="w-4 h-4 text-cyan-400"></i>
+                            Non-Linear Growth Timeline (2026 – Target)
+                        </h3>
+                        <span class="text-[10px] text-slate-500 font-mono">Fidelity: 96.5%</span>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-slate-800">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-slate-900/80 text-[10px] font-mono uppercase text-slate-400">
+                                <tr>
+                                    <th class="p-2.5">Year</th>
+                                    <th class="p-2.5">Age</th>
+                                    <th class="p-2.5">Height</th>
+                                    <th class="p-2.5">DBH</th>
+                                    <th class="p-2.5">Crown</th>
+                                    <th class="p-2.5">Root R</th>
+                                    <th class="p-2.5">CO₂ Sink</th>
+                                    <th class="p-2.5">Cooling</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dt-projections-tbody" class="divide-y divide-slate-800 text-slate-300 font-mono text-[11px]">
+                                <!-- Populated dynamically by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Right: Infrastructure Collision Radar & Solar Raycasting (5 cols) -->
+                <div class="lg:col-span-5 space-y-4">
+                    
+                    <!-- Subsurface Infrastructure Collision Radar -->
+                    <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                <i data-lucide="radar" class="w-4 h-4 text-amber-400"></i>
+                                Subsurface Foundation Collision Radar
+                            </h3>
+                            <span class="text-[10px] text-slate-400 font-mono">Proximity Clearance</span>
+                        </div>
+
+                        <div id="dt-infra-risks-container" class="space-y-2.5">
+                            <!-- Populated dynamically by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Solar Raycast Shading & HVAC Cooling Offset -->
+                    <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                <i data-lucide="sun" class="w-4 h-4 text-emerald-400"></i>
+                                Solar Raycast & HVAC Cooling Offset
+                            </h3>
+                            <span class="text-[10px] text-emerald-400 font-mono font-bold">10.9992° N</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div class="glass-panel p-2.5 rounded-lg border border-slate-800">
+                                <span class="text-[10px] text-slate-400 block">Noon Shadow Cast</span>
+                                <strong class="font-mono text-white text-sm" id="dt-solar-noon">-- m</strong>
+                            </div>
+                            <div class="glass-panel p-2.5 rounded-lg border border-slate-800">
+                                <span class="text-[10px] text-slate-400 block">3 PM Shadow Cast</span>
+                                <strong class="font-mono text-white text-sm" id="dt-solar-afternoon">-- m</strong>
+                            </div>
+                            <div class="glass-panel p-2.5 rounded-lg border border-slate-800">
+                                <span class="text-[10px] text-slate-400 block">Microclimate ΔT Drop</span>
+                                <strong class="font-mono text-emerald-400 text-sm" id="dt-solar-deltat">-- °C</strong>
+                            </div>
+                            <div class="glass-panel p-2.5 rounded-lg border border-slate-800">
+                                <span class="text-[10px] text-slate-400 block">Annual HVAC Savings</span>
+                                <strong class="font-mono text-teal-400 text-sm" id="dt-solar-savings">₹ -- / yr</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================================= -->
+        <!-- TAB 8: NON-DESTRUCTIVE ACOUSTIC SONIC TOMOGRAPHY & WIND HAZARD PHYSICS   -->
+        <!-- ========================================================================= -->
+        <section id="tomography-tab" class="tab-content hidden space-y-6">
+            
+            <!-- Header Bar with Specimen & Storm Wind Controls -->
+            <div class="glass-card p-5 rounded-2xl flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 border border-amber-500/30">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="p-2 bg-amber-500/20 text-amber-400 rounded-xl"><i data-lucide="activity" class="w-5 h-5"></i></span>
+                        <h2 class="text-base sm:text-lg font-black text-white">Non-Destructive Sonic Tomography & Wind Failure Physics</h2>
+                        <span class="text-[10px] font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30 px-2 py-0.5 rounded-full">Mattheck VTA Protocol</span>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-1 max-w-2xl">
+                        Simulates 12-sensor ultrasound impulse propagation through trunk heartwood and calculates aerodynamic overturning bending moments under Southwest/Northeast monsoon gale storms.
+                    </p>
+                </div>
+
+                <!-- Controls: Tree Select & Wind Speed Slider -->
+                <div class="flex flex-wrap items-center gap-4 bg-obsidian-950/70 p-3 rounded-xl border border-slate-800 w-full lg:w-auto">
+                    <div>
+                        <label class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Target Specimen</label>
+                        <select id="tomo-tree-select" onchange="runTomographySimulation()" class="bg-slate-900 border border-slate-700 text-xs text-slate-200 rounded-lg px-2.5 py-1.5 focus:border-amber-400 focus:outline-none">
+                            <option value="CIET-TREE-001">CIET-TREE-001 (Neem - Vigorous)</option>
+                            <option value="CIET-TREE-002">CIET-TREE-002 (Peepal - Healthy)</option>
+                            <option value="CIET-TREE-003">CIET-TREE-003 (Banyan - Vigorous)</option>
+                            <option value="CIET-TREE-014">CIET-TREE-014 (Gulmohar - Requires Pruning)</option>
+                            <option value="CIET-TREE-015">CIET-TREE-015 (Nagalingam - Healthy)</option>
+                        </select>
+                    </div>
+
+                    <div class="flex-1 min-w-[200px]">
+                        <div class="flex justify-between items-center text-[10px] mb-1">
+                            <span class="text-slate-400 uppercase font-bold">Simulated Monsoon Wind Gust</span>
+                            <span id="tomo-wind-label" class="font-mono text-amber-400 font-bold">65.0 km/h (Squall)</span>
+                        </div>
+                        <input type="range" id="tomo-wind-slider" min="20" max="130" value="65" oninput="updateWindLabel(this.value); runTomographySimulation()" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-400" />
+                        <div class="flex justify-between text-[9px] font-mono text-slate-500 mt-0.5">
+                            <span>20 km/h</span>
+                            <span>65 km/h</span>
+                            <span>100 km/h</span>
+                            <span>130 km/h (Cyclone)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Structural Hazard Status Pill -->
+            <div id="tomo-status-banner" class="glass-card p-4 rounded-xl border border-emerald-500/30 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+                <div class="flex items-center gap-3">
+                    <span id="tomo-status-icon" class="p-2.5 rounded-xl bg-emerald-500/20 text-emerald-400"><i data-lucide="shield-check" class="w-6 h-6"></i></span>
+                    <div>
+                        <div class="text-xs uppercase font-bold tracking-wider text-slate-400">Structural Safety Assessment</div>
+                        <div id="tomo-status-title" class="text-base font-black text-white">Structurally Sound (t/R > 0.35)</div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-4 text-xs font-mono">
+                    <div class="glass-panel px-3 py-1.5 rounded-lg border border-slate-800">
+                        <span class="text-slate-400 block text-[10px]">Mattheck t/R</span>
+                        <strong id="tomo-tr-ratio" class="text-emerald-400 text-sm">0.480</strong>
+                    </div>
+                    <div class="glass-panel px-3 py-1.5 rounded-lg border border-slate-800">
+                        <span class="text-slate-400 block text-[10px]">Safety Factor</span>
+                        <strong id="tomo-safety-factor" class="text-emerald-400 text-sm">3.45x</strong>
+                    </div>
+                    <div class="glass-panel px-3 py-1.5 rounded-lg border border-slate-800">
+                        <span class="text-slate-400 block text-[10px]">Failure Velocity</span>
+                        <strong id="tomo-fail-speed" class="text-amber-400 text-sm">118.5 km/h</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2-Column Split: Sonic Heatmap Canvas/Grid + Mechanical VTA Physics -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <!-- Left: Virtual Acoustic Tomogram Canvas (6 cols) -->
+                <div class="lg:col-span-6 glass-card p-5 rounded-2xl border border-slate-800 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i data-lucide="disc" class="w-4 h-4 text-amber-400"></i>
+                            Trunk Cross-Section 2D Sonic Velocity Field
+                        </h3>
+                        <span class="text-[10px] font-mono text-slate-400">12 Sensors @ 1.3m DBH</span>
+                    </div>
+
+                    <!-- Tomogram 16x16 Grid Display -->
+                    <div class="flex justify-center p-4 bg-obsidian-950 rounded-xl border border-slate-800/80">
+                        <div id="tomo-grid-container" class="grid grid-cols-16 gap-[2px] w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] p-2 bg-obsidian-900 rounded-xl border border-slate-800">
+                            <!-- Populated dynamically by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Legend & Tissue Partitioning -->
+                    <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                        <div class="glass-panel p-2 rounded-lg border border-emerald-500/30">
+                            <div class="flex items-center justify-center gap-1.5 text-emerald-400 font-bold">
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Sound Wood
+                            </div>
+                            <div id="tomo-sound-pct" class="font-mono text-white mt-1 text-sm font-bold">--%</div>
+                            <span class="text-[9px] text-slate-400">> 1450 m/s</span>
+                        </div>
+
+                        <div class="glass-panel p-2 rounded-lg border border-amber-500/30">
+                            <div class="flex items-center justify-center gap-1.5 text-amber-400 font-bold">
+                                <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Incipient Rot
+                            </div>
+                            <div id="tomo-decay-pct" class="font-mono text-white mt-1 text-sm font-bold">--%</div>
+                            <span class="text-[9px] text-slate-400">1000 - 1450 m/s</span>
+                        </div>
+
+                        <div class="glass-panel p-2 rounded-lg border border-red-500/30">
+                            <div class="flex items-center justify-center gap-1.5 text-red-400 font-bold">
+                                <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span> Cavity Decay
+                            </div>
+                            <div id="tomo-cavity-pct" class="font-mono text-white mt-1 text-sm font-bold">--%</div>
+                            <span class="text-[9px] text-slate-400">< 1000 m/s</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Mattheck Visual Tree Assessment Engineering Metrics (6 cols) -->
+                <div class="lg:col-span-6 glass-card p-5 rounded-2xl border border-slate-800 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i data-lucide="wind" class="w-4 h-4 text-teal-400"></i>
+                            Mattheck VTA Aerodynamic Bending Mechanics
+                        </h3>
+                        <span class="text-[10px] text-teal-400 font-mono font-bold">Coimbatore Monsoons</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 text-xs">
+                        <div class="glass-panel p-3 rounded-xl border border-slate-800 space-y-1">
+                            <span class="text-[10px] uppercase font-bold text-slate-400 block">Aerodynamic Drag Force</span>
+                            <div class="text-base font-black text-white font-mono" id="tomo-drag-force">-- N</div>
+                            <span class="text-[10px] text-slate-500">Cd = 0.35, ρ = 1.225 kg/m³</span>
+                        </div>
+
+                        <div class="glass-panel p-3 rounded-xl border border-slate-800 space-y-1">
+                            <span class="text-[10px] uppercase font-bold text-slate-400 block">Overturning Bending Moment</span>
+                            <div class="text-base font-black text-white font-mono" id="tomo-bending-moment">-- N·m</div>
+                            <span class="text-[10px] text-slate-500">Center of Pressure h_cop</span>
+                        </div>
+
+                        <div class="glass-panel p-3 rounded-xl border border-slate-800 space-y-1">
+                            <span class="text-[10px] uppercase font-bold text-slate-400 block">Residual Wall Thickness (t)</span>
+                            <div class="text-base font-black text-white font-mono" id="tomo-wall-thickness">-- cm</div>
+                            <span class="text-[10px] text-slate-500">Radius R = <span id="tomo-radius-val">--</span> cm</span>
+                        </div>
+
+                        <div class="glass-panel p-3 rounded-xl border border-slate-800 space-y-1">
+                            <span class="text-[10px] uppercase font-bold text-slate-400 block">Extreme Fiber Bending Stress</span>
+                            <div class="text-base font-black text-white font-mono" id="tomo-fiber-stress">-- MPa</div>
+                            <span class="text-[10px] text-slate-500">MOR Threshold: 62.0 MPa</span>
+                        </div>
+                    </div>
+
+                    <!-- Remedial Prescription Box -->
+                    <div class="glass-panel p-4 rounded-xl border border-slate-800 space-y-2">
+                        <div class="text-[10px] font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                            <i data-lucide="wrench" class="w-3.5 h-3.5"></i>
+                            Arborist Engineering Action Plan
+                        </div>
+                        <p id="tomo-prescription" class="text-xs text-slate-300 leading-relaxed font-medium">
+                            --
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ========================================================================= -->
+        <!-- TAB 9: AUTONOMOUS DRONE MISSION PLANNER & MULTISPECTRAL INVERSION         -->
+        <!-- ========================================================================= -->
+        <section id="drone-planner-tab" class="tab-content hidden space-y-6">
+            
+            <!-- Header Bar with Mission Parameter Controls -->
+            <div class="glass-card p-5 rounded-2xl flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 border border-teal-500/30">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="p-2 bg-teal-500/20 text-teal-400 rounded-xl"><i data-lucide="navigation" class="w-5 h-5"></i></span>
+                        <h2 class="text-base sm:text-lg font-black text-white">Autonomous Photogrammetry Drone Mission Planner</h2>
+                        <span class="text-[10px] font-mono font-bold bg-teal-500/10 text-teal-400 border border-teal-500/30 px-2 py-0.5 rounded-full">ArduPilot & DJI KML</span>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-1 max-w-2xl">
+                        Autonomous boustrophedon survey grid generator with sub-centimeter GSD calculations and multi-band synthetic NDVI/NDRE/CWSI vegetation health decomposition.
+                    </p>
+                </div>
+
+                <!-- Export Buttons -->
+                <div class="flex flex-wrap items-center gap-2.5">
+                    <button onclick="downloadArdupilotMission()" class="bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-obsidian-950 font-black text-xs px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-lg shadow-teal-950/60 border border-teal-300">
+                        <i data-lucide="download" class="w-4 h-4"></i> Export .waypoints (ArduPilot)
+                    </button>
+                    <button onclick="downloadDjiKmlMission()" class="bg-slate-800 hover:bg-slate-700 text-teal-300 font-bold text-xs px-3.5 py-2 rounded-xl border border-teal-500/30 transition flex items-center gap-1.5">
+                        <i data-lucide="map-pin" class="w-4 h-4"></i> Export 3D .kml (DJI Pilot)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Interactive Parameters Bar -->
+            <div class="glass-panel p-4 rounded-xl border border-slate-800 grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs">
+                <div>
+                    <label class="text-[10px] font-bold uppercase text-slate-400 block mb-1">Campus Survey Sector</label>
+                    <select id="drone-sector-select" onchange="runDroneMissionPlan()" class="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-2.5 py-1.5 focus:border-teal-400 focus:outline-none">
+                        <option value="Sector-A">Sector-A: Academic & Research Quadrant</option>
+                        <option value="Sector-B">Sector-B: Western Boundary Forest Buffer</option>
+                        <option value="Sector-C">Sector-C: Sports Arena & Agro-Forestry</option>
+                    </select>
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center text-[10px] mb-1">
+                        <span class="text-slate-400 uppercase font-bold">Altitude AGL</span>
+                        <span id="drone-alt-label" class="font-mono text-teal-400 font-bold">45 m</span>
+                    </div>
+                    <input type="range" id="drone-alt-slider" min="30" max="90" value="45" oninput="updateAltLabel(this.value); runDroneMissionPlan()" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-teal-400" />
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center text-[10px] mb-1">
+                        <span class="text-slate-400 uppercase font-bold">Front Overlap</span>
+                        <span id="drone-front-label" class="font-mono text-teal-400 font-bold">80%</span>
+                    </div>
+                    <input type="range" id="drone-front-slider" min="65" max="85" value="80" oninput="updateOverlapLabels(); runDroneMissionPlan()" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-teal-400" />
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center text-[10px] mb-1">
+                        <span class="text-slate-400 uppercase font-bold">Side Sidelap</span>
+                        <span id="drone-side-label" class="font-mono text-teal-400 font-bold">75%</span>
+                    </div>
+                    <input type="range" id="drone-side-slider" min="60" max="80" value="75" oninput="updateOverlapLabels(); runDroneMissionPlan()" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-teal-400" />
+                </div>
+            </div>
+
+            <!-- Photogrammetric Telemetry Cards (5 Gauges) -->
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs">
+                <div class="glass-card p-3 rounded-xl border border-teal-500/20">
+                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Ground Sampling GSD</span>
+                    <strong class="font-mono text-white text-lg" id="drone-gsd-val">-- cm/px</strong>
+                    <span class="text-[9px] text-teal-400 block mt-0.5">Sub-centimeter detail</span>
+                </div>
+
+                <div class="glass-card p-3 rounded-xl border border-cyan-500/20">
+                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Total Flight Distance</span>
+                    <strong class="font-mono text-white text-lg" id="drone-dist-val">-- m</strong>
+                    <span class="text-[9px] text-cyan-400 block mt-0.5">Lawnmower trajectory</span>
+                </div>
+
+                <div class="glass-card p-3 rounded-xl border border-emerald-500/20">
+                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Estimated Flight Time</span>
+                    <strong class="font-mono text-white text-lg" id="drone-time-val">-- min</strong>
+                    <span class="text-[9px] text-emerald-400 block mt-0.5">Cruising @ 5.0 m/s</span>
+                </div>
+
+                <div class="glass-card p-3 rounded-xl border border-purple-500/20">
+                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Photos to Capture</span>
+                    <strong class="font-mono text-white text-lg" id="drone-photos-val">--</strong>
+                    <span class="text-[9px] text-purple-400 block mt-0.5">Auto-shutter trigger</span>
+                </div>
+
+                <div class="glass-card p-3 rounded-xl border border-amber-500/20 col-span-2 sm:col-span-1">
+                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Battery Consumption</span>
+                    <strong class="font-mono text-amber-300 text-lg" id="drone-battery-val">--%</strong>
+                    <span class="text-[9px] text-amber-400 block mt-0.5">Single LiPo flight</span>
+                </div>
+            </div>
+
+            <!-- 2-Column Split: Waypoint Coordinates Table + Synthetic Multispectral Decomposition -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                <!-- Left: Waypoint Grid (6 cols) -->
+                <div class="lg:col-span-6 glass-card p-5 rounded-2xl border border-slate-800 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i data-lucide="list-ordered" class="w-4 h-4 text-teal-400"></i>
+                            Sequential Autonomous Waypoints (WGS84)
+                        </h3>
+                        <span class="text-[10px] font-mono text-slate-400" id="drone-wp-count">-- Points</span>
+                    </div>
+
+                    <div class="overflow-y-auto max-h-[300px] rounded-xl border border-slate-800">
+                        <table class="w-full text-left text-xs font-mono">
+                            <thead class="bg-slate-900/90 text-[10px] uppercase text-slate-400 sticky top-0">
+                                <tr>
+                                    <th class="p-2.5">WP#</th>
+                                    <th class="p-2.5">Latitude</th>
+                                    <th class="p-2.5">Longitude</th>
+                                    <th class="p-2.5">Alt (m)</th>
+                                    <th class="p-2.5">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="drone-wp-tbody" class="divide-y divide-slate-800 text-slate-300 text-[11px]">
+                                <!-- Populated dynamically by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Right: Synthetic Multispectral Inversion (NDVI, NDRE, CWSI) (6 cols) -->
+                <div class="lg:col-span-6 glass-card p-5 rounded-2xl border border-slate-800 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i data-lucide="layers" class="w-4 h-4 text-emerald-400"></i>
+                            Synthetic Multispectral Inversion Engine
+                        </h3>
+                        <span class="text-[10px] font-mono text-emerald-400 font-bold">VARI / GLI Spectral Model</span>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2.5 text-xs text-center">
+                        <div class="glass-panel p-3 rounded-xl border border-emerald-500/30">
+                            <span class="text-[10px] uppercase font-bold text-slate-400 block">Canopy NDVI</span>
+                            <div class="text-xl font-black text-emerald-400 font-mono mt-1" id="multi-ndvi-val">0.860</div>
+                            <span class="text-[9px] text-slate-400">Vegetation Density</span>
+                        </div>
+
+                        <div class="glass-panel p-3 rounded-xl border border-red-500/30">
+                            <span class="text-[10px] uppercase font-bold text-slate-400 block">Red Edge NDRE</span>
+                            <div class="text-xl font-black text-rose-400 font-mono mt-1" id="multi-ndre-val">0.756</div>
+                            <span class="text-[9px] text-slate-400">Chlorophyll Saturation</span>
+                        </div>
+
+                        <div class="glass-panel p-3 rounded-xl border border-cyan-500/30">
+                            <span class="text-[10px] uppercase font-bold text-slate-400 block">Water Stress CWSI</span>
+                            <div class="text-xl font-black text-cyan-400 font-mono mt-1" id="multi-cwsi-val">0.097</div>
+                            <span class="text-[9px] text-slate-400">0.0 = Hydrated</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2 text-xs">
+                        <div class="glass-panel p-3 rounded-xl border border-slate-800 flex justify-between items-center">
+                            <span class="text-slate-400">Chlorophyll SPAD Equivalent:</span>
+                            <strong class="font-mono text-emerald-300" id="multi-spad-val">49.2 SPAD Units</strong>
+                        </div>
+
+                        <div class="glass-panel p-3 rounded-xl border border-slate-800 flex justify-between items-center">
+                            <span class="text-slate-400">Hydration Status:</span>
+                            <strong class="font-mono text-cyan-300" id="multi-hydration-val">Optimal Soil & Foliar Hydration</strong>
+                        </div>
+
+                        <div class="glass-panel p-3.5 rounded-xl border border-slate-800 space-y-1">
+                            <div class="text-[10px] font-bold uppercase tracking-wider text-teal-400">Automated Irrigation & Agronomic Prescription</div>
+                            <p class="text-xs text-slate-300 leading-relaxed font-medium" id="multi-prescription-val">
+                                Sub-canopy moisture retention is optimal across the campus quadrant.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ========================================================================= -->
+        <!-- TAB 10: CRYPTOGRAPHICALLY VERIFIED ESG CARBON CREDIT TOKENIZER           -->
+        <!-- ========================================================================= -->
+        <section id="esg-tab" class="tab-content hidden space-y-6">
+            
+            <!-- Header Bar -->
+            <div class="glass-card p-5 rounded-2xl flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 border border-emerald-500/30">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="p-2 bg-emerald-500/20 text-emerald-400 rounded-xl"><i data-lucide="shield-check" class="w-5 h-5"></i></span>
+                        <h2 class="text-base sm:text-lg font-black text-white">Cryptographically Verified ESG Carbon Credit Ledger</h2>
+                        <span class="text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full">Verra VM0007 / SHA-256</span>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-1 max-w-2xl">
+                        IPCC Tier-3 Western Ghats allometric biomass accounting with linked SHA-256 cryptographic audit blocks, voluntary carbon unit (VCU) serialization, and institutional ESG certificate generation.
+                    </p>
+                </div>
+
+                <!-- Generate Certificate Button -->
+                <button onclick="openEsgCertificateModal('CIET-TREE-001')" class="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-obsidian-950 font-black text-xs px-4 py-2.5 rounded-xl transition flex items-center gap-2 shadow-lg shadow-emerald-950/60 border border-emerald-300">
+                    <i data-lucide="award" class="w-4 h-4"></i> Generate Institutional ESG Certificate
+                </button>
+            </div>
+
+            <!-- Ledger Summary Indicators -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                <div class="glass-card p-4 rounded-xl border border-emerald-500/20">
+                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Total Issued Carbon Units</span>
+                    <div class="text-2xl font-black text-emerald-400 font-mono mt-1">1.2915 VCU</div>
+                    <span class="text-[10px] text-slate-400 mt-0.5 block">1 VCU = 1 Metric Tonne CO₂e</span>
+                </div>
+
+                <div class="glass-card p-4 rounded-xl border border-teal-500/20">
+                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Total Sequestered Biomass</span>
+                    <div class="text-2xl font-black text-white font-mono mt-1">741.2 kg</div>
+                    <span class="text-[10px] text-teal-400 mt-0.5 block">AGB (79.4%) + BGB Root (20.6%)</span>
+                </div>
+
+                <div class="glass-card p-4 rounded-xl border border-cyan-500/20">
+                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Voluntary Carbon Valuation</span>
+                    <div class="text-2xl font-black text-cyan-300 font-mono mt-1">$23.89 USD</div>
+                    <span class="text-[10px] text-cyan-400 mt-0.5 block">₹2,066.85 INR Institutional Value</span>
+                </div>
+
+                <div class="glass-card p-4 rounded-xl border border-purple-500/20">
+                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Cryptographic Integrity</span>
+                    <div class="text-2xl font-black text-purple-300 font-mono mt-1">100% Valid</div>
+                    <span class="text-[10px] text-purple-400 mt-0.5 block">Linked SHA-256 Block Chain</span>
+                </div>
+            </div>
+
+            <!-- Cryptographic Ledger Blocks Feed -->
+            <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                        <i data-lucide="link-2" class="w-4 h-4 text-emerald-400"></i>
+                        Immutable Proof-of-Sequestration Audit Chain
+                    </h3>
+                    <span class="text-[10px] font-mono text-emerald-400">Verra VM0007 / VCS Compliant</span>
+                </div>
+
+                <div id="esg-blocks-container" class="space-y-3 max-h-[500px] overflow-y-auto pr-1">
+                    <!-- Populated dynamically by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================================= -->
+        <!-- TAB 11: WESTERN GHATS BIODIVERSITY & FAUNAL SUPPORT QUOTIENT (FSQ)        -->
+        <!-- ========================================================================= -->
+        <section id="biodiversity-tab" class="tab-content hidden space-y-6">
+            
+            <!-- Header Bar -->
+            <div class="glass-card p-5 rounded-2xl flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 border border-rose-500/30">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="p-2 bg-rose-500/20 text-rose-400 rounded-xl"><i data-lucide="feather" class="w-5 h-5"></i></span>
+                        <h2 class="text-base sm:text-lg font-black text-white">Western Ghats Biodiversity & Faunal Support Quotient (FSQ)</h2>
+                        <span class="text-[10px] font-mono font-bold bg-rose-500/10 text-rose-400 border border-rose-500/30 px-2 py-0.5 rounded-full">Nilgiri Biosphere Corridors</span>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-1 max-w-2xl">
+                        Quantifies symbiotic avian frugivore and pollinator mutualisms connecting CIET campus flora to Western Ghats biodiversity hotspots.
+                    </p>
+                </div>
+
+                <div class="text-xs font-mono text-slate-400 bg-obsidian-950 px-3 py-1.5 rounded-xl border border-slate-800">
+                    <span class="text-rose-400 font-bold">Corridor:</span> Palakkad Gap & Velliangiri Foothills
+                </div>
+            </div>
+
+            <!-- Biodiversity Indices Row (4 Gauges) -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                <div class="glass-card p-4 rounded-xl border border-rose-500/20">
+                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Shannon-Wiener Index (H')</span>
+                    <div class="text-2xl font-black text-rose-400 font-mono mt-1" id="bio-shannon-val">2.773</div>
+                    <span class="text-[10px] text-slate-400 mt-0.5 block">High Ecological Entropy (> 2.5)</span>
+                </div>
+
+                <div class="glass-card p-4 rounded-xl border border-teal-500/20">
+                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Simpson Diversity (1 - D)</span>
+                    <div class="text-2xl font-black text-teal-400 font-mono mt-1" id="bio-simpson-val">0.938</div>
+                    <span class="text-[10px] text-slate-400 mt-0.5 block">Exceptional Taxonomic Spread</span>
+                </div>
+
+                <div class="glass-card p-4 rounded-xl border border-emerald-500/20">
+                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Faunal Support Quotient (FSQ)</span>
+                    <div class="text-2xl font-black text-emerald-400 font-mono mt-1" id="bio-fsq-val">88.5 / 100</div>
+                    <span class="text-[10px] text-emerald-400 mt-0.5 block">Apex Mutualism Tier</span>
+                </div>
+
+                <div class="glass-card p-4 rounded-xl border border-amber-500/20">
+                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Apex Keystone Flora</span>
+                    <div class="text-2xl font-black text-amber-300 font-mono mt-1" id="bio-keystone-val">5 Species</div>
+                    <span class="text-[10px] text-amber-400 mt-0.5 block">Ficus, Jamun, Pongamia</span>
+                </div>
+            </div>
+
+            <!-- Symbiotic Avifauna & Pollinators Grid -->
+            <div class="glass-card p-5 rounded-2xl border border-slate-800 space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                        <i data-lucide="bird" class="w-4 h-4 text-rose-400"></i>
+                        Western Ghats Endemic Avifauna & Pollinator Network
+                    </h3>
+                    <span class="text-[10px] text-slate-400 font-mono">16 Campus Taxa Analyzed</span>
+                </div>
+
+                <div id="bio-profiles-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Populated dynamically by JS -->
+                </div>
+            </div>
+        </section>
+
     </main>
+
+    <!-- Modal: Official Institutional ESG Carbon Audit Certificate -->
+    <div id="esg-cert-modal" class="fixed inset-0 z-[1000] bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-obsidian-900 border border-emerald-500/40 rounded-2xl max-w-2xl w-full p-6 sm:p-8 space-y-6 relative shadow-2xl">
+            
+            <!-- Close Button -->
+            <button onclick="closeEsgCertificateModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <!-- Certificate Printable Content -->
+            <div id="printable-esg-cert" class="bg-[#0c1322] border-2 border-emerald-500/40 p-6 sm:p-8 rounded-xl space-y-5 text-center relative overflow-hidden">
+                <div class="absolute -right-16 -top-16 w-36 h-36 bg-emerald-500/10 rounded-full blur-2xl"></div>
+                <div class="absolute -left-16 -bottom-16 w-36 h-36 bg-cyan-500/10 rounded-full blur-2xl"></div>
+
+                <div class="space-y-1">
+                    <div class="text-[10px] uppercase font-black tracking-widest text-emerald-400">Institutional Carbon Offset Audit</div>
+                    <h2 class="text-xl sm:text-2xl font-black text-white">COIMBATORE INSTITUTE OF ENGINEERING AND TECHNOLOGY</h2>
+                    <p class="text-[11px] text-slate-400">Autonomous Institution | Approved by AICTE & Affiliated to Anna University</p>
+                </div>
+
+                <div class="py-2 border-y border-emerald-500/20 space-y-1">
+                    <div class="text-xs text-slate-300">Verified Voluntary Carbon Unit (VCU) Certificate</div>
+                    <div class="font-mono text-sm font-black text-emerald-300" id="cert-id-display">CIET-ESG-2026-CIET-TREE-001</div>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-left text-xs font-mono">
+                    <div class="glass-panel p-2.5 rounded-lg border border-slate-800">
+                        <span class="text-[9px] text-slate-400 block">Specimen ID</span>
+                        <strong class="text-white" id="cert-specimen-id">--</strong>
+                    </div>
+                    <div class="glass-panel p-2.5 rounded-lg border border-slate-800">
+                        <span class="text-[9px] text-slate-400 block">Botanical Taxon</span>
+                        <strong class="text-white text-[11px]" id="cert-specimen-name">--</strong>
+                    </div>
+                    <div class="glass-panel p-2.5 rounded-lg border border-slate-800">
+                        <span class="text-[9px] text-slate-400 block">Carbon Sequestered</span>
+                        <strong class="text-emerald-400" id="cert-carbon-kg">-- kg CO₂</strong>
+                    </div>
+                    <div class="glass-panel p-2.5 rounded-lg border border-slate-800">
+                        <span class="text-[9px] text-slate-400 block">VCU Credits</span>
+                        <strong class="text-cyan-400" id="cert-vcu-credits">-- VCU</strong>
+                    </div>
+                    <div class="glass-panel p-2.5 rounded-lg border border-slate-800">
+                        <span class="text-[9px] text-slate-400 block">Market Valuation</span>
+                        <strong class="text-amber-300" id="cert-valuation">₹ -- INR</strong>
+                    </div>
+                    <div class="glass-panel p-2.5 rounded-lg border border-slate-800">
+                        <span class="text-[9px] text-slate-400 block">Audit Standard</span>
+                        <strong class="text-slate-300 text-[10px]">IPCC Tier 3 / VM0007</strong>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-3 rounded-lg border border-slate-800 text-left font-mono text-[10px] space-y-1">
+                    <div class="text-slate-400 font-bold">Cryptographic Proof-of-Sequestration Hash (SHA-256):</div>
+                    <div class="text-emerald-400 break-all select-all" id="cert-hash-display">--</div>
+                </div>
+
+                <div class="flex justify-between items-end text-left pt-2 text-[10px] text-slate-400">
+                    <div>
+                        <div>Issued on: <strong class="text-white" id="cert-date-display">October 18, 2026</strong></div>
+                        <div>GPS Anchor: <strong class="text-white">10.9992° N, 76.9045° E</strong></div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold text-emerald-400">Authorized Signatory</div>
+                        <div class="text-slate-300">Center for Forestry Informatics, CIET</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div class="flex justify-end gap-3">
+                <button onclick="closeEsgCertificateModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded-xl transition">
+                    Close
+                </button>
+                <button onclick="printEsgCertificate()" class="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-lg transition flex items-center gap-1.5">
+                    <i data-lucide="printer" class="w-4 h-4"></i> Print Official Certificate
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Slide-Over Inspection Drawer for Tree Profiles -->
     <aside id="tree-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-obsidian-900 border-l border-emerald-500/30 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-out flex flex-col">
@@ -1186,7 +1948,9 @@
                 el.classList.add('border-transparent', 'text-slate-400');
             });
 
-            document.getElementById(tabId).classList.remove('hidden');
+            const targetSection = document.getElementById(tabId);
+            if (targetSection) targetSection.classList.remove('hidden');
+            
             const navBtn = document.getElementById(`nav-${tabId}`);
             if (navBtn) {
                 navBtn.classList.remove('border-transparent', 'text-slate-400');
@@ -1195,6 +1959,16 @@
 
             if (tabId === 'map-tab' && mapInstance) {
                 setTimeout(() => mapInstance.invalidateSize(), 200);
+            } else if (tabId === 'digital-twin-tab') {
+                runDigitalTwinSimulation();
+            } else if (tabId === 'tomography-tab') {
+                runTomographySimulation();
+            } else if (tabId === 'drone-planner-tab') {
+                runDroneMissionPlan();
+            } else if (tabId === 'esg-tab') {
+                loadEsgLedgerData();
+            } else if (tabId === 'biodiversity-tab') {
+                loadBiodiversityData();
             }
         }
 
@@ -1726,6 +2500,413 @@
             `;
             w.document.write(tagsHtml);
             w.document.close();
+        }
+
+        // =========================================================================
+        // NEXT-LEVEL INNOVATION JAVASCRIPT ENGINES
+        // =========================================================================
+
+        function updateYearLabel(val) {
+            const diff = val - 2026;
+            document.getElementById('dt-year-label').innerText = `Year ${val} (+${diff} yrs)`;
+        }
+
+        async function runDigitalTwinSimulation() {
+            const treeSelect = document.getElementById('dt-tree-select');
+            const yearSlider = document.getElementById('dt-year-slider');
+            if (!treeSelect || !yearSlider) return;
+
+            const treeId = treeSelect.value;
+            const targetYear = yearSlider.value;
+
+            try {
+                const res = await fetch(`/api/innovation/digital-twin/${treeId}?target_year=${targetYear}`);
+                const data = await res.json();
+                if (!data || !data.projections) return;
+
+                const baseProj = data.projections[0];
+                const finalProj = data.projections[data.projections.length - 1];
+
+                const deltaH = (finalProj.height_m - baseProj.height_m).toFixed(1);
+                const deltaD = (finalProj.dbh_cm - baseProj.dbh_cm).toFixed(1);
+
+                document.getElementById('dt-metric-height').innerText = `${finalProj.height_m} m`;
+                document.getElementById('dt-metric-height-diff').innerText = `+${deltaH} m from baseline`;
+
+                document.getElementById('dt-metric-dbh').innerText = `${finalProj.dbh_cm} cm`;
+                document.getElementById('dt-metric-dbh-diff').innerText = `+${deltaD} cm trunk growth`;
+
+                document.getElementById('dt-metric-root').innerText = `${finalProj.root_radius_m} m (Root)`;
+                document.getElementById('dt-metric-crown').innerText = `Crown: ${finalProj.crown_spread_m2} m²`;
+
+                document.getElementById('dt-metric-carbon').innerText = `${finalProj.carbon_sequestered_kg.toLocaleString()} kg CO₂`;
+                document.getElementById('dt-metric-carbon-rate').innerText = `${finalProj.co2_sequestration_rate_kg_yr} kg CO₂ / yr`;
+
+                // Projections Table
+                const tbody = document.getElementById('dt-projections-tbody');
+                tbody.innerHTML = '';
+                data.projections.forEach(p => {
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-slate-800/40 transition";
+                    tr.innerHTML = `
+                        <td class="p-2.5 font-bold text-white">${p.year}</td>
+                        <td class="p-2.5">${p.age_years} yrs</td>
+                        <td class="p-2.5 text-cyan-400 font-bold">${p.height_m}m</td>
+                        <td class="p-2.5 text-teal-300">${p.dbh_cm}cm</td>
+                        <td class="p-2.5">${p.crown_spread_m2}m²</td>
+                        <td class="p-2.5 text-emerald-400">${p.root_radius_m}m</td>
+                        <td class="p-2.5 text-purple-300 font-bold">${p.carbon_sequestered_kg.toLocaleString()}kg</td>
+                        <td class="p-2.5 text-slate-400">${p.microclimate_cooling_kwh_yr} kWh</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+                // Infrastructure Collision Radar
+                const infraCont = document.getElementById('dt-infra-risks-container');
+                infraCont.innerHTML = '';
+                data.infrastructure_risks.forEach(risk => {
+                    let badgeColor = "text-emerald-400 border-emerald-500/40 bg-emerald-500/10";
+                    let dotColor = "bg-emerald-400";
+                    if (risk.risk_level === "CRITICAL") {
+                        badgeColor = "text-rose-400 border-rose-500/40 bg-rose-500/10";
+                        dotColor = "bg-rose-500 animate-ping";
+                    } else if (risk.risk_level === "MONITOR") {
+                        badgeColor = "text-amber-400 border-amber-500/40 bg-amber-500/10";
+                        dotColor = "bg-amber-400";
+                    }
+
+                    const card = document.createElement('div');
+                    card.className = "glass-panel p-3 rounded-xl border border-slate-800 space-y-1.5";
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-white">${risk.structure_name}</span>
+                            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${badgeColor} flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full ${dotColor}"></span> ${risk.risk_level}
+                            </span>
+                        </div>
+                        <div class="flex justify-between text-[11px] font-mono text-slate-400">
+                            <span>Distance: ${risk.distance_to_tree_m}m</span>
+                            <span>Root Clearance: <strong class="text-slate-200">${risk.clearance_m}m</strong></span>
+                        </div>
+                        <p class="text-[10px] text-slate-400 leading-tight">${risk.recommended_action}</p>
+                    `;
+                    infraCont.appendChild(card);
+                });
+
+                // Solar Cooling
+                const sc = data.solar_cooling;
+                document.getElementById('dt-solar-noon').innerText = `${sc.solar_noon_shadow_length_m} m`;
+                document.getElementById('dt-solar-afternoon').innerText = `${sc.afternoon_shadow_length_m} m`;
+                document.getElementById('dt-solar-deltat').innerText = `-${sc.temperature_differential_celsius} °C`;
+                document.getElementById('dt-solar-savings').innerText = `₹${sc.institutional_cost_savings_inr.toLocaleString()} / yr`;
+            } catch (err) {
+                console.error("Digital Twin simulation error:", err);
+            }
+        }
+
+        function updateWindLabel(val) {
+            let cat = "Breeze";
+            if (val > 110) cat = "Violent Cyclone";
+            else if (val > 85) cat = "Severe Gale";
+            else if (val > 60) cat = "Monsoon Squall";
+            else if (val > 40) cat = "Fresh Wind";
+            document.getElementById('tomo-wind-label').innerText = `${val}.0 km/h (${cat})`;
+        }
+
+        async function runTomographySimulation() {
+            const treeSelect = document.getElementById('tomo-tree-select');
+            const windSlider = document.getElementById('tomo-wind-slider');
+            if (!treeSelect || !windSlider) return;
+
+            const treeId = treeSelect.value;
+            const windSpeed = windSlider.value;
+
+            try {
+                const res = await fetch(`/api/innovation/tomography/${treeId}?wind_speed_kmh=${windSpeed}`);
+                const data = await res.json();
+                if (!data || !data.grid) return;
+
+                // Render 16x16 Tomogram Grid
+                const gridCont = document.getElementById('tomo-grid-container');
+                gridCont.innerHTML = '';
+                data.grid.forEach(row => {
+                    row.forEach(cell => {
+                        const div = document.createElement('div');
+                        div.className = "w-full h-full rounded-[1px] transition-all hover:scale-125 hover:z-20";
+                        div.style.backgroundColor = cell.color_hex;
+                        div.title = `(${cell.rel_x}cm, ${cell.rel_y}cm)\nVelocity: ${cell.velocity_mps} m/s\nTissue: ${cell.tissue_state}`;
+                        gridCont.appendChild(div);
+                    });
+                });
+
+                // Percentages
+                document.getElementById('tomo-sound-pct').innerText = `${data.sound_wood_pct}%`;
+                document.getElementById('tomo-decay-pct').innerText = `${data.incipient_decay_pct}%`;
+                document.getElementById('tomo-cavity-pct').innerText = `${data.cavity_pct}%`;
+
+                // Hazard Report
+                const hr = data.hazard_report;
+                const statusBanner = document.getElementById('tomo-status-banner');
+                const statusTitle = document.getElementById('tomo-status-title');
+                const statusIcon = document.getElementById('tomo-status-icon');
+
+                if (hr.risk_category === "CRITICAL_FAILURE") {
+                    statusBanner.className = "glass-card p-4 rounded-xl border border-rose-500/50 bg-rose-950/20 flex flex-col md:flex-row justify-between items-start md:items-center gap-3";
+                    statusTitle.className = "text-base font-black text-rose-300";
+                    statusTitle.innerText = "CRITICAL FAILURE RISK (t/R < 0.28)";
+                    statusIcon.className = "p-2.5 rounded-xl bg-rose-500/20 text-rose-400";
+                    statusIcon.innerHTML = `<i data-lucide="alert-triangle" class="w-6 h-6"></i>`;
+                } else if (hr.risk_category === "ELEVATED") {
+                    statusBanner.className = "glass-card p-4 rounded-xl border border-amber-500/50 bg-amber-950/20 flex flex-col md:flex-row justify-between items-start md:items-center gap-3";
+                    statusTitle.className = "text-base font-black text-amber-300";
+                    statusTitle.innerText = "Elevated Hazard (t/R Marginal: 0.28 - 0.35)";
+                    statusIcon.className = "p-2.5 rounded-xl bg-amber-500/20 text-amber-400";
+                    statusIcon.innerHTML = `<i data-lucide="alert-circle" class="w-6 h-6"></i>`;
+                } else {
+                    statusBanner.className = "glass-card p-4 rounded-xl border border-emerald-500/30 bg-emerald-950/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-3";
+                    statusTitle.className = "text-base font-black text-white";
+                    statusTitle.innerText = "Structurally Sound (t/R > 0.35)";
+                    statusIcon.className = "p-2.5 rounded-xl bg-emerald-500/20 text-emerald-400";
+                    statusIcon.innerHTML = `<i data-lucide="shield-check" class="w-6 h-6"></i>`;
+                }
+
+                document.getElementById('tomo-tr-ratio').innerText = hr.mattheck_t_r_ratio;
+                document.getElementById('tomo-safety-factor').innerText = `${hr.structural_safety_factor}x`;
+                document.getElementById('tomo-fail-speed').innerText = `${hr.wind_threshold_failure_kmh} km/h`;
+
+                document.getElementById('tomo-drag-force').innerText = `${hr.aerodynamic_drag_force_n.toLocaleString()} N`;
+                document.getElementById('tomo-bending-moment').innerText = `${hr.overturning_bending_moment_nm.toLocaleString()} N·m`;
+                document.getElementById('tomo-wall-thickness').innerText = `${hr.residual_wall_thickness_t_cm} cm`;
+                document.getElementById('tomo-radius-val').innerText = hr.trunk_radius_r_cm;
+                document.getElementById('tomo-fiber-stress').innerText = `${hr.bending_stress_mpa} MPa`;
+                document.getElementById('tomo-prescription').innerText = hr.remedial_prescription;
+
+                lucide.createIcons();
+            } catch (err) {
+                console.error("Sonic Tomography simulation error:", err);
+            }
+        }
+
+        function updateAltLabel(val) {
+            document.getElementById('drone-alt-label').innerText = `${val} m`;
+        }
+
+        function updateOverlapLabels() {
+            document.getElementById('drone-front-label').innerText = `${document.getElementById('drone-front-slider').value}%`;
+            document.getElementById('drone-side-label').innerText = `${document.getElementById('drone-side-slider').value}%`;
+        }
+
+        async function runDroneMissionPlan() {
+            const sector = document.getElementById('drone-sector-select').value;
+            const alt = document.getElementById('drone-alt-slider').value;
+            const front = document.getElementById('drone-front-slider').value;
+            const side = document.getElementById('drone-side-slider').value;
+
+            try {
+                const res = await fetch(`/api/innovation/drone-plan?sector_id=${sector}&altitude_m=${alt}&front_overlap=${front}&side_overlap=${side}`);
+                const data = await res.json();
+                if (!data || !data.waypoints) return;
+
+                document.getElementById('drone-gsd-val').innerText = `${data.gsd_cm_px} cm/px`;
+                document.getElementById('drone-dist-val').innerText = `${data.flight_distance_m.toLocaleString()} m`;
+                document.getElementById('drone-time-val').innerText = `${data.estimated_duration_min} min`;
+                document.getElementById('drone-photos-val').innerText = `${data.estimated_photo_count} photos`;
+                document.getElementById('drone-battery-val').innerText = `${data.battery_consumed_pct}%`;
+
+                document.getElementById('drone-wp-count').innerText = `${data.total_waypoints} Points`;
+
+                const tbody = document.getElementById('drone-wp-tbody');
+                tbody.innerHTML = '';
+                data.waypoints.forEach(wp => {
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-slate-800/40 transition";
+                    let actionBadge = "text-slate-400";
+                    if (wp.action === "TAKEOFF") actionBadge = "text-emerald-400 font-bold";
+                    else if (wp.action === "RTL") actionBadge = "text-amber-400 font-bold";
+                    else if (wp.action === "SURVEY_LEG") actionBadge = "text-teal-300";
+
+                    tr.innerHTML = `
+                        <td class="p-2 font-bold text-white">#${wp.index}</td>
+                        <td class="p-2">${wp.lat.toFixed(6)}°</td>
+                        <td class="p-2">${wp.lon.toFixed(6)}°</td>
+                        <td class="p-2">${wp.alt_m}m</td>
+                        <td class="p-2 ${actionBadge}">${wp.action}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+                // Load Multispectral Indices
+                const multiRes = await fetch('/api/innovation/multispectral?health_baseline=0.84');
+                const multiData = await multiRes.json();
+                document.getElementById('multi-ndvi-val').innerText = multiData.mean_ndvi.toFixed(3);
+                document.getElementById('multi-ndre-val').innerText = multiData.mean_ndre.toFixed(3);
+                document.getElementById('multi-cwsi-val').innerText = multiData.mean_cwsi.toFixed(3);
+                document.getElementById('multi-spad-val').innerText = `${multiData.chlorophyll_spad_equivalent} SPAD Units`;
+                document.getElementById('multi-hydration-val').innerText = multiData.water_stress_status;
+                document.getElementById('multi-prescription-val').innerText = multiData.prescription;
+            } catch (err) {
+                console.error("Drone mission error:", err);
+            }
+        }
+
+        function downloadArdupilotMission() {
+            const sector = document.getElementById('drone-sector-select').value;
+            const alt = document.getElementById('drone-alt-slider').value;
+            window.open(`/api/innovation/drone-export/waypoints?sector_id=${sector}&altitude_m=${alt}`, '_blank');
+        }
+
+        function downloadDjiKmlMission() {
+            const sector = document.getElementById('drone-sector-select').value;
+            const alt = document.getElementById('drone-alt-slider').value;
+            window.open(`/api/innovation/drone-export/kml?sector_id=${sector}&altitude_m=${alt}`, '_blank');
+        }
+
+        async function loadEsgLedgerData() {
+            try {
+                const res = await fetch('/api/innovation/esg-ledger');
+                const blocks = await res.json();
+                const cont = document.getElementById('esg-blocks-container');
+                cont.innerHTML = '';
+
+                blocks.forEach(b => {
+                    const div = document.createElement('div');
+                    div.className = "glass-panel p-4 rounded-xl border border-slate-800 space-y-2 relative overflow-hidden group hover:border-emerald-500/40 transition";
+                    div.innerHTML = `
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="p-1.5 bg-emerald-500/20 text-emerald-400 rounded-lg text-xs font-mono font-bold">#${b.block_index}</span>
+                                <strong class="text-xs text-white">${b.serial_number}</strong>
+                                <span class="text-[10px] text-slate-400 font-mono font-bold">(${b.tree_id} - ${b.scientific_name})</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs font-mono">
+                                <span class="text-emerald-400 font-bold">${b.total_co2_sequestered_kg} kg CO₂</span>
+                                <span class="text-slate-500">|</span>
+                                <span class="text-cyan-300 font-bold">${b.vcu_credits_issued} VCU</span>
+                                <button onclick="openEsgCertificateModal('${b.tree_id}')" class="text-[10px] bg-emerald-600/30 hover:bg-emerald-600 text-white font-bold px-2 py-1 rounded-md border border-emerald-400/40 transition">
+                                    Certificate →
+                                </button>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px] font-mono text-slate-400 border-t border-slate-800/80 pt-2">
+                            <div>AGB: <strong class="text-slate-200">${b.above_ground_biomass_kg}kg</strong></div>
+                            <div>Root BGB: <strong class="text-slate-200">${b.below_ground_biomass_kg}kg</strong></div>
+                            <div>Valuation: <strong class="text-amber-300">₹${b.market_value_inr}</strong></div>
+                            <div>GPS: <span class="text-slate-300">${b.latitude.toFixed(4)}°, ${b.longitude.toFixed(4)}°</span></div>
+                        </div>
+                        <div class="font-mono text-[9px] text-slate-500 flex flex-col sm:flex-row justify-between gap-1 pt-1 border-t border-slate-800/40">
+                            <div>Prev Hash: <span class="text-slate-400">${b.prev_hash.slice(0, 24)}...</span></div>
+                            <div class="text-emerald-400 font-bold flex items-center gap-1">
+                                <i data-lucide="check-circle" class="w-3 h-3"></i> Block Hash: ${b.block_hash.slice(0, 24)}...
+                            </div>
+                        </div>
+                    `;
+                    cont.appendChild(div);
+                });
+                lucide.createIcons();
+            } catch (err) {
+                console.error("ESG Ledger error:", err);
+            }
+        }
+
+        async function openEsgCertificateModal(treeId) {
+            try {
+                const res = await fetch(`/api/innovation/esg-certificate/${treeId}`);
+                const data = await res.json();
+                document.getElementById('cert-id-display').innerText = data.certificate_id;
+                document.getElementById('cert-specimen-id').innerText = data.tree_id;
+                document.getElementById('cert-specimen-name').innerText = `${data.common_name} (${data.scientific_name})`;
+                document.getElementById('cert-carbon-kg').innerText = `${data.lifetime_co2_kg.toLocaleString()} kg CO₂`;
+                document.getElementById('cert-vcu-credits').innerText = `${data.vcu_equivalent_tonnes} VCU`;
+                document.getElementById('cert-valuation').innerText = `₹${data.market_valuation_inr.toLocaleString()} INR`;
+                document.getElementById('cert-hash-display').innerText = data.verification_hash;
+                document.getElementById('cert-date-display').innerText = data.issuance_date;
+
+                document.getElementById('esg-cert-modal').classList.remove('hidden');
+                lucide.createIcons();
+            } catch (err) {
+                console.error("Certificate error:", err);
+            }
+        }
+
+        function closeEsgCertificateModal() {
+            document.getElementById('esg-cert-modal').classList.add('hidden');
+        }
+
+        function printEsgCertificate() {
+            const printContent = document.getElementById('printable-esg-cert').outerHTML;
+            const w = window.open('', '_blank');
+            w.document.write(`
+                <html>
+                <head>
+                    <title>CIET Institutional Carbon Audit Certificate</title>
+                    <style>
+                        body { font-family: sans-serif; background: #070a10; color: #fff; padding: 40px; }
+                        .glass-panel { border: 1px solid #334155; padding: 10px; border-radius: 8px; margin: 4px; }
+                        h2 { color: #10b981; }
+                    </style>
+                </head>
+                <body>
+                    ${printContent}
+                    <script>window.onload = function() { window.print(); }<\/script>
+                </body>
+                </html>
+            `);
+            w.document.close();
+        }
+
+        async function loadBiodiversityData() {
+            try {
+                const res = await fetch('/api/innovation/biodiversity');
+                const data = await res.json();
+                document.getElementById('bio-shannon-val').innerText = data.shannon_wiener_index_h.toFixed(3);
+                document.getElementById('bio-simpson-val').innerText = data.simpson_diversity_index_d.toFixed(3);
+                document.getElementById('bio-fsq-val').innerText = `${data.campus_faunal_support_quotient_fsq} / 100`;
+                document.getElementById('bio-keystone-val').innerText = `${data.keystone_species_count} Species`;
+
+                const cont = document.getElementById('bio-profiles-container');
+                cont.innerHTML = '';
+
+                data.profiles.forEach(p => {
+                    const card = document.createElement('div');
+                    card.className = "glass-panel p-4 rounded-xl border border-slate-800 space-y-3 relative group hover:border-rose-500/40 transition";
+                    
+                    let birdsHtml = p.supported_avifauna.map(b => 
+                        `<li class="text-[11px] text-slate-300"><strong class="text-rose-300">${b.common}</strong>: ${b.role}</li>`
+                    ).join('');
+
+                    let pollinatorsHtml = p.pollinators.join(', ');
+
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-xs font-bold text-white">${p.tamil_name}</h4>
+                                <span class="text-[10px] text-slate-400 italic">${p.scientific_name}</span>
+                            </div>
+                            <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border border-rose-500/40 bg-rose-500/10 text-rose-300">
+                                FSQ: ${p.keystone_rating}/100
+                            </span>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="text-[10px] uppercase font-bold text-slate-400">Supported Western Ghats Avifauna:</div>
+                            <ul class="list-disc list-inside space-y-0.5">
+                                ${birdsHtml}
+                            </ul>
+                        </div>
+                        <div class="text-[10px] text-slate-400">
+                            <span class="text-teal-300 font-bold">Key Pollinators:</span> ${pollinatorsHtml}
+                        </div>
+                        <div class="border-t border-slate-800 pt-2 text-[10px] text-slate-400">
+                            <span class="text-amber-300 font-bold">Phenology:</span> Bloom (${p.flowering_months.join(', ')}), Fruit (${p.fruiting_months.join(', ')})
+                        </div>
+                        <p class="text-[10px] text-slate-400 italic border-t border-slate-800/60 pt-1.5 leading-snug">
+                            "${p.ecological_service}"
+                        </p>
+                    `;
+                    cont.appendChild(card);
+                });
+            } catch (err) {
+                console.error("Biodiversity error:", err);
+            }
         }
     </script>
 </body>

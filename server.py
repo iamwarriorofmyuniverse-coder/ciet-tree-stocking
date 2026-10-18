@@ -42,6 +42,19 @@ from src.security.firewall import (
 from src.utils.analytics import generate_canopy_stocking_report
 from src.utils.sample_generator import generate_aerial_forest_sample
 from src.utils.visualization import render_canopy_overlay
+from src.innovation.digital_twin import simulate_tree_growth
+from src.innovation.sonic_tomography import compute_sonic_tomography
+from src.innovation.drone_planner import (
+    compute_drone_mission,
+    generate_ardupilot_waypoints_text,
+    generate_dji_kml_text,
+    compute_synthetic_multispectral_indices,
+)
+from src.innovation.esg_ledger import (
+    generate_carbon_ledger,
+    generate_esg_certificate_for_tree,
+)
+from src.innovation.biodiversity import compute_campus_biodiversity
 
 # Logging configuration
 logging.basicConfig(level=logging.INFO)
@@ -425,6 +438,174 @@ async def export_csv() -> PlainTextResponse:
         media_type="text/csv",
         headers={"Content-Disposition": "attachment; filename=ciet_tree_inventory.csv"},
     )
+
+
+# ============================================================================
+# 6. REST API: Next-Level Innovation Breakthroughs
+# ============================================================================
+
+
+@app.get("/api/innovation/digital-twin/{tree_id}")
+async def get_digital_twin(tree_id: str, target_year: int = 2040) -> Dict[str, Any]:
+    """
+    Simulates 4D Spatiotemporal Growth, Chapman-Richards allometrics,
+    subsurface root foundation encroachment, and solar HVAC cooling energy offset.
+    """
+    clean_id = InputSanitizer.sanitize_tree_id(tree_id)
+    db = get_db()
+    tree = db.get_tree(clean_id)
+    if not tree:
+        raise HTTPException(status_code=404, detail=f"Tree '{clean_id}' not found.")
+
+    target_year = max(2027, min(2060, target_year))
+
+    sim = simulate_tree_growth(
+        tree_id=tree.tree_id,
+        scientific_name=tree.scientific_name,
+        current_height=tree.biometrics.height_m,
+        current_dbh=tree.biometrics.dbh_cm,
+        current_crown_spread=tree.biometrics.crown_spread_m2,
+        current_age=tree.biometrics.estimated_age_years,
+        tree_lat=tree.location.latitude,
+        tree_lon=tree.location.longitude,
+        target_year=target_year,
+        base_year=2026,
+    )
+    return sim.model_dump()
+
+
+@app.get("/api/innovation/tomography/{tree_id}")
+async def get_sonic_tomography(tree_id: str, wind_speed_kmh: float = 65.0) -> Dict[str, Any]:
+    """
+    Executes Virtual Acoustic Sonic Tomography (sound velocity propagation matrix)
+    and Claus Mattheck (t/R > 0.30) wind-throw structural failure analysis.
+    """
+    clean_id = InputSanitizer.sanitize_tree_id(tree_id)
+    db = get_db()
+    tree = db.get_tree(clean_id)
+    if not tree:
+        raise HTTPException(status_code=404, detail=f"Tree '{clean_id}' not found.")
+
+    wind_speed = max(10.0, min(140.0, wind_speed_kmh))
+
+    res = compute_sonic_tomography(
+        tree_id=tree.tree_id,
+        species_name=tree.scientific_name,
+        dbh_cm=tree.biometrics.dbh_cm,
+        height_m=tree.biometrics.height_m,
+        crown_spread_m2=tree.biometrics.crown_spread_m2,
+        health_status=tree.biometrics.health_status,
+        test_wind_speed_kmh=wind_speed,
+        grid_dim=16,
+    )
+    return res.model_dump()
+
+
+@app.get("/api/innovation/drone-plan")
+async def get_drone_photogrammetry_plan(
+    sector_id: str = "Sector-A",
+    altitude_m: float = 45.0,
+    front_overlap: float = 80.0,
+    side_overlap: float = 75.0,
+) -> Dict[str, Any]:
+    """
+    Computes an autonomous photogrammetric drone survey mission with lawnmower waypoints.
+    """
+    clean_sector = InputSanitizer.sanitize_string(sector_id) or "Sector-A"
+    plan = compute_drone_mission(
+        sector_id=clean_sector,
+        altitude_m=max(25.0, min(120.0, altitude_m)),
+        front_overlap=max(50.0, min(90.0, front_overlap)),
+        side_overlap=max(50.0, min(85.0, side_overlap)),
+    )
+    return plan.model_dump()
+
+
+@app.get("/api/innovation/drone-export/waypoints")
+async def export_ardupilot_waypoints(
+    sector_id: str = "Sector-A",
+    altitude_m: float = 45.0,
+) -> PlainTextResponse:
+    """
+    Exports flight mission in standard QGroundControl / ArduPilot (.waypoints) format.
+    """
+    clean_sector = InputSanitizer.sanitize_string(sector_id) or "Sector-A"
+    plan = compute_drone_mission(sector_id=clean_sector, altitude_m=altitude_m)
+    wpl_text = generate_ardupilot_waypoints_text(plan)
+    return PlainTextResponse(
+        content=wpl_text,
+        media_type="text/plain",
+        headers={"Content-Disposition": f"attachment; filename=ciet_drone_{clean_sector}.waypoints"},
+    )
+
+
+@app.get("/api/innovation/drone-export/kml")
+async def export_dji_kml(
+    sector_id: str = "Sector-A",
+    altitude_m: float = 45.0,
+) -> Response:
+    """
+    Exports flight mission as 3D KML file for DJI Pilot, Google Earth, and GIS tools.
+    """
+    clean_sector = InputSanitizer.sanitize_string(sector_id) or "Sector-A"
+    plan = compute_drone_mission(sector_id=clean_sector, altitude_m=altitude_m)
+    kml_text = generate_dji_kml_text(plan)
+    return Response(
+        content=kml_text,
+        media_type="application/vnd.google-earth.kml+xml",
+        headers={"Content-Disposition": f"attachment; filename=ciet_drone_{clean_sector}.kml"},
+    )
+
+
+@app.get("/api/innovation/multispectral")
+async def get_multispectral_indices(health_baseline: float = 0.82) -> Dict[str, Any]:
+    """
+    Decomposes aerial spectral bands into synthetic NDVI, NDRE, and CWSI water stress indices.
+    """
+    base = max(0.1, min(1.0, health_baseline))
+    res = compute_synthetic_multispectral_indices(health_baseline=base)
+    return res.model_dump()
+
+
+@app.get("/api/innovation/esg-ledger")
+async def get_carbon_esg_ledger() -> List[Dict[str, Any]]:
+    """
+    Returns cryptographically linked SHA-256 Verra VM0007 / VCS Verified Carbon Credit ledger.
+    """
+    db = get_db()
+    trees = [t.model_dump() for t in db.list_trees()]
+    ledger = generate_carbon_ledger(trees)
+    return [b.model_dump() for b in ledger]
+
+
+@app.get("/api/innovation/esg-certificate/{tree_id}")
+async def get_esg_certificate(tree_id: str) -> Dict[str, Any]:
+    """
+    Renders institutional ESG Carbon Audit Certificate with cryptographic signature stamp.
+    """
+    clean_id = InputSanitizer.sanitize_tree_id(tree_id)
+    db = get_db()
+    tree = db.get_tree(clean_id)
+    if not tree:
+        raise HTTPException(status_code=404, detail=f"Tree '{clean_id}' not found.")
+
+    cert = generate_esg_certificate_for_tree(
+        tree=tree.model_dump(),
+        base_verification_url=f"{PUBLIC_ONLINE_URL}/verify/esg",
+    )
+    return cert.model_dump()
+
+
+@app.get("/api/innovation/biodiversity")
+async def get_biodiversity_matrix() -> Dict[str, Any]:
+    """
+    Evaluates campus Shannon-Wiener diversity index, faunal support quotient,
+    and Western Ghats avian/pollinator mutualism matrix.
+    """
+    db = get_db()
+    trees = [t.model_dump() for t in db.list_trees()]
+    summary = compute_campus_biodiversity(trees)
+    return summary.model_dump()
 
 
 if __name__ == "__main__":
