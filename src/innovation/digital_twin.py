@@ -16,11 +16,11 @@ from pydantic import BaseModel, Field
 
 # CIET Campus Geo-Spatial Reference Anchors
 CIET_LANDMARKS = [
-    {"name": "Mechanical Engineering Labs", "lat": 10.9990, "lon": 76.9042, "type": "Foundation", "risk_dist_m": 8.0},
-    {"name": "A-Block Admin & Academic Core", "lat": 10.9994, "lon": 76.9047, "type": "Foundation", "risk_dist_m": 10.0},
-    {"name": "Central Library & Digital Hub", "lat": 10.9988, "lon": 76.9049, "type": "Subsurface Optical Fiber", "risk_dist_m": 6.0},
-    {"name": "Sports Ground & Drainage Canal", "lat": 10.9997, "lon": 76.9038, "type": "Stormwater Culvert", "risk_dist_m": 5.0},
-    {"name": "ECE & Bio-Tech Research Complex", "lat": 10.9985, "lon": 76.9044, "type": "Power Trench", "risk_dist_m": 6.5},
+    {"name": "Mechanical Engineering Labs", "lat": 10.99615, "lon": 76.77365, "type": "Foundation", "risk_dist_m": 8.0},
+    {"name": "A-Block Admin & Academic Core", "lat": 10.99565, "lon": 76.77315, "type": "Foundation", "risk_dist_m": 10.0},
+    {"name": "Central Library & Digital Hub", "lat": 10.99540, "lon": 76.77305, "type": "Subsurface Optical Fiber", "risk_dist_m": 6.0},
+    {"name": "Sports Ground & Drainage Canal", "lat": 10.99480, "lon": 76.77440, "type": "Stormwater Culvert", "risk_dist_m": 5.0},
+    {"name": "ECE & Bio-Tech Research Complex", "lat": 10.99590, "lon": 76.77335, "type": "Power Trench", "risk_dist_m": 6.5},
 ]
 
 # Species Allometric Growth Coefficients (Western Ghats Dendrological Database)

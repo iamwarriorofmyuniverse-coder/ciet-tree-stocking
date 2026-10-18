@@ -41,8 +41,8 @@ class ESGCertificatePayload(BaseModel):
     """Institutional ESG Carbon Audit Certificate Data."""
     certificate_id: str
     institution: str = "Coimbatore Institute of Engineering and Technology (CIET)"
-    campus_location: str = "Narasipuram, Thondamuthur Foothills, Coimbatore, Tamil Nadu, India"
-    gps_anchor: str = "10.9992° N, 76.9045° E"
+    campus_location: str = "Vellimalaipattinam, Narasipuram, Coimbatore - 641109, Tamil Nadu, India"
+    gps_anchor: str = "10.9955° N, 76.7734° E"
     audit_standard: str = "IPCC Tier-3 Western Ghats Allometrics & Verra VM0007 Standard"
     tree_id: str
     common_name: str
@@ -75,8 +75,8 @@ def generate_carbon_ledger(trees: List[Dict[str, Any]]) -> List[CarbonCreditBloc
         tree_id = t.get("tree_id", f"CIET-TREE-{idx+1:03d}")
         sci_name = t.get("scientific_name", "Azadirachta indica")
         loc = t.get("location", {})
-        lat = loc.get("latitude", 10.9992)
-        lon = loc.get("longitude", 76.9045)
+        lat = loc.get("latitude", 10.9955)
+        lon = loc.get("longitude", 76.7734)
 
         bio = t.get("biometrics", {})
         co2_kg = bio.get("carbon_sequestered_kg", 85.0)

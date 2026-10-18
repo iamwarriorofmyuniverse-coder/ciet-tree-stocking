@@ -163,7 +163,7 @@
                     </div>
                     <p class="text-xs text-slate-400 font-medium flex items-center gap-1.5 mt-0.5">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span>
-                        Dept. of Artificial Intelligence & Data Science | Narasipuram, Thondamuthur Foothills (10.9992° N, 76.9045° E)
+                        Dept. of Artificial Intelligence & Data Science | Vellimalaipattinam, Narasipuram, Thondamuthur Foothills (10.9956° N, 76.7733° E)
                     </p>
                 </div>
             </div>
@@ -320,29 +320,51 @@
         <section id="map-tab" class="tab-content space-y-4">
             
             <!-- Map Command Bar -->
-            <div class="glass-card p-4 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+            <div class="glass-card p-4 rounded-2xl flex flex-col lg:flex-row justify-between items-start lg:items-center gap-3">
                 <div>
                     <h2 class="text-base font-bold text-white flex items-center gap-2">
                         <i data-lucide="globe-2" class="w-5 h-5 text-emerald-400"></i>
-                        Interactive Campus GIS Satellite Command
+                        Interactive CIET Campus GIS Satellite Command
                     </h2>
                     <p class="text-xs text-slate-400 mt-0.5">
-                        High-Resolution ESRI World Imagery anchored at CIET Coimbatore (10.9992° N, 76.9045° E). Click any glowing crown marker to inspect live biometrics.
+                        Authentic WGS84 Georeferenced Coordinates: <strong class="text-emerald-300 font-mono">10.9956° N, 76.7733° E</strong> (Vellimalaipattinam, Narasipuram Post, 485m MSL).
                     </p>
                 </div>
 
-                <!-- Sector Jump Pills -->
+                <!-- GIS Layer Switcher & Sector Jump Pills -->
                 <div class="flex flex-wrap items-center gap-2">
-                    <button onclick="flyToSector('Sector-I: Academic Quadrant')" class="text-[11px] font-semibold bg-slate-800 hover:bg-emerald-500/20 text-emerald-300 px-3 py-1.5 rounded-lg border border-emerald-500/30 transition">
+                    <!-- Base Layer Switcher Group -->
+                    <div class="inline-flex rounded-xl bg-slate-900/90 p-1 border border-slate-700 text-xs">
+                        <button onclick="switchBaseLayer('esri')" id="btn-layer-esri" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 transition">
+                            ESRI Satellite
+                        </button>
+                        <button onclick="switchBaseLayer('google')" id="btn-layer-google" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold text-slate-400 hover:text-white transition">
+                            Google Hybrid
+                        </button>
+                        <button onclick="switchBaseLayer('osm')" id="btn-layer-osm" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold text-slate-400 hover:text-white transition">
+                            OSM Streets
+                        </button>
+                        <button onclick="switchBaseLayer('carto')" id="btn-layer-carto" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold text-slate-400 hover:text-white transition">
+                            Carto Dark
+                        </button>
+                    </div>
+
+                    <!-- Live User Locate Button -->
+                    <button onclick="locateUserOnCampus()" class="text-[11px] font-semibold bg-cyan-600/20 hover:bg-cyan-600/40 text-cyan-300 px-3 py-1.5 rounded-lg border border-cyan-400/40 transition flex items-center gap-1.5 shadow-sm">
+                        <i data-lucide="navigation" class="w-3.5 h-3.5 text-cyan-400"></i> Locate Me
+                    </button>
+
+                    <!-- Sector Jump Pills -->
+                    <button onclick="flyToSector('Sector-I: Academic Quadrant')" class="text-[11px] font-semibold bg-slate-800 hover:bg-emerald-500/20 text-emerald-300 px-2.5 py-1.5 rounded-lg border border-emerald-500/30 transition">
                         Sector-I (Academic)
                     </button>
-                    <button onclick="flyToSector('Sector-II: Botanical Reserve')" class="text-[11px] font-semibold bg-slate-800 hover:bg-emerald-500/20 text-emerald-300 px-3 py-1.5 rounded-lg border border-emerald-500/30 transition">
+                    <button onclick="flyToSector('Sector-II: Botanical Reserve')" class="text-[11px] font-semibold bg-slate-800 hover:bg-emerald-500/20 text-emerald-300 px-2.5 py-1.5 rounded-lg border border-emerald-500/30 transition">
                         Sector-II (Botanical)
                     </button>
-                    <button onclick="flyToSector('Sector-III: Sports Complex Buffer')" class="text-[11px] font-semibold bg-slate-800 hover:bg-emerald-500/20 text-emerald-300 px-3 py-1.5 rounded-lg border border-emerald-500/30 transition">
+                    <button onclick="flyToSector('Sector-III: Sports Complex Buffer')" class="text-[11px] font-semibold bg-slate-800 hover:bg-emerald-500/20 text-emerald-300 px-2.5 py-1.5 rounded-lg border border-emerald-500/30 transition">
                         Sector-III (Sports)
                     </button>
-                    <button onclick="flyToSector('Sector-IV: Western Ghats Eco-Corridor')" class="text-[11px] font-semibold bg-slate-800 hover:bg-emerald-500/20 text-emerald-300 px-3 py-1.5 rounded-lg border border-emerald-500/30 transition">
+                    <button onclick="flyToSector('Sector-IV: Western Ghats Eco-Corridor')" class="text-[11px] font-semibold bg-slate-800 hover:bg-emerald-500/20 text-emerald-300 px-2.5 py-1.5 rounded-lg border border-emerald-500/30 transition">
                         Sector-IV (Eco-Corridor)
                     </button>
                     <button onclick="resetMapView()" class="text-[11px] font-semibold bg-emerald-600/30 hover:bg-emerald-600/50 text-white px-3 py-1.5 rounded-lg border border-emerald-400/50 transition flex items-center gap-1.5">
@@ -356,25 +378,38 @@
                 <div id="map"></div>
 
                 <!-- Floating Map Controls / Legend Overlay -->
-                <div class="absolute bottom-4 left-4 z-[500] glass-panel p-3.5 rounded-xl border border-emerald-500/30 shadow-2xl flex flex-col gap-2.5 text-xs">
+                <div class="absolute bottom-4 left-4 z-[500] glass-panel p-3.5 rounded-xl border border-emerald-500/30 shadow-2xl flex flex-col gap-2.5 text-xs max-w-xs">
                     <div class="font-bold text-slate-200 flex items-center justify-between text-[11px] uppercase tracking-wider">
                         <span>IUCN Conservation Status</span>
+                        <span class="text-[10px] text-emerald-400 font-mono">CIET 26.5 Acres</span>
                     </div>
                     <div class="flex items-center gap-3 text-slate-300 text-[11px]">
-                        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50"></span> Least Concern</span>
-                        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-500 shadow-sm shadow-amber-500/50"></span> Vulnerable</span>
-                        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-red-500 shadow-sm shadow-red-500/50"></span> Endangered</span>
+                        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50"></span> LC</span>
+                        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-500 shadow-sm shadow-amber-500/50"></span> VU</span>
+                        <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-red-500 shadow-sm shadow-red-500/50"></span> EN</span>
                     </div>
-                    <div class="flex flex-col gap-1.5 border-t border-slate-700/80 pt-2 text-slate-300 font-medium">
+                    <div class="flex flex-col gap-1.5 border-t border-slate-700/80 pt-2 text-slate-300 font-medium text-[11px]">
+                        <label class="flex items-center gap-2 cursor-pointer select-none">
+                            <input type="checkbox" id="toggle-campus-boundary" onchange="toggleCampusBoundary(this.checked)" checked class="rounded text-emerald-500 focus:ring-emerald-400 bg-slate-900 border-slate-700" />
+                            <span>CIET 26.5-Acre Cadastral Boundary</span>
+                        </label>
                         <label class="flex items-center gap-2 cursor-pointer select-none">
                             <input type="checkbox" id="toggle-canopy-circles" onchange="toggleCanopySpreadCircles(this.checked)" checked class="rounded text-emerald-500 focus:ring-emerald-400 bg-slate-900 border-slate-700" />
-                            <span>Show Crown Spread Footprints (m²)</span>
+                            <span>Crown Spread Footprints (m²)</span>
                         </label>
                         <label class="flex items-center gap-2 cursor-pointer select-none">
                             <input type="checkbox" id="toggle-campus-landmarks" onchange="toggleCampusLandmarks(this.checked)" checked class="rounded text-blue-500 focus:ring-blue-400 bg-slate-900 border-slate-700" />
-                            <span>Show Campus Facilities & Buildings</span>
+                            <span>Campus Facilities & Blocks</span>
                         </label>
                     </div>
+                </div>
+
+                <!-- Live Cursor Coordinate Telemetry HUD (Bottom Right) -->
+                <div id="map-coordinates-hud" class="absolute bottom-4 right-4 z-[500] glass-panel px-3 py-1.5 rounded-xl border border-emerald-500/30 text-[10px] font-mono text-emerald-300 shadow-xl pointer-events-none hidden sm:flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span id="cursor-lat-lon">Lat: 10.99556° N | Lon: 76.77333° E</span>
+                    <span class="text-slate-500">|</span>
+                    <span class="text-slate-300">Elev: 485m MSL</span>
                 </div>
             </div>
         </section>
@@ -1631,7 +1666,7 @@
                 <div class="flex justify-between items-end text-left pt-2 text-[10px] text-slate-400">
                     <div>
                         <div>Issued on: <strong class="text-white" id="cert-date-display">October 18, 2026</strong></div>
-                        <div>GPS Anchor: <strong class="text-white">10.9992° N, 76.9045° E</strong></div>
+                        <div>GPS Anchor: <strong class="text-white">10.9956° N, 76.7733° E</strong> (Vellimalaipattinam)</div>
                     </div>
                     <div class="text-right">
                         <div class="font-bold text-emerald-400">Authorized Signatory</div>
@@ -1770,16 +1805,30 @@
         let markersLayer = null;
         let circlesLayer = null;
         let landmarksLayer = null;
+        let campusBoundaryLayer = null;
+        let userLocationMarker = null;
+        let currentBaseLayer = null;
+        let baseLayers = {};
         let treesData = [];
         let html5QrScanner = null;
         let audioCtx = null;
+
+        // CIET 26.5-Acre Verified Cadastral Campus Boundary Coordinates (Vellimalaipattinam, Narasipuram)
+        const cietBoundaryCoords = [
+            [10.99720, 76.77180],
+            [10.99705, 76.77490],
+            [10.99460, 76.77510],
+            [10.99380, 76.77440],
+            [10.99410, 76.77190],
+            [10.99560, 76.77160]
+        ];
 
         const cietCampusLandmarks = [
             {
                 name: "Main Administrative Block (A-Block)",
                 category: "Administration",
-                lat: 10.99935,
-                lon: 76.90425,
+                lat: 10.99568,
+                lon: 76.77315,
                 iconText: "A",
                 color: "#2563eb",
                 desc: "Principal Office, Academic Deanery, Admissions, Examinations & Central Boardroom.",
@@ -1788,8 +1837,8 @@
             {
                 name: "Dept. of AI & Data Science (Centre of Excellence)",
                 category: "Research",
-                lat: 10.99980,
-                lon: 76.90420,
+                lat: 10.99585,
+                lon: 76.77330,
                 iconText: "AI",
                 color: "#4f46e5",
                 desc: "High-Performance GPU Computing Cluster, Forestry Computer Vision Engine & Labs.",
@@ -1798,8 +1847,8 @@
             {
                 name: "Central Library & Digital Knowledge Hub",
                 category: "Academic",
-                lat: 10.99960,
-                lon: 76.90390,
+                lat: 10.99540,
+                lon: 76.77295,
                 iconText: "LIB",
                 color: "#7c3aed",
                 desc: "55,000+ volumes, IEEE/Springer digital access & quiet reading suites.",
@@ -1808,8 +1857,8 @@
             {
                 name: "Mechanical & Civil Engineering Innovation Hub",
                 category: "Laboratories",
-                lat: 10.99990,
-                lon: 76.90365,
+                lat: 10.99615,
+                lon: 76.77365,
                 iconText: "M&C",
                 color: "#d97706",
                 desc: "Heavy Machinery, CNC/CAD/CAM, Material Testing, Surveying & Environmental Labs.",
@@ -1818,8 +1867,8 @@
             {
                 name: "CIET Central Auditorium & Cultural Quadrangle",
                 category: "Auditorium",
-                lat: 10.99890,
-                lon: 76.90475,
+                lat: 10.99515,
+                lon: 76.77355,
                 iconText: "AUD",
                 color: "#e11d48",
                 desc: "1,500-seat multi-tier acoustic convention hall & open-air amphitheater.",
@@ -1828,8 +1877,8 @@
             {
                 name: "Student Amenities & Food Court",
                 category: "Dining",
-                lat: 10.99915,
-                lon: 76.90375,
+                lat: 10.99530,
+                lon: 76.77265,
                 iconText: "FC",
                 color: "#ea580c",
                 desc: "Multi-cuisine dining hall, cooperative store, refreshments & cafeteria lawn.",
@@ -1838,8 +1887,8 @@
             {
                 name: "CIET Athletics Stadium & Sports Complex",
                 category: "Sports",
-                lat: 10.99975,
-                lon: 76.90590,
+                lat: 10.99475,
+                lon: 76.77440,
                 iconText: "SPT",
                 color: "#059669",
                 desc: "400m running track, soccer stadium, cricket turf wickets & basketball courts.",
@@ -1848,8 +1897,8 @@
             {
                 name: "CIET Ayush Herbal Garden & Botanical Reserve",
                 category: "Botanical",
-                lat: 10.99860,
-                lon: 76.90410,
+                lat: 10.99595,
+                lon: 76.77235,
                 iconText: "BOT",
                 color: "#0d9488",
                 desc: "Medicinal plants cultivation & Western Ghats endangered taxa nursery.",
@@ -1858,8 +1907,8 @@
             {
                 name: "Campus Temple & Meditation Grove",
                 category: "Heritage",
-                lat: 10.99885,
-                lon: 76.90462,
+                lat: 10.99505,
+                lon: 76.77335,
                 iconText: "TMP",
                 color: "#ca8a04",
                 desc: "Peaceful grove with sacred Nagalingam and courtyard flora.",
@@ -1868,8 +1917,8 @@
             {
                 name: "Rainwater Eco-Pond & Swale Basin",
                 category: "Hydrology",
-                lat: 10.99835,
-                lon: 76.90450,
+                lat: 10.99445,
+                lon: 76.77380,
                 iconText: "H2O",
                 color: "#0891b2",
                 desc: "Natural aquifer recharge catchment and riparian bird wetland.",
@@ -1878,8 +1927,8 @@
             {
                 name: "Western Ghats Eco-Corridor & Hillside Reserve",
                 category: "Conservation",
-                lat: 11.00055,
-                lon: 76.90510,
+                lat: 10.99665,
+                lon: 76.77370,
                 iconText: "ECO",
                 color: "#15803d",
                 desc: "Native timber buffer connecting campus to Velliangiri foothills.",
@@ -1888,8 +1937,8 @@
             {
                 name: "Student Residential Hostels Complex",
                 category: "Residential",
-                lat: 10.99860,
-                lon: 76.90560,
+                lat: 10.99450,
+                lon: 76.77250,
                 iconText: "HST",
                 color: "#334155",
                 desc: "Eco-friendly hostel blocks with solar heating & green lawns.",
@@ -1973,30 +2022,166 @@
         }
 
         function initMap() {
-            // CIET Coordinates: 10.9993, 76.9046
-            mapInstance = L.map('map').setView([10.9993, 76.9046], 17);
+            // Authentic CIET Coimbatore Coordinates: 10.995556° N, 76.773333° E (Vellimalaipattinam, Narasipuram, 485m MSL)
+            mapInstance = L.map('map', {
+                center: [10.995556, 76.773333],
+                zoom: 18,
+                maxZoom: 20,
+                zoomControl: true
+            });
 
-            // ESRI High-Resolution World Imagery
-            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-                attribution: 'Tiles &copy; Esri, CIET Airborne Survey',
-                maxZoom: 19
+            // Initialize Multi-Provider Base Layers
+            baseLayers = {
+                esri: L.layerGroup([
+                    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                        attribution: 'Tiles &copy; Esri &bull; CIET Airborne GIS',
+                        maxZoom: 20
+                    }),
+                    L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+                        maxZoom: 20
+                    })
+                ]),
+                google: L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+                    attribution: '&copy; Google Maps &bull; Hybrid Satellite',
+                    maxZoom: 20
+                }),
+                osm: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; OpenStreetMap contributors',
+                    maxZoom: 19
+                }),
+                carto: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; CARTO &bull; Dark Matter',
+                    maxZoom: 20
+                })
+            };
+
+            // Set default base layer: ESRI High-Resolution Satellite
+            currentBaseLayer = baseLayers.esri;
+            currentBaseLayer.addTo(mapInstance);
+
+            // 26.5-Acre Cadastral Campus Boundary Polygon (Glowing Emerald)
+            campusBoundaryLayer = L.polygon(cietBoundaryCoords, {
+                color: '#10b981',
+                weight: 2.5,
+                dashArray: '6, 6',
+                fillColor: '#10b981',
+                fillOpacity: 0.08
             }).addTo(mapInstance);
 
-            // Boundaries & Place Names
-            L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
-                maxZoom: 19
-            }).addTo(mapInstance);
+            campusBoundaryLayer.bindPopup(`
+                <div style="font-family: sans-serif; min-width: 200px; padding: 4px; background: #0f172a; color: #f8fafc; border-radius: 8px;">
+                    <div style="font-size: 11px; font-weight: 800; color: #34d399; text-transform: uppercase;">CIET Campus Cadastral Boundary</div>
+                    <div style="font-size: 13px; font-weight: 700; margin-top: 2px;">26.5 Acres Total Campus Area</div>
+                    <p style="font-size: 11px; color: #94a3b8; margin: 4px 0 0 0;">
+                        Vellimalaipattinam, Narasipuram Post, Thondamuthur via, Coimbatore - 641109
+                    </p>
+                    <div style="font-size: 10px; color: #38bdf8; margin-top: 6px; font-family: monospace;">
+                        Anchor: 10.995556° N, 76.773333° E | 485m MSL
+                    </div>
+                </div>
+            `);
 
             circlesLayer = L.layerGroup().addTo(mapInstance);
             landmarksLayer = L.layerGroup().addTo(mapInstance);
             markersLayer = L.layerGroup().addTo(mapInstance);
 
             renderCampusLandmarks();
+
+            // Real-Time Mouse Cursor Telemetry HUD
+            mapInstance.on('mousemove', (e) => {
+                const hud = document.getElementById('cursor-lat-lon');
+                if (hud) {
+                    hud.innerText = `Lat: ${e.latlng.lat.toFixed(5)}° N | Lon: ${e.latlng.lng.toFixed(5)}° E`;
+                }
+            });
+        }
+
+        function switchBaseLayer(layerKey) {
+            if (!mapInstance || !baseLayers[layerKey]) return;
+            
+            if (currentBaseLayer) {
+                mapInstance.removeLayer(currentBaseLayer);
+            }
+            
+            currentBaseLayer = baseLayers[layerKey];
+            mapInstance.addLayer(currentBaseLayer);
+
+            // Re-order overlay layers so markers stay above satellite tiles
+            if (campusBoundaryLayer && mapInstance.hasLayer(campusBoundaryLayer)) campusBoundaryLayer.bringToFront();
+            if (circlesLayer && mapInstance.hasLayer(circlesLayer)) circlesLayer.eachLayer(l => l.bringToFront?.());
+            if (markersLayer && mapInstance.hasLayer(markersLayer)) markersLayer.eachLayer(l => l.bringToFront?.());
+            if (landmarksLayer && mapInstance.hasLayer(landmarksLayer)) landmarksLayer.eachLayer(l => l.bringToFront?.());
+
+            // Update UI Button Styles
+            ['esri', 'google', 'osm', 'carto'].forEach(k => {
+                const btn = document.getElementById(`btn-layer-${k}`);
+                if (!btn) return;
+                if (k === layerKey) {
+                    btn.className = 'px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 transition';
+                } else {
+                    btn.className = 'px-2.5 py-1 rounded-lg text-[11px] font-semibold text-slate-400 hover:text-white transition';
+                }
+            });
+        }
+
+        function toggleCampusBoundary(show) {
+            if (!mapInstance || !campusBoundaryLayer) return;
+            if (show) mapInstance.addLayer(campusBoundaryLayer);
+            else mapInstance.removeLayer(campusBoundaryLayer);
+        }
+
+        function locateUserOnCampus() {
+            if (!navigator.geolocation) {
+                alert("Geolocation is not supported by your browser.");
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    const uLat = pos.coords.latitude;
+                    const uLon = pos.coords.longitude;
+                    const accuracy = Math.round(pos.coords.accuracy);
+
+                    if (userLocationMarker && mapInstance) {
+                        mapInstance.removeLayer(userLocationMarker);
+                    }
+
+                    const radarIcon = L.divIcon({
+                        html: `<div style="position: relative; width: 24px; height: 24px;">
+                            <span style="position: absolute; width: 24px; height: 24px; border-radius: 50%; background: rgba(6,182,212,0.4); animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;"></span>
+                            <span style="position: absolute; top: 4px; left: 4px; width: 16px; height: 16px; border-radius: 50%; background: #06b6d4; border: 2px solid white; box-shadow: 0 0 10px #06b6d4;"></span>
+                        </div>`,
+                        className: 'user-radar-icon',
+                        iconSize: [24, 24],
+                        iconAnchor: [12, 12]
+                    });
+
+                    userLocationMarker = L.marker([uLat, uLon], { icon: radarIcon }).addTo(mapInstance);
+
+                    // Compute distance from CIET Core (10.99556, 76.77333)
+                    const dLat = (uLat - 10.995556) * 111000;
+                    const dLon = (uLon - 76.773333) * 111000 * Math.cos(10.995556 * Math.PI / 180);
+                    const distFromCIET = Math.round(Math.sqrt(dLat * dLat + dLon * dLon));
+
+                    const popupMsg = distFromCIET < 400
+                        ? `📍 <strong>You are On Campus!</strong><br><span style="color: #34d399;">~${distFromCIET}m from CIET Admin Core</span> (Accuracy: &plusmn;${accuracy}m)`
+                        : `📍 <strong>Your Current Location</strong><br><span style="color: #94a3b8;">~${(distFromCIET/1000).toFixed(1)} km from CIET Campus</span>`;
+
+                    userLocationMarker.bindPopup(popupMsg).openPopup();
+                    mapInstance.flyTo([uLat, uLon], 18, { duration: 1.2 });
+                },
+                (err) => {
+                    console.warn("Geolocation warning:", err.message);
+                    alert("GPS position access denied or unavailable. Centering at CIET Campus entrance.");
+                    resetMapView();
+                },
+                { enableHighAccuracy: true, timeout: 8000, maximumAge: 10000 }
+            );
         }
 
         function resetMapView() {
             if (mapInstance) {
-                mapInstance.flyTo([10.9993, 76.9046], 17, { duration: 1.2 });
+                mapInstance.flyTo([10.995556, 76.773333], 18, { duration: 1.2 });
             }
         }
 
@@ -2006,6 +2191,12 @@
                 const avgLat = sectorTrees.reduce((a, b) => a + b.location.latitude, 0) / sectorTrees.length;
                 const avgLon = sectorTrees.reduce((a, b) => a + b.location.longitude, 0) / sectorTrees.length;
                 mapInstance.flyTo([avgLat, avgLon], 18, { duration: 1.2 });
+            } else if (mapInstance) {
+                // Fallbacks for sector centers
+                if (sectorName.includes("Academic")) mapInstance.flyTo([10.9956, 76.7731], 18, { duration: 1.2 });
+                else if (sectorName.includes("Botanical")) mapInstance.flyTo([10.9959, 76.7724], 18, { duration: 1.2 });
+                else if (sectorName.includes("Sports")) mapInstance.flyTo([10.9947, 76.7744], 18, { duration: 1.2 });
+                else if (sectorName.includes("Eco-Corridor")) mapInstance.flyTo([10.9966, 76.7738], 18, { duration: 1.2 });
             }
         }
 

@@ -256,7 +256,7 @@ def render_card(spec: dict) -> None:
     # Western Ghats Micro-Telemetry
     draw.line([(32, 268), (320, 268)], fill=(255, 255, 255, 40), width=1)
     draw.text((32, 282), "GEOLOCATION ANCHOR: CIET COIMBATORE", fill=(100, 116, 139, 255), font=font_small)
-    draw.text((32, 302), "GPS: 10.999° N, 76.904° E | WGS84", fill=(148, 163, 184, 255), font=font_mono)
+    draw.text((32, 302), "GPS: 10.996° N, 76.773° E | WGS84", fill=(148, 163, 184, 255), font=font_mono)
     draw.text((32, 324), "PAN-TROPICAL ALLOMETRIC SEQUESTRATION", fill=(100, 116, 139, 255), font=font_small)
     draw.text((32, 344), "STATUS: DIGITAL PASSPORT VERIFIED", fill=(16, 185, 129, 255), font=font_mono)
 

@@ -68,7 +68,7 @@ The **CIET Forest Conservation Platform** is an enterprise-grade full-stack comp
   - **Carbon Sequestration:** Automated Chave et al. pan-tropical allometric equation estimating total lifetime biomass $CO_2$ sequestration in kg and metric tonnes.
 
 ### 2. High-Precision GPS Geolocation & Interactive Satellite Map
-- Anchored to the **CIET Coimbatore Campus** (10.9992° N, 76.9045° E, Narasipuram, Thondamuthur).
+- Anchored to authentic **CIET Coimbatore Campus** coordinates (**10.995556° N, 76.773333° E**, Vellimalaipattinam, Narasipuram Post, 485m MSL).
 - Monitored plots across four institutional sectors:
   - *Sector-I: Academic Quadrant & Herbal Garden*
   - *Sector-II: Botanical Reserve & Arboretum*

@@ -21,7 +21,7 @@ The **CIET Trees Mobile Application** is designed for on-the-ground dendrologist
 
 3. **High-Precision GIS Satellite Map:**
    - Integrated with `flutter_map` (OpenStreetMap / Satellite tiles).
-   - Centered on CIET Campus (`10.9993° N, 76.9046° E`).
+   - Centered on CIET Campus (`10.995556° N, 76.773333° E`).
    - Color-coded crown spread pins and 12 campus facility markers.
 
 4. **Chave Pan-Tropical Carbon Accounting:**

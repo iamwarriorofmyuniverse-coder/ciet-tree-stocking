@@ -21,24 +21,24 @@ from pydantic import BaseModel, Field
 CIET_SECTOR_BOUNDS = {
     "Sector-A": {
         "name": "Academic & Research Quadrant",
-        "center_lat": 10.9992, "center_lon": 76.9045,
-        "lat_min": 10.9985, "lat_max": 10.9998,
-        "lon_min": 76.9040, "lon_max": 76.9050,
+        "center_lat": 10.9956, "center_lon": 76.7733,
+        "lat_min": 10.9950, "lat_max": 10.9962,
+        "lon_min": 76.7728, "lon_max": 76.7739,
         "area_m2": 21500.0,
     },
     "Sector-B": {
-        "name": "Western Boundary & Forest Buffer",
-        "center_lat": 10.9990, "center_lon": 76.9032,
-        "lat_min": 10.9982, "lat_max": 10.9997,
-        "lon_min": 76.9025, "lon_max": 76.9038,
+        "name": "Western Boundary & Botanical Reserve",
+        "center_lat": 10.9960, "center_lon": 76.7726,
+        "lat_min": 10.9952, "lat_max": 10.9968,
+        "lon_min": 76.7720, "lon_max": 76.7730,
         "area_m2": 24800.0,
     },
     "Sector-C": {
         "name": "Sports Arena & Agro-Forestry Eco-Park",
-        "center_lat": 11.0001, "center_lon": 76.9040,
-        "lat_min": 10.9995, "lat_max": 11.0006,
-        "lon_min": 76.9035, "lon_max": 76.9046,
-        "area_m2": 19200.0,
+        "center_lat": 10.9948, "center_lon": 76.7740,
+        "lat_min": 10.9942, "lat_max": 10.9954,
+        "lon_min": 76.7732, "lon_max": 76.7748,
+        "area_m2": 26500.0,
     },
 }
 
