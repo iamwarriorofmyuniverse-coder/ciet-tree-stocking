@@ -88,3 +88,45 @@ def test_api_biodiversity_endpoint():
     assert "shannon_wiener_index_h" in data
     assert "campus_faunal_support_quotient_fsq" in data
     assert "profiles" in data
+
+
+def test_api_species_catalog():
+    resp = client.get("/api/species")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert isinstance(data, list)
+    assert len(data) > 0
+    assert "species_id" in data[0]
+    assert "common_name" in data[0]
+    assert "total_trees" in data[0]
+
+
+def test_api_tree_inspections():
+    resp = client.get("/api/trees/CIET-TREE-001/inspections")
+    assert resp.status_code == 200
+    data = resp.json()
+    assert isinstance(data, list)
+    assert len(data) >= 3
+    assert data[0]["inspection_id"].startswith("INS-")
+    assert "health_status" in data[0]
+
+
+def test_api_add_tree_inspection():
+    payload = {
+        "inspection_id": "INS-2026-TEST-99",
+        "inspection_date": "2026-10-18",
+        "health_status": "Healthy",
+        "height_m": 15.2,
+        "dbh_cm": 45.5,
+        "leaf_condition": "Good",
+        "trunk_condition": "Sound",
+        "pest_signs": "None observed",
+        "stress_signs": "None",
+        "observations": "Automated verification test audit",
+        "inspected_by": "CIET AI Test Suite"
+    }
+    resp = client.post("/api/trees/CIET-TREE-001/inspections", json=payload)
+    assert resp.status_code == 200
+    tree_data = resp.json()
+    assert any(i["inspection_id"] == "INS-2026-TEST-99" for i in tree_data["inspections"])
+

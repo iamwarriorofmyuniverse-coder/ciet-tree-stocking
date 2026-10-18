@@ -77,6 +77,39 @@ class BiometricTelemetry(BaseModel):
         return self
 
 
+class InspectionRecord(BaseModel):
+    """
+    Physical field inspection and health history observation.
+    Captures temporal tree growth, health transitions, and pest/stress signs.
+    """
+    inspection_id: str = Field(..., description="Unique inspection audit ID, e.g., INS-2026-001")
+    inspection_date: str = Field(..., description="ISO date of inspection (YYYY-MM-DD)")
+    health_status: str = Field(default="Healthy", description="Healthy, Needs Attention, Poor, Critical")
+    height_m: float = Field(..., gt=0.0, description="Measured height at inspection in meters")
+    dbh_cm: float = Field(..., gt=0.0, description="Diameter at breast height in cm")
+    leaf_condition: str = Field(default="Good", description="Leaf foliage health: Good, Sparse, Chlorosis, Vigorous")
+    trunk_condition: str = Field(default="Sound", description="Bark/wood condition: Sound, Minor Fissures, Cavity Healing, Termite Resistance")
+    pest_signs: str = Field(default="None observed", description="Observed pest infestations or pathogen symptoms")
+    stress_signs: str = Field(default="None", description="Hydrological or thermal stress observations")
+    observations: str = Field(default="Healthy growth", description="Field notes and remedial forestry recommendations")
+    inspected_by: str = Field(default="CIET Center for Forestry Informatics", description="Surveyor or arborist name")
+    photo_url: Optional[str] = Field(default=None, description="Optional photo URL taken during inspection")
+
+
+class SpeciesSummary(BaseModel):
+    """
+    Aggregated botanical species catalog entry.
+    """
+    species_id: str
+    common_name: str
+    scientific_name: str
+    family: str
+    iucn_status: str
+    total_trees: int
+    native_region: str
+    medicinal_uses: str
+
+
 class TreeProfile(BaseModel):
     """
     Complete Digital Passport for an individual tree specimen.
@@ -103,6 +136,9 @@ class TreeProfile(BaseModel):
     qr_code_url: str = Field(default="", description="Target URI encoded in physical tree tag QR code")
     qr_code_base64: Optional[str] = Field(default=None, description="Pre-computed Base64 PNG QR code tag")
     tags: List[str] = Field(default_factory=list, description="Categorical tags for filtering")
+    inspections: List[InspectionRecord] = Field(
+        default_factory=list, description="Historical timeline of physical field audits and growth tracking"
+    )
 
     def to_geojson_feature(self) -> Dict[str, Any]:
         """Converts profile to GeoJSON Feature for GIS and mapping applications."""

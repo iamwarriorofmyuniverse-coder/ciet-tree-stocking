@@ -124,3 +124,50 @@ def test_inventory_database_operations() -> None:
     assert metrics["total_trees"] == db.count()
     assert metrics["total_carbon_sequestered_kg"] > 0.0
     assert metrics["total_canopy_coverage_m2"] > 0.0
+
+
+def test_species_catalog_aggregation() -> None:
+    """Verifies that species catalog correctly aggregates species from tree inventory."""
+    db = TreeInventoryDatabase()
+    catalog = db.get_species_catalog()
+    assert len(catalog) > 0
+
+    neem_entry = next((s for s in catalog if "Azadirachta" in s.scientific_name), None)
+    assert neem_entry is not None
+    assert neem_entry.total_trees >= 1
+    assert neem_entry.species_id.startswith("SP-")
+    assert neem_entry.family == "Meliaceae"
+
+
+def test_multi_year_inspections_and_add_audit() -> None:
+    """Verifies multi-year inspection history and adding a new field audit."""
+    from src.inventory.models import InspectionRecord
+
+    db = TreeInventoryDatabase()
+    tree = db.get_tree("CIET-TREE-001")
+    assert tree is not None
+    assert len(tree.inspections) >= 3
+
+    # Check inspection ID format and health status
+    assert any(ins.inspection_id == "INS-2024-001" for ins in tree.inspections)
+    assert any(ins.inspection_id == "INS-2026-001" for ins in tree.inspections)
+
+    # Add a new inspection
+    new_audit = InspectionRecord(
+        inspection_id="INS-2026-T01-EXTRA",
+        inspection_date="2026-10-18",
+        health_status="Healthy",
+        height_m=14.5,
+        dbh_cm=44.0,
+        leaf_condition="Vibrant Dark Green",
+        trunk_condition="Sound Bark Integrity",
+        pest_signs="None observed",
+        stress_signs="None",
+        observations="Autumn health verification passed",
+        inspected_by="CIET Forestry AI Ranger",
+    )
+    updated_tree = db.add_inspection("CIET-TREE-001", new_audit)
+    assert updated_tree is not None
+    assert any(ins.inspection_id == "INS-2026-T01-EXTRA" for ins in updated_tree.inspections)
+
+

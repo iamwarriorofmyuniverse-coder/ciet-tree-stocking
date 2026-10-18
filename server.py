@@ -26,7 +26,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from src.inventory.database import TreeInventoryDatabase, get_inventory_db
-from src.inventory.models import TreeProfile
+from src.inventory.models import InspectionRecord, SpeciesSummary, TreeProfile
 from src.inventory.qr_engine import (
     decode_qr_image,
     generate_printable_tree_tag,
@@ -234,6 +234,35 @@ async def get_tree_details(tree_id: str) -> TreeProfile:
     clean_id = InputSanitizer.sanitize_tree_id(tree_id)
     db = get_db()
     tree = db.get_tree(clean_id)
+    if not tree:
+        raise HTTPException(status_code=404, detail=f"Tree ID '{clean_id}' does not exist.")
+    return tree
+
+
+@app.get("/api/species", response_model=List[SpeciesSummary])
+async def list_species() -> List[SpeciesSummary]:
+    """Retrieves aggregated botanical species catalog entries."""
+    db = get_db()
+    return db.get_species_catalog()
+
+
+@app.get("/api/trees/{tree_id}/inspections", response_model=List[InspectionRecord])
+async def get_tree_inspections(tree_id: str) -> List[InspectionRecord]:
+    """Retrieves full physical inspection audit history for a tree."""
+    clean_id = InputSanitizer.sanitize_tree_id(tree_id)
+    db = get_db()
+    tree = db.get_tree(clean_id)
+    if not tree:
+        raise HTTPException(status_code=404, detail=f"Tree ID '{clean_id}' does not exist.")
+    return tree.inspections
+
+
+@app.post("/api/trees/{tree_id}/inspections", response_model=TreeProfile)
+async def log_tree_inspection(tree_id: str, inspection: InspectionRecord) -> TreeProfile:
+    """Logs a new physical ground/drone inspection record into the historical log."""
+    clean_id = InputSanitizer.sanitize_tree_id(tree_id)
+    db = get_db()
+    tree = db.add_inspection(clean_id, inspection)
     if not tree:
         raise HTTPException(status_code=404, detail=f"Tree ID '{clean_id}' does not exist.")
     return tree

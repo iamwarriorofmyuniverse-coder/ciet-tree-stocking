@@ -1774,6 +1774,17 @@
                     <div id="drawer-sector" class="text-slate-400">--</div>
                 </div>
             </div>
+
+            <!-- Health & Multi-Year Inspection History (ChatGPT Relational Spec) -->
+            <div>
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Multi-Year Audit History</span>
+                    <span id="drawer-inspections-count" class="text-[9px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300">0 Audits</span>
+                </div>
+                <div id="drawer-inspections-list" class="space-y-2">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
         </div>
 
         <!-- Drawer Footer -->
@@ -2421,6 +2432,28 @@
             document.getElementById('drawer-sector').innerText = `${tree.location.campus_sector} (${tree.location.landmarks})`;
             document.getElementById('drawer-passport-btn').href = `/tree/${tree.tree_id}`;
             document.getElementById('drawer-gmaps-btn').href = `https://www.google.com/maps/dir/?api=1&destination=${tree.location.latitude},${tree.location.longitude}`;
+
+            // Render inspections list (ChatGPT 8-table relational specification)
+            const inspContainer = document.getElementById('drawer-inspections-list');
+            const inspCount = document.getElementById('drawer-inspections-count');
+            if (inspContainer && tree.inspections) {
+                inspCount.innerText = `${tree.inspections.length} AUDITS`;
+                inspContainer.innerHTML = tree.inspections.map(ins => {
+                    const statusClass = ins.health_status === 'Healthy' 
+                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' 
+                        : (ins.health_status === 'Needs Attention' ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' : 'bg-rose-500/20 text-rose-300 border-rose-500/30');
+                    return `
+                        <div class="glass-panel p-2.5 rounded-lg border border-slate-800 text-[11px] space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-mono font-bold text-white">${ins.inspection_id}</span>
+                                <span class="px-2 py-0.5 rounded text-[9px] font-bold border ${statusClass}">${ins.health_status}</span>
+                            </div>
+                            <div class="text-[10px] text-slate-400">Date: ${ins.inspection_date} • Ht: ${ins.height_m}m • DBH: ${ins.dbh_cm}cm</div>
+                            <div class="text-[10px] text-slate-300 italic">${ins.observations}</div>
+                        </div>
+                    `;
+                }).join('') || '<div class="text-[10px] text-slate-500 italic">No historical audits recorded.</div>';
+            }
 
             const drawer = document.getElementById('tree-drawer');
             drawer.classList.remove('translate-x-full');

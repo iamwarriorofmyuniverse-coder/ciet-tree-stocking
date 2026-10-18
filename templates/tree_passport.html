@@ -136,6 +136,37 @@
                         </p>
                     </div>
 
+                    {% if tree.inspections %}
+                    <!-- Health & Multi-Year Inspection History (ChatGPT Relational Spec) -->
+                    <div>
+                        <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide flex items-center gap-1.5 mb-2">
+                            <i data-lucide="clipboard-check" class="w-4 h-4 text-emerald-700"></i> Multi-Year Health & Growth Inspection Audits
+                        </h2>
+                        <div class="space-y-2.5">
+                            {% for ins in tree.inspections %}
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs">
+                                <div class="flex justify-between items-center mb-1.5">
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-mono font-bold text-emerald-800">{{ ins.inspection_id }}</span>
+                                        <span class="text-slate-500 text-[11px]">{{ ins.inspection_date }}</span>
+                                    </div>
+                                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold {% if ins.health_status == 'Healthy' %}bg-emerald-100 text-emerald-800{% elif ins.health_status == 'Needs Attention' %}bg-amber-100 text-amber-800{% else %}bg-rose-100 text-rose-800{% endif %}">
+                                        {{ ins.health_status }}
+                                    </span>
+                                </div>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] text-slate-600 mb-1.5">
+                                    <div>Height: <strong class="text-slate-800">{{ ins.height_m }} m</strong></div>
+                                    <div>DBH: <strong class="text-slate-800">{{ ins.dbh_cm }} cm</strong></div>
+                                    <div>Leaves: <strong class="text-slate-800">{{ ins.leaf_condition }}</strong></div>
+                                    <div>Trunk: <strong class="text-slate-800">{{ ins.trunk_condition }}</strong></div>
+                                </div>
+                                <p class="text-[11px] text-slate-500 italic">{{ ins.observations }} (Pest: {{ ins.pest_signs }})</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
                     <!-- Geolocation & Mini Map -->
                     <div>
                         <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide flex items-center gap-1.5 mb-2">
