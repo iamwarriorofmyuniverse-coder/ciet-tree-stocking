@@ -102,6 +102,73 @@ class _CampusMapScreenState extends State<CampusMapScreen> {
     );
   }
 
+  void _showServerSettingsDialog() async {
+    final currentUrl = await _api.getBaseUrl();
+    final controller = TextEditingController(text: currentUrl);
+
+    if (!mounted) return;
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Row(
+          children: [
+            Icon(Icons.dns, color: Color(0xFF059669)),
+            SizedBox(width: 8),
+            Text('Server Connection', style: TextStyle(fontSize: 16)),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Enter CIET Backend URL (Cloudflare Tunnel, Local LAN IP, or ngrok):',
+              style: TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: controller,
+              style: const TextStyle(fontSize: 12, fontFamily: 'monospace'),
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'https://...',
+                isDense: true,
+              ),
+            ),
+            const SizedBox(height: 8),
+            TextButton.icon(
+              icon: const Icon(Icons.restore, size: 14),
+              label: const Text('Reset to Default', style: TextStyle(fontSize: 11)),
+              onPressed: () {
+                controller.text = ApiService.defaultBaseUrl;
+              },
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF064E3B), foregroundColor: Colors.white),
+            onPressed: () async {
+              await _api.setCustomBaseUrl(controller.text);
+              if (mounted) {
+                Navigator.pop(ctx);
+                _loadTrees();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Server endpoint updated! Reconnecting...')),
+                );
+              }
+            },
+            child: const Text('Save & Reconnect'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,6 +177,11 @@ class _CampusMapScreenState extends State<CampusMapScreen> {
         backgroundColor: const Color(0xFF064E3B),
         foregroundColor: Colors.white,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            tooltip: 'Server Connection',
+            onPressed: _showServerSettingsDialog,
+          ),
           IconButton(
             icon: Icon(_showLandmarks ? Icons.business : Icons.business_outlined),
             tooltip: 'Toggle Campus Buildings',
