@@ -67,9 +67,10 @@ TEMPLATES_DIR.mkdir(exist_ok=True)
 STATIC_DIR = BASE_DIR / "static"
 STATIC_DIR.mkdir(exist_ok=True)
 
-# Active public tunnel domain
+# Active public domain (automatically reads from cloud provider environment e.g. Render, Railway, Cloud Run)
 PUBLIC_ONLINE_URL = os.environ.get(
-    "PUBLIC_URL", "https://qualifications-asylum-workers-counter.trycloudflare.com"
+    "PUBLIC_URL",
+    os.environ.get("RENDER_EXTERNAL_URL", "https://ciet-trees.onrender.com"),
 )
 
 templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
@@ -639,4 +640,5 @@ async def get_biodiversity_matrix() -> Dict[str, Any]:
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("server:app", host="0.0.0.0", port=8000, reload=True)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("server:app", host="0.0.0.0", port=port, reload=False)

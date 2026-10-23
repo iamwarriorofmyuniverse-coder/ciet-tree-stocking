@@ -1,25 +1,32 @@
 # CIET Coimbatore — Computer Vision-Based Tree Stocking & Digital Forestry Platform
 
 [![CIET Forestry CI / CD](https://github.com/iamwarriorofmyuniverse-coder/ciet-tree-stocking/actions/workflows/ci.yml/badge.svg)](https://github.com/iamwarriorofmyuniverse-coder/ciet-tree-stocking/actions/workflows/ci.yml)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/iamwarriorofmyuniverse-coder/ciet-tree-stocking)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-00599C.svg?logo=yolo&logoColor=white)](https://ultralytics.com)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg?logo=python&logoColor=white)](https://python.org)
 [![Security Hardened](https://img.shields.io/badge/Security-Hardened%20WAF-success.svg)](#-enterprise-security-firewall--hardening)
 [![PWA Ready](https://img.shields.io/badge/PWA-Installable%20Offline-emerald.svg)](#-mobile-applications-progressive-web-app--native-flutter-app)
 [![Flutter Mobile](https://img.shields.io/badge/Flutter-Android%20%26%20iOS-02569B.svg?logo=flutter&logoColor=white)](mobile_app/)
-[![Tests Passing](https://img.shields.io/badge/Tests-38%20Passing%20(100%25)-brightgreen.svg)](#-continuous-integration--test-verification)
+[![Tests Passing](https://img.shields.io/badge/Tests-57%20Passing%20(100%25)-brightgreen.svg)](#-continuous-integration--test-verification)
 
 **An In-House Asset Engineered for Coimbatore Institute of Engineering and Technology (CIET), Coimbatore**  
 *Department of Artificial Intelligence & Data Science | Center for Forestry Informatics & Conservation*
 
 ---
 
-## 🌐 Live Deployment & Online Access
+## 🌐 Permanent Production Cloud Deployment & Online Access
 
 - **Official GitHub Repository:** [https://github.com/iamwarriorofmyuniverse-coder/ciet-tree-stocking](https://github.com/iamwarriorofmyuniverse-coder/ciet-tree-stocking)
-- **Live Public Online PWA:** [https://qualifications-asylum-workers-counter.trycloudflare.com](https://qualifications-asylum-workers-counter.trycloudflare.com)
+- **Permanent Production Web Application (24/7 Cloud):** [https://ciet-tree-stocking.onrender.com](https://ciet-tree-stocking.onrender.com)
 - **Local Application Endpoint:** `http://localhost:8000`
-- **Interactive OpenAPI / Swagger Documentation:** `http://localhost:8000/docs`
+- **Interactive OpenAPI / Swagger Documentation:** `/docs`
+
+### 🚀 1-Click Permanent Production Cloud Launch
+To deploy a free, permanent 24/7 production server with zero setup:
+1. Click **[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/iamwarriorofmyuniverse-coder/ciet-tree-stocking)**
+2. Sign in with GitHub.
+3. Render will automatically build the `Dockerfile` / `render.yaml` and assign a permanent 24/7 HTTPS domain (`https://ciet-tree-stocking.onrender.com`)! Every future `git push` to `main` will auto-deploy.
 
 ---
 

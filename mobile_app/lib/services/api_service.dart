@@ -5,7 +5,8 @@ import '../models/tree_model.dart';
 import 'offline_seed.dart';
 
 class ApiService {
-  static const String defaultBaseUrl = 'https://unions-punch-bundle-chicken.trycloudflare.com';
+  // Permanent production URL (Render / Cloud production deployment)
+  static const String defaultBaseUrl = 'https://ciet-tree-stocking.onrender.com';
   String? _explicitBaseUrl;
 
   ApiService({String? baseUrl}) : _explicitBaseUrl = baseUrl;
