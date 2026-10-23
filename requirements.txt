@@ -9,3 +9,5 @@ pydantic>=2.5.0
 pytest>=8.0.0
 pillow>=10.2.0
 tifffile>=2024.1.0
+google-genai>=2.30.0
+

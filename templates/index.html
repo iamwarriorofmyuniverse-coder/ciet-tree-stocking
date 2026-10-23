@@ -213,6 +213,10 @@
                 <i data-lucide="satellite" class="w-3.5 h-3.5"></i> GIS Satellite
             </button>
 
+            <button onclick="switchTab('ai-doctor-tab')" id="nav-ai-doctor-tab" class="tab-btn border border-transparent text-slate-400 hover:text-emerald-300 hover:bg-slate-800/50 py-2 px-3 rounded-xl flex items-center gap-1.5 text-xs whitespace-nowrap transition">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400"></i> Gemini AI Doctor
+            </button>
+
             <button onclick="switchTab('digital-twin-tab')" id="nav-digital-twin-tab" class="tab-btn border border-transparent text-slate-400 hover:text-cyan-300 hover:bg-slate-800/50 py-2 px-3 rounded-xl flex items-center gap-1.5 text-xs whitespace-nowrap transition">
                 <i data-lucide="cpu" class="w-3.5 h-3.5 text-cyan-400"></i> 4D Digital Twin
             </button>
@@ -1601,6 +1605,197 @@
                 <div id="bio-profiles-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <!-- Populated dynamically by JS -->
                 </div>
+            </div>
+        </section>
+
+        <!-- Section: Gemini Multimodal AI Plant Pathology & Vision Suite -->
+        <section id="ai-doctor-tab" class="tab-content hidden space-y-6">
+            <!-- Header Panel -->
+            <div class="glass-panel p-6 rounded-2xl border border-emerald-500/30 relative overflow-hidden">
+                <div class="absolute -right-20 -top-20 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
+                                <i data-lucide="sparkles" class="w-3 h-3 text-emerald-400"></i> Google Gemini 2.5 Flash Multimodal Vision
+                            </span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                                Zero-Shot Arborist AI
+                            </span>
+                        </div>
+                        <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight">AI Tree Doctor & Botanical Vision Suite</h2>
+                        <p class="text-xs text-slate-400 max-w-2xl">
+                            Upload live field photos of leaves, bark, or unknown tree specimens on the CIET campus. 
+                            Our multimodal Gemini neural network diagnoses foliar diseases, assesses physiological chlorosis, and classifies indigenous Western Ghats taxa.
+                        </p>
+                    </div>
+
+                    <!-- API Key Configuration Modal Trigger -->
+                    <div class="flex items-center gap-2">
+                        <div class="glass-card px-3 py-2 rounded-xl text-xs flex items-center gap-2 border border-slate-700">
+                            <div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+                            <span class="text-slate-300 font-mono text-[11px]" id="gemini-status-badge">Gemini AI Active</span>
+                        </div>
+                        <button onclick="openGeminiApiKeyDialog()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold border border-slate-700 flex items-center gap-1.5 transition">
+                            <i data-lucide="key" class="w-3.5 h-3.5 text-amber-400"></i> Set API Key
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Two Column AI Processing Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                <!-- Card 1: AI Tree Doctor & Pathology Diagnostic -->
+                <div class="glass-panel p-6 rounded-2xl border border-emerald-500/20 space-y-5">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center gap-2.5">
+                            <div class="p-2 bg-emerald-500/20 rounded-xl text-emerald-400">
+                                <i data-lucide="stethoscope" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">AI Foliar Pathology & Health Doctor</h3>
+                                <p class="text-[10px] text-slate-400">Detects fungal rust, chlorosis, pest boring & physiological stress</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">Vision Model</span>
+                    </div>
+
+                    <!-- Upload Area -->
+                    <div class="border-2 border-dashed border-slate-700 hover:border-emerald-500/50 rounded-xl p-5 text-center transition bg-obsidian-950/40 relative">
+                        <input type="file" id="doctor-image-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" onchange="previewDoctorImage(this)" />
+                        <div id="doctor-preview-box" class="space-y-2">
+                            <div class="w-12 h-12 mx-auto rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                                <i data-lucide="upload-cloud" class="w-6 h-6"></i>
+                            </div>
+                            <div class="text-xs text-slate-300 font-semibold">Drop leaf / bark photo or tap to browse</div>
+                            <div class="text-[10px] text-slate-500">Supports JPG, PNG from smartphone camera</div>
+                        </div>
+                        <img id="doctor-preview-img" class="max-h-48 mx-auto rounded-lg hidden object-contain border border-slate-700" alt="Preview" />
+                    </div>
+
+                    <!-- Context & Sample Buttons -->
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between text-[11px]">
+                            <span class="text-slate-400">Target Specimen / Symptoms Context:</span>
+                            <div class="flex gap-1.5">
+                                <button onclick="setDoctorSample('Neem leaf with yellowing patches', 'CIET-TREE-001')" class="text-[9px] text-emerald-400 hover:underline">Sample: Neem Chlorosis</button>
+                                <span class="text-slate-600">|</span>
+                                <button onclick="setDoctorSample('Peepal canopy fungal leaf spot', 'CIET-TREE-002')" class="text-[9px] text-cyan-400 hover:underline">Sample: Leaf Spot</button>
+                            </div>
+                        </div>
+                        <input type="text" id="doctor-context-input" placeholder="e.g. CIET-TREE-001 Neem with dry leaf tips" class="w-full bg-obsidian-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-emerald-500/50" />
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button onclick="runDoctorDiagnosis()" id="doctor-submit-btn" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-950/50 flex items-center justify-center gap-2 transition">
+                        <i data-lucide="activity" class="w-4 h-4"></i> Run Multimodal Pathology Screening
+                    </button>
+
+                    <!-- Diagnosis Output Box -->
+                    <div id="doctor-output-box" class="hidden glass-card p-4 rounded-xl border border-emerald-500/30 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-white flex items-center gap-1.5">
+                                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> Diagnosis Certified
+                            </span>
+                            <span id="doctor-condition-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300">Healthy</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div class="glass-panel p-2 rounded-lg border border-slate-800">
+                                <span class="text-[9px] text-slate-400 block">Vigor Health Score</span>
+                                <span id="doctor-score" class="font-mono font-bold text-emerald-400 text-base">-- / 100</span>
+                            </div>
+                            <div class="glass-panel p-2 rounded-lg border border-slate-800">
+                                <span class="text-[9px] text-slate-400 block">Next Re-audit</span>
+                                <span id="doctor-interval" class="font-mono font-bold text-white text-base">-- days</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Pathogen / Stress Findings</span>
+                            <div id="doctor-pathogen" class="text-xs text-slate-300 bg-obsidian-950 p-2.5 rounded-lg border border-slate-800">--</div>
+                        </div>
+
+                        <div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Remedial Arborist Prescription</span>
+                            <ul id="doctor-prescription" class="text-xs text-emerald-300/90 space-y-1 list-disc list-inside bg-emerald-950/20 p-2.5 rounded-lg border border-emerald-500/20">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Zero-Shot Botanical Species Classifier -->
+                <div class="glass-panel p-6 rounded-2xl border border-cyan-500/20 space-y-5">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center gap-2.5">
+                            <div class="p-2 bg-cyan-500/20 rounded-xl text-cyan-400">
+                                <i data-lucide="scan" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">AI Botanical Species Classifier</h3>
+                                <p class="text-[10px] text-slate-400">Identifies unknown campus trees, leaves & flowers with binomial nomenclature</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">Zero-Shot</span>
+                    </div>
+
+                    <!-- Upload Area -->
+                    <div class="border-2 border-dashed border-slate-700 hover:border-cyan-500/50 rounded-xl p-5 text-center transition bg-obsidian-950/40 relative">
+                        <input type="file" id="identify-image-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" onchange="previewIdentifyImage(this)" />
+                        <div id="identify-preview-box" class="space-y-2">
+                            <div class="w-12 h-12 mx-auto rounded-full bg-cyan-500/10 flex items-center justify-center text-cyan-400">
+                                <i data-lucide="leaf" class="w-6 h-6"></i>
+                            </div>
+                            <div class="text-xs text-slate-300 font-semibold">Drop specimen photo or tap to browse</div>
+                            <div class="text-[10px] text-slate-500">Full tree, single leaf, bark or fruit</div>
+                        </div>
+                        <img id="identify-preview-img" class="max-h-48 mx-auto rounded-lg hidden object-contain border border-slate-700" alt="Preview" />
+                    </div>
+
+                    <div class="flex items-center justify-between text-[11px] text-slate-400">
+                        <span>Recognizes indigenous & exotic taxa across the Western Ghats</span>
+                        <button onclick="setIdentifySample()" class="text-[9px] text-cyan-400 hover:underline">Load CIET Sample Specimen</button>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button onclick="runSpeciesIdentification()" id="identify-submit-btn" class="w-full py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-cyan-950/50 flex items-center justify-center gap-2 transition">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i> Classify Specimen with Gemini
+                    </button>
+
+                    <!-- Identification Output Box -->
+                    <div id="identify-output-box" class="hidden glass-card p-4 rounded-xl border border-cyan-500/30 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 id="identify-common" class="text-base font-black text-white">--</h4>
+                                <p id="identify-scientific" class="text-xs italic text-cyan-300 font-mono">--</p>
+                            </div>
+                            <span id="identify-confidence" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-300">--% Match</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div class="glass-panel p-2 rounded-lg border border-slate-800">
+                                <span class="text-[9px] text-slate-400 block">Family</span>
+                                <span id="identify-family" class="font-bold text-white text-xs">--</span>
+                            </div>
+                            <div class="glass-panel p-2 rounded-lg border border-slate-800">
+                                <span class="text-[9px] text-slate-400 block">Wood Density</span>
+                                <span id="identify-density" class="font-mono font-bold text-white text-xs">-- g/cm³</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-[9px] text-slate-400 block mb-0.5">Native Region & Ecosystem</span>
+                            <div id="identify-native" class="text-xs text-slate-300">--</div>
+                        </div>
+
+                        <div>
+                            <span class="text-[9px] text-slate-400 block mb-0.5">Ethnobotanical / Medicinal Uses</span>
+                            <div id="identify-medicinal" class="text-xs text-slate-300 bg-obsidian-950 p-2 rounded border border-slate-800">--</div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -3132,6 +3327,355 @@
                 console.error("Biodiversity error:", err);
             }
         }
+
+        // ==========================================
+        // GOOGLE GEMINI MULTIMODAL AI & ARBORIST COPILOT
+        // ==========================================
+
+        function getStoredApiKey() {
+            return localStorage.getItem('gemini_api_key') || '';
+        }
+
+        function openGeminiApiKeyDialog() {
+            const current = getStoredApiKey();
+            const key = prompt("Enter your Google Gemini API Key (from Google AI Studio):", current);
+            if (key !== null) {
+                localStorage.setItem('gemini_api_key', key.trim());
+                updateGeminiStatusBadge();
+                alert(key.trim() ? "Gemini API Key saved for this browser session!" : "Cleared custom API key. Reverting to server default.");
+            }
+        }
+
+        function updateGeminiStatusBadge() {
+            const badge = document.getElementById('gemini-status-badge');
+            if (badge) {
+                const hasKey = !!getStoredApiKey();
+                badge.innerText = hasKey ? "Gemini API (Custom Key)" : "Gemini AI (Cloud Active)";
+            }
+        }
+
+        function previewDoctorImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('doctor-preview-img');
+                    img.src = e.target.result;
+                    img.classList.remove('hidden');
+                    document.getElementById('doctor-preview-box').classList.add('hidden');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function previewIdentifyImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('identify-preview-img');
+                    img.src = e.target.result;
+                    img.classList.remove('hidden');
+                    document.getElementById('identify-preview-box').classList.add('hidden');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function setDoctorSample(context, treeId) {
+            document.getElementById('doctor-context-input').value = `${treeId}: ${context}`;
+            // Use existing species card for testing preview
+            const img = document.getElementById('doctor-preview-img');
+            img.src = `/static/species/${treeId}.png`;
+            img.classList.remove('hidden');
+            document.getElementById('doctor-preview-box').classList.add('hidden');
+        }
+
+        function setIdentifySample() {
+            const img = document.getElementById('identify-preview-img');
+            img.src = `/static/species/CIET-TREE-005.png`;
+            img.classList.remove('hidden');
+            document.getElementById('identify-preview-box').classList.add('hidden');
+        }
+
+        async function runDoctorDiagnosis() {
+            const btn = document.getElementById('doctor-submit-btn');
+            const fileInput = document.getElementById('doctor-image-input');
+            const contextInput = document.getElementById('doctor-context-input');
+            const outputBox = document.getElementById('doctor-output-box');
+
+            btn.disabled = true;
+            btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> Consulting Gemini Pathology Model...`;
+            lucide.createIcons();
+
+            try {
+                const formData = new FormData();
+                if (fileInput.files && fileInput.files[0]) {
+                    formData.append('image', fileInput.files[0]);
+                } else {
+                    // Create dummy blob from visible image if sample was picked
+                    const imgEl = document.getElementById('doctor-preview-img');
+                    if (imgEl && imgEl.src && !imgEl.classList.contains('hidden')) {
+                        const resp = await fetch(imgEl.src);
+                        const blob = await resp.blob();
+                        formData.append('image', blob, 'sample_leaf.png');
+                    } else {
+                        // Generate tiny canvas sample
+                        const canvas = document.createElement('canvas');
+                        canvas.width = 100; canvas.height = 100;
+                        const ctx = canvas.getContext('2d');
+                        ctx.fillStyle = '#2d5a27'; ctx.fillRect(0, 0, 100, 100);
+                        const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg'));
+                        formData.append('image', blob, 'fallback.jpg');
+                    }
+                }
+
+                formData.append('tree_context', contextInput.value);
+
+                const headers = {};
+                const customKey = getStoredApiKey();
+                if (customKey) headers['X-Gemini-API-Key'] = customKey;
+
+                const res = await fetch('/api/ai/diagnose', {
+                    method: 'POST',
+                    headers: headers,
+                    body: formData
+                });
+
+                if (!res.ok) throw new Error("Pathology analysis failed.");
+                const data = await res.json();
+
+                document.getElementById('doctor-score').innerText = `${data.health_score_out_of_100} / 100`;
+                document.getElementById('doctor-interval').innerText = `${data.recommended_interval_days} Days`;
+                document.getElementById('doctor-condition-badge').innerText = data.condition_rating;
+                document.getElementById('doctor-pathogen').innerText = `${data.pathogen_diagnosis} (${data.detected_symptoms.join(', ') || 'No foliar necrosis'})`;
+
+                const prescList = document.getElementById('doctor-prescription');
+                prescList.innerHTML = data.remedial_prescription.map(p => `<li>${p}</li>`).join('');
+
+                outputBox.classList.remove('hidden');
+                lucide.createIcons();
+            } catch (err) {
+                alert("AI Doctor screening error: " + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i data-lucide="activity" class="w-4 h-4"></i> Run Multimodal Pathology Screening`;
+                lucide.createIcons();
+            }
+        }
+
+        async function runSpeciesIdentification() {
+            const btn = document.getElementById('identify-submit-btn');
+            const fileInput = document.getElementById('identify-image-input');
+            const outputBox = document.getElementById('identify-output-box');
+
+            btn.disabled = true;
+            btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> Classifying Western Ghats Specimen...`;
+            lucide.createIcons();
+
+            try {
+                const formData = new FormData();
+                if (fileInput.files && fileInput.files[0]) {
+                    formData.append('image', fileInput.files[0]);
+                } else {
+                    const imgEl = document.getElementById('identify-preview-img');
+                    if (imgEl && imgEl.src && !imgEl.classList.contains('hidden')) {
+                        const resp = await fetch(imgEl.src);
+                        const blob = await resp.blob();
+                        formData.append('image', blob, 'sample_specimen.png');
+                    } else {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = 100; canvas.height = 100;
+                        const ctx = canvas.getContext('2d');
+                        ctx.fillStyle = '#8b4513'; ctx.fillRect(0, 0, 100, 100);
+                        const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg'));
+                        formData.append('image', blob, 'sample.jpg');
+                    }
+                }
+
+                const headers = {};
+                const customKey = getStoredApiKey();
+                if (customKey) headers['X-Gemini-API-Key'] = customKey;
+
+                const res = await fetch('/api/ai/identify', {
+                    method: 'POST',
+                    headers: headers,
+                    body: formData
+                });
+
+                if (!res.ok) throw new Error("Species classification failed.");
+                const data = await res.json();
+
+                document.getElementById('identify-common').innerText = data.common_name;
+                document.getElementById('identify-scientific').innerText = data.scientific_name;
+                document.getElementById('identify-confidence').innerText = `${Math.round(data.confidence_score * 100)}% Match`;
+                document.getElementById('identify-family').innerText = data.family;
+                document.getElementById('identify-density').innerText = `${data.estimated_wood_density_g_cm3} g/cm³`;
+                document.getElementById('identify-native').innerText = data.native_status;
+                document.getElementById('identify-medicinal').innerText = data.medicinal_uses;
+
+                outputBox.classList.remove('hidden');
+                lucide.createIcons();
+            } catch (err) {
+                alert("Species classification error: " + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i data-lucide="sparkles" class="w-4 h-4"></i> Classify Specimen with Gemini`;
+                lucide.createIcons();
+            }
+        }
+
+        // ==========================================
+        // FLOATING AI ARBORIST COPILOT CHAT
+        // ==========================================
+
+        function toggleAiChat() {
+            const chatWindow = document.getElementById('ai-chat-window');
+            if (chatWindow.classList.contains('hidden')) {
+                chatWindow.classList.remove('hidden');
+                document.getElementById('ai-chat-input').focus();
+            } else {
+                chatWindow.classList.add('hidden');
+            }
+        }
+
+        function setChatPrompt(text) {
+            document.getElementById('ai-chat-input').value = text;
+            sendAiChat();
+        }
+
+        async function sendAiChat() {
+            const input = document.getElementById('ai-chat-input');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            const container = document.getElementById('ai-chat-messages');
+            
+            // Append user message
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.className = "flex justify-end";
+            userMsgDiv.innerHTML = `
+                <div class="bg-emerald-600 text-white text-xs p-3 rounded-2xl rounded-tr-none max-w-[85%] shadow-md">
+                    ${msg}
+                </div>
+            `;
+            container.appendChild(userMsgDiv);
+            input.value = '';
+            container.scrollTop = container.scrollHeight;
+
+            // Append loading indicator
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = "flex justify-start";
+            loadingDiv.id = "chat-loading-bubble";
+            loadingDiv.innerHTML = `
+                <div class="bg-obsidian-950 border border-emerald-500/30 text-emerald-300 text-xs p-3 rounded-2xl rounded-tl-none max-w-[85%] flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-bounce"></span>
+                    <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></span>
+                    <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></span>
+                    <span class="ml-1 text-[11px] text-slate-400">Gemini Arborist thinking...</span>
+                </div>
+            `;
+            container.appendChild(loadingDiv);
+            container.scrollTop = container.scrollHeight;
+
+            try {
+                const headers = { 'Content-Type': 'application/json' };
+                const customKey = getStoredApiKey();
+                if (customKey) headers['X-Gemini-API-Key'] = customKey;
+
+                const res = await fetch('/api/ai/chat', {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify({ message: msg, api_key: customKey || null })
+                });
+
+                const data = await res.json();
+                loadingDiv.remove();
+
+                const botMsgDiv = document.createElement('div');
+                botMsgDiv.className = "flex justify-start";
+                botMsgDiv.innerHTML = `
+                    <div class="bg-obsidian-950 border border-slate-800 text-slate-200 text-xs p-3 rounded-2xl rounded-tl-none max-w-[85%] leading-relaxed shadow-md">
+                        <div class="flex items-center gap-1 text-[10px] text-emerald-400 font-bold mb-1">
+                            <i data-lucide="bot" class="w-3 h-3"></i> CIET Campus Arborist Copilot
+                        </div>
+                        <div class="whitespace-pre-wrap">${data.reply || 'No response returned.'}</div>
+                    </div>
+                `;
+                container.appendChild(botMsgDiv);
+                lucide.createIcons();
+                container.scrollTop = container.scrollHeight;
+            } catch (err) {
+                loadingDiv.remove();
+                const errDiv = document.createElement('div');
+                errDiv.className = "flex justify-start";
+                errDiv.innerHTML = `<div class="bg-rose-950/40 border border-rose-500/30 text-rose-300 text-xs p-3 rounded-xl max-w-[85%]">Could not reach Gemini Copilot service.</div>`;
+                container.appendChild(errDiv);
+            }
+        }
     </script>
+
+    <!-- Floating Action Button: AI Arborist Copilot -->
+    <div class="fixed bottom-6 right-6 z-40">
+        <button onclick="toggleAiChat()" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold p-3.5 rounded-full shadow-2xl flex items-center gap-2 border border-emerald-300/40 hover:scale-105 transition group" title="Chat with CIET Campus Arborist AI">
+            <i data-lucide="sparkles" class="w-5 h-5 text-emerald-200 animate-spin-slow"></i>
+            <span class="text-xs hidden sm:inline font-bold pr-1">Ask Arborist AI</span>
+        </button>
+    </div>
+
+    <!-- Floating Chat Window -->
+    <div id="ai-chat-window" class="fixed bottom-20 right-4 sm:right-6 w-[92vw] sm:w-96 max-h-[580px] h-[520px] bg-obsidian-900 border border-emerald-500/40 rounded-2xl shadow-2xl z-50 flex flex-col hidden overflow-hidden">
+        <!-- Chat Header -->
+        <div class="p-3.5 bg-obsidian-950 border-b border-slate-800 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="p-1.5 bg-emerald-500/20 text-emerald-400 rounded-lg">
+                    <i data-lucide="bot" class="w-4 h-4"></i>
+                </div>
+                <div>
+                    <h3 class="text-xs font-bold text-white">CIET Arborist AI Copilot</h3>
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span class="text-[9px] text-slate-400">Powered by Google Gemini</span>
+                    </div>
+                </div>
+            </div>
+            <button onclick="toggleAiChat()" class="p-1 text-slate-400 hover:text-white rounded-lg">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+        </div>
+
+        <!-- Chat Messages Container -->
+        <div id="ai-chat-messages" class="flex-1 p-3.5 space-y-3 overflow-y-auto">
+            <!-- Welcome Bot Message -->
+            <div class="flex justify-start">
+                <div class="bg-obsidian-950 border border-slate-800 text-slate-200 text-xs p-3 rounded-2xl rounded-tl-none max-w-[85%] leading-relaxed shadow-md">
+                    <div class="flex items-center gap-1 text-[10px] text-emerald-400 font-bold mb-1">
+                        <i data-lucide="bot" class="w-3 h-3"></i> CIET Campus Arborist Copilot
+                    </div>
+                    👋 Hello! I am your AI forestry companion for CIET Coimbatore. 
+                    Ask me about carbon absorption rates, Western Ghats biodiversity, medicinal properties, or arborist care for any tree on campus!
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Suggestions Chips -->
+        <div class="px-3 py-1.5 bg-obsidian-950/60 border-t border-slate-800/80 flex gap-1.5 overflow-x-auto text-[10px]">
+            <button onclick="setChatPrompt('Which tree has the highest carbon offset?')" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-emerald-300 whitespace-nowrap transition">
+                🌳 Highest carbon tree?
+            </button>
+            <button onclick="setChatPrompt('Tell me about medicinal trees on campus')" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-cyan-300 whitespace-nowrap transition">
+                🌿 Ayush medicinal flora
+            </button>
+            <button onclick="setChatPrompt('How do I diagnose leaf chlorosis?')" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 whitespace-nowrap transition">
+                🩺 Diagnose leaf disease
+            </button>
+        </div>
+
+        <!-- Chat Input Form -->
+        <form onsubmit="event.preventDefault(); sendAiChat();" class="p-2.5 bg-obsidian-950 border-t border-slate-800 flex gap-2">
+            <input type="text" id="ai-chat-input" placeholder="Ask anything about CIET forestry..." class="flex-1 bg-obsidian-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500" />
+            <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center">
+                <i data-lucide="send" class="w-3.5 h-3.5"></i>
+            </button>
+        </form>
+    </div>
 </body>
 </html>

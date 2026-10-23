@@ -14,12 +14,13 @@ import os
 import uuid
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+from pydantic import BaseModel
 
 import cv2
 import numpy as np
 from PIL import Image
 import tifffile
-from fastapi import FastAPI, File, Form, HTTPException, Request, Response, UploadFile
+from fastapi import FastAPI, File, Form, Header, HTTPException, Request, Response, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
@@ -42,6 +43,13 @@ from src.security.firewall import (
 from src.utils.analytics import generate_canopy_stocking_report
 from src.utils.sample_generator import generate_aerial_forest_sample
 from src.utils.visualization import render_canopy_overlay
+from src.ai.gemini_engine import (
+    BotanicalIdentificationResult,
+    TreeDiagnosisResult,
+    chat_with_campus_arborist,
+    diagnose_tree_with_gemini,
+    identify_plant_with_gemini,
+)
 from src.innovation.digital_twin import simulate_tree_growth
 from src.innovation.sonic_tomography import compute_sonic_tomography
 from src.innovation.drone_planner import (
@@ -267,6 +275,73 @@ async def log_tree_inspection(tree_id: str, inspection: InspectionRecord) -> Tre
     if not tree:
         raise HTTPException(status_code=404, detail=f"Tree ID '{clean_id}' does not exist.")
     return tree
+
+
+@app.post("/api/ai/diagnose", response_model=TreeDiagnosisResult)
+async def ai_diagnose_tree(
+    image: UploadFile = File(...),
+    tree_context: str = Form(""),
+    api_key: Optional[str] = Header(None, alias="X-Gemini-API-Key"),
+) -> TreeDiagnosisResult:
+    """
+    Multimodal AI Tree Doctor: Uses Google Gemini Vision to diagnose foliar chlorosis,
+    fungal blight, leaf spot pathogens, and arborist structural vigor.
+    """
+    image_bytes = await image.read()
+    mime = image.content_type or "image/jpeg"
+    return diagnose_tree_with_gemini(
+        image_bytes=image_bytes,
+        mime_type=mime,
+        tree_context=tree_context,
+        api_key=api_key,
+    )
+
+
+@app.post("/api/ai/identify", response_model=BotanicalIdentificationResult)
+async def ai_identify_species(
+    image: UploadFile = File(...),
+    api_key: Optional[str] = Header(None, alias="X-Gemini-API-Key"),
+) -> BotanicalIdentificationResult:
+    """
+    Multimodal Botanical Identification: Uses Google Gemini Vision to recognize
+    unknown Western Ghats tree/leaf specimens on the CIET campus.
+    """
+    image_bytes = await image.read()
+    mime = image.content_type or "image/jpeg"
+    return identify_plant_with_gemini(
+        image_bytes=image_bytes,
+        mime_type=mime,
+        api_key=api_key,
+    )
+
+
+class AIChatRequest(BaseModel):
+    message: str
+    api_key: Optional[str] = None
+
+
+@app.post("/api/ai/chat")
+async def ai_chat_copilot(
+    payload: AIChatRequest,
+    header_key: Optional[str] = Header(None, alias="X-Gemini-API-Key"),
+) -> Dict[str, str]:
+    """
+    Conversational Campus Forester Copilot: Answers questions about CIET's campus trees,
+    carbon accounting, Western Ghats ecology, and treatments using Gemini LLM.
+    """
+    db = get_db()
+    trees = db.list_trees()
+    campus_summary = f"CIET Campus has {len(trees)} trees cataloged. Total carbon: 106,700 kg CO2e.\n"
+    for t in trees[:8]:
+        campus_summary += f"- {t.tree_id}: {t.common_name} ({t.scientific_name}), Sector: {t.location.campus_sector}, Health: {t.biometrics.health_status}, Carbon: {t.biometrics.carbon_sequestered_kg}kg.\n"
+
+    api_key = payload.api_key or header_key
+    reply = chat_with_campus_arborist(
+        message=payload.message,
+        campus_context=campus_summary,
+        api_key=api_key,
+    )
+    return {"reply": reply}
 
 
 @app.get("/api/trees/{tree_id}/qr")
