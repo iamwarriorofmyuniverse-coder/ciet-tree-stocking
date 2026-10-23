@@ -1,0 +1,9 @@
+mobile_app/
+cloudflared.exe
+*.pt
+.git/
+.github/
+.pytest_cache/
+tests/
+__pycache__/
+*.md

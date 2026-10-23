@@ -5,8 +5,8 @@ import '../models/tree_model.dart';
 import 'offline_seed.dart';
 
 class ApiService {
-  // Permanent production URL (Render / Cloud production deployment)
-  static const String defaultBaseUrl = 'https://ciet-tree-stocking.onrender.com';
+  // Permanent 24/7 Cloud Production URL (Never expires)
+  static const String defaultBaseUrl = 'https://ciettreestocking.vercel.app';
   String? _explicitBaseUrl;
 
   ApiService({String? baseUrl}) : _explicitBaseUrl = baseUrl;

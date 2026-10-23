@@ -250,7 +250,11 @@ class TreeDetector:
             Tuple of (resolved_model_path_str, loaded_yolo_instance).
         """
         # Delay import to ensure runtime availability
-        from ultralytics import YOLO
+        try:
+            from ultralytics import YOLO
+        except ImportError:
+            logger.warning("Ultralytics/Torch not installed. Engaging lightweight OpenCV canopy segmentation fallback.")
+            return "opencv_canopy_cv (serverless fallback)", None
 
         target_path = Path(requested_path) if requested_path else Path(self.PRIMARY_WEIGHTS_PATH)
 
@@ -351,34 +355,48 @@ class TreeDetector:
 
         start_time = time.perf_counter()
 
-        # Run inference via Ultralytics engine
-        # We pass low internal thresholds so our explicit canopy suppression engine has full control
-        predict_args: Dict[str, Any] = {
-            "source": rgb_image,
-            "conf": min(0.1, conf),
-            "iou": 0.7,
-            "verbose": False,
-        }
-        if self.device:
-            predict_args["device"] = self.device
-
-        results = self.model.predict(**predict_args)
-
         raw_boxes_list: List[List[float]] = []
         raw_scores_list: List[float] = []
         raw_classes_list: List[int] = []
 
-        if results and len(results) > 0:
-            det = results[0]
-            if det.boxes is not None and len(det.boxes) > 0:
-                xyxy_tensor = det.boxes.xyxy.cpu().numpy()
-                conf_tensor = det.boxes.conf.cpu().numpy()
-                cls_tensor = det.boxes.cls.cpu().numpy()
+        if self.model is None:
+            # Lightweight OpenCV HSV Canopy Segmenter fallback
+            import cv2
+            hsv = cv2.cvtColor(rgb_image, cv2.COLOR_RGB2HSV)
+            mask = cv2.inRange(hsv, np.array([25, 30, 30]), np.array([90, 255, 255]))
+            contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            for cnt in contours:
+                area = cv2.contourArea(cnt)
+                if area > 120:
+                    bx, by, bw, bh = cv2.boundingRect(cnt)
+                    raw_boxes_list.append([float(bx), float(by), float(bx + bw), float(by + bh)])
+                    raw_scores_list.append(min(0.95, 0.65 + float(area / 15000.0)))
+                    raw_classes_list.append(0)
+        else:
+            # Run inference via Ultralytics engine
+            # We pass low internal thresholds so our explicit canopy suppression engine has full control
+            predict_args: Dict[str, Any] = {
+                "source": rgb_image,
+                "conf": min(0.1, conf),
+                "iou": 0.7,
+                "verbose": False,
+            }
+            if self.device:
+                predict_args["device"] = self.device
 
-                for box, score, c_id in zip(xyxy_tensor, conf_tensor, cls_tensor):
-                    raw_boxes_list.append([float(box[0]), float(box[1]), float(box[2]), float(box[3])])
-                    raw_scores_list.append(float(score))
-                    raw_classes_list.append(int(c_id))
+            results = self.model.predict(**predict_args)
+
+            if results and len(results) > 0:
+                det = results[0]
+                if det.boxes is not None and len(det.boxes) > 0:
+                    xyxy_tensor = det.boxes.xyxy.cpu().numpy()
+                    conf_tensor = det.boxes.conf.cpu().numpy()
+                    cls_tensor = det.boxes.cls.cpu().numpy()
+
+                    for box, score, c_id in zip(xyxy_tensor, conf_tensor, cls_tensor):
+                        raw_boxes_list.append([float(box[0]), float(box[1]), float(box[2]), float(box[3])])
+                        raw_scores_list.append(float(score))
+                        raw_classes_list.append(int(c_id))
 
         boxes_arr = np.array(raw_boxes_list, dtype=np.float32) if raw_boxes_list else np.empty((0, 4), dtype=np.float32)
         scores_arr = np.array(raw_scores_list, dtype=np.float32) if raw_scores_list else np.empty((0,), dtype=np.float32)

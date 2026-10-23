@@ -18,9 +18,9 @@
 ## 🌐 Permanent Production Cloud Deployment & Online Access
 
 - **Official GitHub Repository:** [https://github.com/iamwarriorofmyuniverse-coder/ciet-tree-stocking](https://github.com/iamwarriorofmyuniverse-coder/ciet-tree-stocking)
-- **Permanent Production Web Application (24/7 Cloud):** [https://ciet-tree-stocking.onrender.com](https://ciet-tree-stocking.onrender.com)
+- **Official Permanent 24/7 Production Web App:** [https://ciettreestocking.vercel.app](https://ciettreestocking.vercel.app)
+- **Interactive OpenAPI / Swagger Documentation:** [https://ciettreestocking.vercel.app/docs](https://ciettreestocking.vercel.app/docs)
 - **Local Application Endpoint:** `http://localhost:8000`
-- **Interactive OpenAPI / Swagger Documentation:** `/docs`
 
 ### 🚀 1-Click Permanent Production Cloud Launch
 To deploy a free, permanent 24/7 production server with zero setup:
